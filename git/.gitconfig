@@ -1,6 +1,6 @@
 [user]
     email = yoshiharu2580@gmail.com
-    name = suimenkathemove
+    name = kato-yoshiharu
 [alias]
 	cn = !git commit -m "confirmed" && git push
 [push]
