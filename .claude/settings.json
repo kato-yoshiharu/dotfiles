@@ -1,8 +1,7 @@
 {
-  "model": "sonnet",
+  "autoUpdatesChannel": "stable",
   "editorMode": "vim",
   "inputMode": "multiline",
-  "autoUpdatesChannel": "stable",
   "mcpServers": {
     "github": {
       "type": "stdio",
