@@ -14,5 +14,6 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN"
       }
     }
-  }
+  },
+  "skipWorkflowUsageWarning": true
 }
