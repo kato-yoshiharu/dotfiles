@@ -66,3 +66,4 @@ herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(ca
 
 ## 背景
 <なぜこれをやるか、関連する issue やタスクの場所、現在の状態>
+## やること
