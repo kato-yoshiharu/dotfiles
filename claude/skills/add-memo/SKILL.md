@@ -1,6 +1,7 @@
 ---
 name: add-memo
 description: >-
+  個人メモリポジトリ（~/development/suimenkathemove/memos）に、メモしたい内容を追加・更新する。
   「メモに追加して」「メモって」「memos に書いて」などと言われたときに使う。
 ---
 
