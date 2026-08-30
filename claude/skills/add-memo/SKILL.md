@@ -12,3 +12,4 @@ description: >-
 - `_shared/` : todo・タスク・プロンプトなど。技術メモではないものだけここへ
 - `_local/` , `memos_private/` : 公開しない内容。機微な情報はこちらへ
 
+迷ったら `memos/` 配下に置く。
