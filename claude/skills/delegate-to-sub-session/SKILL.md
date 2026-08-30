@@ -50,3 +50,4 @@ herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(ca
 
 ### 手動でターミナルを起動してもらう場合
 
+- **起動直後は一覧に出るまで数秒かかることがある**。
