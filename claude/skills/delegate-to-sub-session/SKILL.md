@@ -41,3 +41,5 @@ description: >-
 cat > <スクラッチパッド>/handoff.txt <<'EOF'
 <引き継ぎ内容>
 EOF
+```
+
