@@ -7,3 +7,4 @@ description: >-
 
 # 個人スキルを作成する
 
+対象ディレクトリ: `~/development/suimenkathemove/dotfiles/claude/skills/<name>/SKILL.md`
