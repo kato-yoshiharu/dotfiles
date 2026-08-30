@@ -2,4 +2,4 @@
 name: add-memo
 # memos リポジトリにメモを追加する
 
-name: add-memo
+対象リポジトリ: `~/development/suimenkathemove/memos`
