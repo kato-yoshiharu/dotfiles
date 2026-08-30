@@ -8,3 +8,7 @@ description: >-
 # 個人スキルを作成する
 
 対象ディレクトリ: `~/development/suimenkathemove/dotfiles/claude/skills/<name>/SKILL.md`
+
+`~/.claude/skills/<name>` からシンボリックリンクを張ることで、全プロジェクトで有効になる。
+`claude/skills-installed/` は外部から入れたスキルなので、そこには置かない。
+
