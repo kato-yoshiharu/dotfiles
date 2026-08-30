@@ -78,3 +78,5 @@ herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(ca
 自己判断で報告しないでください。
 ```
 
+## ルール
+
