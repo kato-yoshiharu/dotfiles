@@ -56,3 +56,6 @@ herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(ca
 - 宛先は `ListAgents` の表示をそのままコピーする。`[ref]` は同名が複数あるときだけ付ける。
 - 引き継ぎ先が `ListAgents` から消えていたら、そのセッションは終了している。メッセージは届いていない。
 
+## 引き継ぎメッセージのテンプレート
+
+起動時の引数でも `SendMessage` でも、内容は同じ。
