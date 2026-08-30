@@ -61,3 +61,4 @@ herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(ca
 起動時の引数でも `SendMessage` でも、内容は同じ。
 `SendMessage` の場合は先頭行だけがプレビューに出るので、**1行目は単体で意味の通る要約**にする。
 
+```text
