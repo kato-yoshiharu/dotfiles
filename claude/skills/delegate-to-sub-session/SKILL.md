@@ -23,6 +23,7 @@ description: >-
 引き継ぎ先は**タスクごとに新しく作る**。
 
 1. `ListAgents` で**自分のセッション名**を確認する。
+   出力の1行目に`This session is <名前>` として出る。
 2. herdr 配下かどうかを判定する。`echo $HERDR_ENV` が `1` なら配下。
 ### herdr でペインを分割して起動する
 
