@@ -12,3 +12,5 @@ description: >-
 `~/.claude/skills/<name>` からシンボリックリンクを張ることで、全プロジェクトで有効になる。
 `claude/skills-installed/` は外部から入れたスキルなので、そこには置かない。
 
+## 手順
+
