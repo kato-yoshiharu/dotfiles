@@ -44,3 +44,7 @@ EOF
 herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(cat <スクラッチパッド>/handoff.txt)"
 ```
 
+- `<ラベル>` は herdr のペイン用の名前。タスクが分かる短い名前にする。
+- 終わったペインは `herdr pane close <pane_id>` で閉じる。
+  `pane_id` は起動時の出力に入っている。
+
