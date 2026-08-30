@@ -80,3 +80,4 @@ herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(ca
 
 ## ルール
 
+- 背景には「すでに確認済みの事実」を書く。引き継ぎ先が同じ調査をやり直さずに済む。
