@@ -34,3 +34,5 @@ description: >-
 ### herdr でペインを分割して起動する
 
 引き継ぎ内容は `claude` の引数として渡す。
+
+```bash
