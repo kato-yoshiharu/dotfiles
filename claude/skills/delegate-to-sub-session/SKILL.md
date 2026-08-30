@@ -53,5 +53,6 @@ herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(ca
 ユーザーの操作は `claude` の起動まで。そのあとはメインセッション側で `ListAgents` で宛先名を確認し、`SendMessage` で送る。
 
 - **起動直後は一覧に出るまで数秒かかることがある**。
+- 宛先は `ListAgents` の表示をそのままコピーする。`[ref]` は同名が複数あるときだけ付ける。
 - 引き継ぎ先が `ListAgents` から消えていたら、そのセッションは終了している。メッセージは届いていない。
 
