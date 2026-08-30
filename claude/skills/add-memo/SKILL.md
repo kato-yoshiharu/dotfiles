@@ -36,9 +36,9 @@ description: >-
    - トピックがディレクトリ（例: `memos/git/`, `memos/typescript/`）なら、その中の
      適切なファイルに追記するか、新しい `<topic>.md` を作る。
    - 該当がなければ `memos/<topic>.md` を新規作成する。ファイル名は小文字ケバブケース。
-2. 内容を書く。既存メモの書き方に合わせる（下記ルール参照）。
-3. `pnpm markdownlint`（または `npx markdownlint-cli2 '<追加したファイル>'`）で lint を通す。
-4. コミットは行わない。
+3. 内容を書く。既存メモの書き方に合わせる（下記ルール参照）。
+4. `pnpm markdownlint`（または `npx markdownlint-cli2 '<追加したファイル>'`）で lint を通す。
+5. コミットは行わない。
 
 ## 書き方のルール
 
