@@ -62,3 +62,5 @@ herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(ca
 `SendMessage` の場合は先頭行だけがプレビューに出るので、**1行目は単体で意味の通る要約**にする。
 
 ```text
+引き継ぎ: <何をするか（1文）>
+
