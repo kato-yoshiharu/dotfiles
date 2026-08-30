@@ -48,3 +48,5 @@ herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(ca
 - 終わったペインは `herdr pane close <pane_id>` で閉じる。
   `pane_id` は起動時の出力に入っている。
 
+### 手動でターミナルを起動してもらう場合
+
