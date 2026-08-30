@@ -66,4 +66,6 @@ herdr agent start <ラベル> --cwd "$PWD" --split right --focus -- claude "$(ca
 
 ## 背景
 <なぜこれをやるか、関連する issue やタスクの場所、現在の状態>
+<確認済みの事実（例: バケットは未作成であることを aws s3 ls で確認済み）>
+
 ## やること
