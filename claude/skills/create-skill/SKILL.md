@@ -31,6 +31,12 @@ description: >-
    `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` をひな形にする。
 5. シンボリックリンクを張る。
 
+   ```sh
+   ln -s ~/development/suimenkathemove/dotfiles/claude/skills/<name> ~/.claude/skills/<name>
+   ```
+
+6. `npx markdownlint-cli2 '<書いたファイル>'` で lint を通す。
+
 ## フォーマット
 
 テンプレートは `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` を参照する。
