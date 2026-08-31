@@ -39,6 +39,7 @@
     "rustc",
     "rustflags",
     "rustup",
+    "sccache",
     "sokudan",
     "sqlx",
     "ssia",
