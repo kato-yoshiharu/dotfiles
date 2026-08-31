@@ -26,6 +26,7 @@ description: >-
 3. 書き出す前に、次の2点をユーザーに確認する。
    - **何を書くか**: 手順・ルールの要点を箇条書きで示す。
    - **スキル名**: 小文字ケバブケース。
+   「おまかせ」と言われたらそのまま進めてよい。
 ## フォーマット
 
 テンプレートは `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` を参照する。
