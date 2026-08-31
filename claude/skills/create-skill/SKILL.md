@@ -29,13 +29,12 @@ description: >-
    「おまかせ」と言われたらそのまま進めてよい。
 4. `~/development/suimenkathemove/dotfiles/claude/skills/<name>/SKILL.md` を書く。
    `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` をひな形にする。
-5. シンボリックリンクを張る。
+5. `npx markdownlint-cli2 '<書いたファイル>'` で lint を通す。
+6. シンボリックリンクを張る。
 
    ```sh
    ln -s ~/development/suimenkathemove/dotfiles/claude/skills/<name> ~/.claude/skills/<name>
    ```
-
-6. `npx markdownlint-cli2 '<書いたファイル>'` で lint を通す。
 
 ## フォーマット
 
