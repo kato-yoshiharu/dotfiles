@@ -15,6 +15,7 @@ description: >-
 ## 手順
 
 1. **スキル化する価値があるか確認する。**
+   一度きりの作業はスキルにしない。
 ## フォーマット
 
 テンプレートは `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` を参照する。
