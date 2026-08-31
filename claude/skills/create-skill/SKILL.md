@@ -22,6 +22,7 @@ description: >-
    自作は `~/development/suimenkathemove/dotfiles/claude/skills/`。
    description を読み、近そうなものがあればそのファイルを全文読む。
    重なるなら、新規作成するか既存スキルに節を足すかをユーザーに確認する。
+3. 書き出す前に、次の2点をユーザーに確認する。
 ## フォーマット
 
 テンプレートは `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` を参照する。
