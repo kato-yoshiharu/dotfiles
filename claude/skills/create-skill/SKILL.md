@@ -19,6 +19,7 @@ description: >-
    繰り返し使う手順で、かつ毎回同じ判断を口頭で説明している場合が対象。
 2. `~/development/suimenkathemove/dotfiles/claude/skills/` の既存スキルの
    description を読み、内容が重ならないか確認する。
+   近そうなものがあれば、そのファイルを全文読む。
 ## フォーマット
 
 テンプレートは `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` を参照する。
