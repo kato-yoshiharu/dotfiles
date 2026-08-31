@@ -16,6 +16,7 @@ description: >-
 
 1. **スキル化する価値があるか確認する。**
    一度きりの作業はスキルにしない。
+   繰り返し使う手順で、かつ毎回同じ判断を口頭で説明している場合が対象。
 ## フォーマット
 
 テンプレートは `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` を参照する。
