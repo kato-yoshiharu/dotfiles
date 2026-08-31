@@ -20,6 +20,7 @@ description: >-
 2. `~/development/suimenkathemove/dotfiles/claude/skills/` の既存スキルの
    description を読み、内容が重ならないか確認する。
    近そうなものがあれば、そのファイルを全文読む。
+   重なるなら、新規作成するか既存スキルに節を足すかをユーザーに確認する。
 ## フォーマット
 
 テンプレートは `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` を参照する。
