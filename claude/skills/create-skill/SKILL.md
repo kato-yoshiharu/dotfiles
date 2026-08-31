@@ -19,3 +19,5 @@ description: >-
 
 テンプレートは `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` を参照する。
 
+## 本文の書き方
+
