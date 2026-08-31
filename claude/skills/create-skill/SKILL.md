@@ -29,6 +29,8 @@ description: >-
    「おまかせ」と言われたらそのまま進めてよい。
 4. `~/development/suimenkathemove/dotfiles/claude/skills/<name>/SKILL.md` を書く。
    `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` をひな形にする。
+5. シンボリックリンクを張る。
+
 ## フォーマット
 
 テンプレートは `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` を参照する。
