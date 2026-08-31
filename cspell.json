@@ -37,6 +37,7 @@
     "pooler",
     "rdbms",
     "rustc",
+    "rustflags",
     "rustup",
     "sokudan",
     "sqlx",
