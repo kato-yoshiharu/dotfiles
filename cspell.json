@@ -54,6 +54,7 @@
     "timestamptz",
     "trgm",
     "tsvector",
+    "usecase",
     "uupm",
     "wantedly",
     "workerd",
