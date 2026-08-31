@@ -20,6 +20,7 @@ description: >-
 2. **既存のスキル（組み込み、インストール済み、自作）に近いものがあるか確認する。**
    インストール済みは `~/development/suimenkathemove/dotfiles/claude/skills-installed/`、
    自作は `~/development/suimenkathemove/dotfiles/claude/skills/`。
+   description を読み、近そうなものがあればそのファイルを全文読む。
    重なるなら、新規作成するか既存スキルに節を足すかをユーザーに確認する。
 ## フォーマット
 
