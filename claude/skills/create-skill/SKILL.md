@@ -17,3 +17,5 @@ description: >-
 1. **スキル化する価値があるか確認する。**
 ## フォーマット
 
+テンプレートは `~/development/suimenkathemove/dotfiles/claude/skills/TEMPLATE.md` を参照する。
+
