@@ -49,6 +49,7 @@
     "timestamptz",
     "trgm",
     "tsvector",
+    "uupm",
     "wantedly",
     "workerd",
     "worktree",
