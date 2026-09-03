@@ -7,3 +7,5 @@
 	autoSetupRemote = true
 [credential]
 	helper = store
+[mailmap]
+	file = ~/.mailmap
