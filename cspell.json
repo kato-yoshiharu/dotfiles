@@ -38,6 +38,7 @@
     "PKCE",
     "pooler",
     "rdbms",
+    "rstest",
     "rustc",
     "rustflags",
     "rustup",
