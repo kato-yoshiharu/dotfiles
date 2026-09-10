@@ -12,8 +12,9 @@ if not vim.g.vscode then
   opt.number = true
   -- 行番号をカーソル行からの相対値で表示する
   opt.relativenumber = true
-  -- サイン欄（git 差分・LSP 診断のマーク）を常に表示して本文の横ずれを防ぐ
-  opt.signcolumn = "yes"
+  -- サイン欄を常に表示して本文の横ずれを防ぐ
+  -- git の差分の帯と LSP 診断のマークを並べるので、2 列分確保する
+  opt.signcolumn = "yes:2"
   -- カーソル行をハイライトする
   opt.cursorline = true
   -- :vsplit で新しいウィンドウを右に開く

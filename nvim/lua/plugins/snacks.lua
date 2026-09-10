@@ -21,6 +21,23 @@ local function sort_dirs_first(a, b)
   return #ap < #bp
 end
 
+-- ダッシュボードでは snacks 既定の中央レイアウトに任せ、それ以外は右上に出す
+local function layout_override()
+  if vim.bo.filetype == "snacks_dashboard" then
+    return
+  end
+  -- row = 1 が上端、col = -1 が右端
+  local layout = vim.deepcopy(require("snacks.picker.config.layouts").default.layout)
+  layout.row = 1
+  layout.col = -1
+  layout.min_width = nil
+  layout.width = 0.25
+  -- 最大値にする0を指定すると下端が見切れるので。
+  layout.height = 0.9
+  layout.backdrop = false
+  return { layout = layout }
+end
+
 return {
   "folke/snacks.nvim",
   cond = not vim.g.vscode,
@@ -38,10 +55,53 @@ return {
         if explorer then
           explorer:close()
         else
-          Snacks.explorer()
+          Snacks.explorer({ layout = layout_override() })
         end
       end,
       desc = "ファイラ（snacks）の開閉",
+    },
+    -- ピッカー
+    {
+      "<leader>ff",
+      function()
+        Snacks.picker.files({ layout = layout_override() })
+      end,
+      desc = "ファイルを検索",
+    },
+    {
+      "<leader>fg",
+      function()
+        Snacks.picker.grep({ layout = layout_override() })
+      end,
+      desc = "文字列を検索",
+    },
+    {
+      "<leader>fb",
+      function()
+        Snacks.picker.buffers({ layout = layout_override() })
+      end,
+      desc = "バッファを検索",
+    },
+    {
+      "<leader>fh",
+      function()
+        Snacks.picker.help({ layout = layout_override() })
+      end,
+      desc = "ヘルプを検索",
+    },
+    {
+      "<leader>fp",
+      function()
+        Snacks.picker.projects({ layout = layout_override() })
+      end,
+      desc = "プロジェクトを検索（cwd ごと切り替える）",
+    },
+    {
+      "<leader>gc",
+      function()
+        Snacks.picker.git_log({ layout = layout_override() })
+      end,
+      desc = "git のコミット履歴",
     },
   },
   opts = {
@@ -60,7 +120,6 @@ return {
       autokeys = "abcdefghijklmnopqrstuvwxyz",
       preset = {
         keys = {
-          -- TODO: Telescopeを使うようにする
           {
             icon = " ",
             key = "f",
