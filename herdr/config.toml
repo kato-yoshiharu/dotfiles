@@ -65,7 +65,7 @@ name = "dracula"
 # help = "prefix+?"
 # settings = "prefix+s"
 # detach = "prefix+q"
-# reload_config = "prefix+shift+r"
+reload_config = "prefix+shift+r"
 # open_notification_target = "prefix+o"
 # workspace_picker = "prefix+w"
 # goto = "prefix+g"
@@ -122,11 +122,54 @@ navigate_workspace_down = "j"
 # command = "lazygit"
 # description = "run lazygit"
 
-[[keys.command]]
-key = "prefix+t"
-type = "plugin_action"
-command = "herdr-navigator.open"
-description = "jump to anything"
+# herdr-splits.nvim: Neovim の分割と herdr のペインをまたいで移動・リサイズする。
+# prefix なしの ctrl+hjkl / alt+hjkl で直接移動・リサイズする（Neovim 側のデフォルトと同じ）。
+
+# [[keys.command]]
+# key = "ctrl+h"
+# type = "plugin_action"
+# command = "herdr-splits.nav-left"
+
+# [[keys.command]]
+# key = "ctrl+j"
+# type = "plugin_action"
+# command = "herdr-splits.nav-down"
+
+# [[keys.command]]
+# key = "ctrl+k"
+# type = "plugin_action"
+# command = "herdr-splits.nav-up"
+
+# [[keys.command]]
+# key = "ctrl+l"
+# type = "plugin_action"
+# command = "herdr-splits.nav-right"
+
+# [[keys.command]]
+# key = "alt+h"
+# type = "plugin_action"
+# command = "herdr-splits.resize-left"
+
+# [[keys.command]]
+# key = "alt+j"
+# type = "plugin_action"
+# command = "herdr-splits.resize-down"
+
+# [[keys.command]]
+# key = "alt+k"
+# type = "plugin_action"
+# command = "herdr-splits.resize-up"
+
+# [[keys.command]]
+# key = "alt+l"
+# type = "plugin_action"
+# command = "herdr-splits.resize-right"
+
+# [[keys.command]]
+# key = "prefix+t"
+# type = "plugin_action"
+# command = "herdr-navigator.open"
+# description = "jump to anything"
 
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.
