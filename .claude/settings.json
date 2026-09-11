@@ -1,22 +1,4 @@
 {
-  "autoUpdatesChannel": "stable",
-  "editorMode": "vim",
-  "inputMode": "multiline",
-  "mcpServers": {
-    "github": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-github"
-      ],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN"
-      }
-    }
-  },
-  "skipWorkflowUsageWarning": true,
-  "agentPushNotifEnabled": true,
   "permissions": {
     "allow": [
       "Read",
@@ -56,6 +38,24 @@
     "command": "sh \"$HOME/.claude/statusline-command.sh\""
   },
   "effortLevel": "low",
+  "autoUpdatesChannel": "stable",
   "tui": "fullscreen",
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "editorMode": "vim",
+  "agentPushNotifEnabled": true,
+  "inputMode": "multiline",
+  "mcpServers": {
+    "github": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN"
+      }
+    }
+  }
 }

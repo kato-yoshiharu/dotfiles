@@ -8,7 +8,8 @@
         "enter": "chat:newline",
         "cmd+enter": "chat:submit",
         "meta+enter": "chat:submit",
-        "cmd+z": "chat:undo"
+        "cmd+z": "chat:undo",
+        "ctrl+l": null
       }
     }
   ]
