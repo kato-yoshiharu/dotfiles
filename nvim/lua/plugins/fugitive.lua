@@ -1,5 +1,7 @@
 return {
   "tpope/vim-fugitive",
+  -- git 操作は neogit、差分は diffview に一本化した。戻すときはこの行を消す
+  enabled = false,
   cond = not vim.g.vscode,
   keys = {
     {
@@ -12,8 +14,8 @@ return {
             return
           end
         end
-        -- 左に縦分割で出す
-        vim.cmd("vertical topleft Git")
+        -- 右に縦分割で出す
+        vim.cmd("vertical botright Git")
         vim.api.nvim_win_set_width(0, 40)
       end,
       desc = "fugitive の status を開閉",

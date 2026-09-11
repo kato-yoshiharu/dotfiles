@@ -17,7 +17,7 @@ end
 
 -- ステージ処理は非同期なので、index に載るのを待ってから commit する
 function M.commit(cwd)
-  -- 呼び出し元の stage（fugitive の s）は非同期で、
+  -- 呼び出し元の stage（neogit, fugitive の s）は非同期で、
   -- 呼び出しが返った時点では index に反映されていない。
   -- 完了通知を受け取る手段がないため、ステージ済み変更が現れるまでポーリングで待つ。
   local tries = 0

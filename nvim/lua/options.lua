@@ -31,4 +31,16 @@ if not vim.g.vscode then
   opt.tabstop = 2
   -- undo 履歴をファイルに保存して、再起動後も元に戻せるようにする
   opt.undofile = true
+  -- 行を折り返す
+  opt.wrap = true
+  -- 単語の途中で折り返さない
+  opt.linebreak = true
+  -- 折り返した行に元のインデントを引き継ぐ（VSCode の wrappingIndent: same 相当）
+  opt.breakindent = true
+  -- diff モードは既定で折り返しを無効にするので、上の wrap 設定に従わせる
+  -- （diffview の差分比較画面でも折り返す）
+  opt.diffopt:append("followwrap")
+  -- 起動時の intro 画面（:intro）を出さない。
+  -- explorer を開くまでの一瞬だけ表示されてちらつくため
+  opt.shortmess:append("I")
 end

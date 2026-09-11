@@ -22,11 +22,19 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     local name = path:sub(#lua_root + 2):gsub("%.lua$", ""):gsub("/", ".")
 
     package.loaded[name] = nil
-    local ok, err = pcall(require, name)
-    if ok then
-      vim.notify("reloaded: " .. name)
-    else
-      vim.notify(err, vim.log.levels.ERROR)
+    local ok, mod = pcall(require, name)
+    if not ok then
+      vim.notify(mod, vim.log.levels.ERROR)
+      return
     end
+
+    -- plugins/ 配下は lazy.nvim へ渡すスペックを return するだけで、
+    -- require し直しても opts は再適用されない。素直に再起動を促す
+    if vim.startswith(name, "plugins.") then
+      vim.notify(name .. ": 反映には再起動が必要", vim.log.levels.WARN)
+      return
+    end
+
+    vim.notify("reloaded: " .. name)
   end,
 })

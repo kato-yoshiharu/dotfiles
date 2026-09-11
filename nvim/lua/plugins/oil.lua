@@ -1,6 +1,8 @@
 -- ファイラ（ディレクトリを普通のバッファとして編集する）
 return {
   "stevearc/oil.nvim",
+  -- ファイラは snacks.explorer に一本化した。戻すときはこの行を消す
+  enabled = false,
   cond = not vim.g.vscode,
   cmd = { "Oil" },
   dependencies = {
