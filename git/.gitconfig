@@ -2,7 +2,11 @@
     email = yoshiharu2580@gmail.com
     name = kato-yoshiharu
 [alias]
+	cbn = !sh ~/.commands/check-branch-name.sh
+	ccm = !sh ~/.commands/check-commit-message.sh
+	ptb = !sh ~/.commands/push-trial-branch.sh
 	cn = !git commit -m "confirmed" && git push
+	ae = !sh ~/.commands/git-add-empty.sh
 [push]
 	autoSetupRemote = true
 [credential]

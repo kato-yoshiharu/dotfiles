@@ -8,11 +8,6 @@ eval "$(mise activate zsh)"
 alias hello-world="sh ~/.commands/hello-world.sh"
 alias tmux-start="sh ~/.commands/tmux-start.sh"
 
-alias gitcbn="sh ~/.commands/check-branch-name.sh"
-alias gitccm="sh ~/.commands/check-commit-message.sh"
-alias gitae="sh ~/.commands/git-add-empty.sh"
-alias gitptb="sh ~/.commands/push-trial-branch.sh"
-
 # herdr
 sh ~/.commands/herdr-start.sh
 

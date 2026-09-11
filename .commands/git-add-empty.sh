@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+# ステージ済みの変更があると、意図しない差分まで commit されるので中断する
+if ! git diff --cached --quiet; then
+  echo "There are staged changes." >&2
+  exit 1
+fi
+
 UNTRACKED_FILES=$(git ls-files --others --exclude-standard)
 
 if [ -z "$UNTRACKED_FILES" ]; then
