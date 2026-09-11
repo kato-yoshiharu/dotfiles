@@ -13,15 +13,15 @@ local dracula = {
 -- Dracula が定義しているのは modified / deleted / untracked / ignored / conflicting の 5 つだけなので、
 -- 残り（added, renamed, copied, type changed）は意味の近いものに寄せる。
 local git_colors = {
-  ["?"] = dracula.green, -- untracked
+  ["?"] = dracula.green,   -- untracked
   ["!"] = dracula.comment, -- ignored
-  ["U"] = dracula.orange, -- unmerged（コンフリクト中）= conflicting
-  ["A"] = dracula.green, -- added（Dracula 未定義。untracked に合わせる）
-  ["D"] = dracula.red, -- deleted
-  ["M"] = dracula.cyan, -- modified
-  ["R"] = dracula.cyan, -- renamed（Dracula 未定義。VSCode は copied と同じキー）
-  ["C"] = dracula.cyan, -- copied（同上）
-  ["T"] = dracula.cyan, -- type changed（VSCode に対応キーなし。modified に合わせる）
+  ["U"] = dracula.orange,  -- unmerged（コンフリクト中）= conflicting
+  ["A"] = dracula.green,   -- added（Dracula 未定義。untracked に合わせる）
+  ["D"] = dracula.red,     -- deleted
+  ["M"] = dracula.cyan,    -- modified
+  ["R"] = dracula.cyan,    -- renamed（Dracula 未定義。VSCode は copied と同じキー）
+  ["C"] = dracula.cyan,    -- copied（同上）
+  ["T"] = dracula.cyan,    -- type changed（VSCode に対応キーなし。modified に合わせる）
 }
 
 -- git の呼び出しは非同期なので、結果はバッファ変数に貯めて描画時はそれを読む

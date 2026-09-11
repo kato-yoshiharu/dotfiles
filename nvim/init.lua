@@ -14,6 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require("options")
 require("keymaps")
 require("autocmds")
+require("commands")
 
 -- プラグインは lua/plugins/*.lua に 1 ファイル 1 プラグインで置く
 require("lazy").setup({ import = "plugins" }, {

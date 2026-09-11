@@ -18,6 +18,11 @@ return {
         -- line(".") がカーソル行、line("v") が選択の開始行
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
       end, { buffer = buf, desc = "選択行をステージ" })
+
+      vim.keymap.set("n", "<leader>hr", gs.reset_hunk, { buffer = buf, desc = "hunk をリセット" })
+      vim.keymap.set("v", "<leader>hr", function()
+        gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+      end, { buffer = buf, desc = "選択行をリセット" })
     end,
   },
 }

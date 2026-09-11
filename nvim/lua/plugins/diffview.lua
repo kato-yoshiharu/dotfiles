@@ -22,5 +22,13 @@ return {
     file_panel = {
       win_config = { width = 40 },
     },
+    hooks = {
+      -- 左側（symbol "a"）のバッファだけ常に編集不可にする。
+      diff_buf_read = function(bufnr, ctx)
+        if ctx.symbol == "a" then
+          vim.bo[bufnr].modifiable = false
+        end
+      end,
+    },
   },
 }
