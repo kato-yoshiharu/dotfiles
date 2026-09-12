@@ -49,3 +49,19 @@ ln_files_in_dir "$DOTFILES_PATH/claude/output-styles" "$HOME/.claude/output-styl
 # Claude Code hooks
 mkdir -p "$HOME/.claude/hooks"
 ln_files_in_dir "$DOTFILES_PATH/claude/hooks" "$HOME/.claude/hooks"
+
+# bin
+mkdir -p "$HOME/bin"
+ln_files_in_dir "$DOTFILES_PATH/bin" "$HOME/bin"
+
+# Vicinae
+mkdir -p "$HOME/.config/vicinae"
+ln_files_in_dir "$DOTFILES_PATH/vicinae" "$HOME/.config/vicinae"
+
+# AeroSpace
+mkdir -p "$HOME/.config/aerospace"
+ln_files_in_dir "$DOTFILES_PATH/aerospace" "$HOME/.config/aerospace"
+
+# yazi
+mkdir -p "$HOME/.config/yazi"
+ln_files_in_dir "$DOTFILES_PATH/yazi" "$HOME/.config/yazi"

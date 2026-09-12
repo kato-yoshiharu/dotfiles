@@ -1,5 +1,6 @@
 {
   "claudecode.nvim": { "branch": "main", "commit": "2390c6e45c4789072c293ac69de051d169668b29" },
+  "colorful-winsep.nvim": { "branch": "main", "commit": "6134b5cd4a38990c7b720adc90973ed32f726179" },
   "conform.nvim": { "branch": "master", "commit": "016802de402556da54c36bd7359b441266b01cdd" },
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "dracula.nvim": { "branch": "main", "commit": "ae752c13e95fb7c5f58da4b5123cb804ea7568ee" },
@@ -19,5 +20,6 @@
   "oil.nvim": { "branch": "master", "commit": "b73018b75affd13fa38e2fc94ef753b465f770d7" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
   "snacks.nvim": { "branch": "main", "commit": "882c996cf28183f4d63640de0b4c02ec886d01f2" },
-  "vim-fugitive": { "branch": "master", "commit": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0" }
+  "vim-fugitive": { "branch": "master", "commit": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0" },
+  "vim-zenspace": { "branch": "master", "commit": "19ed877e6784edd1884789334872381493486883" }
 }

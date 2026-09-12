@@ -59,6 +59,18 @@ local function update(buf)
   )
 end
 
+-- 描画中のウィンドウのバッファを返す。nvim_get_current_buf() だとフォーカス中の
+-- バッファに固定され、非アクティブ側のウィンドウにも同じ内容が出てしまう。
+-- statusline_winid は setup() 内での初回呼び出し（ハイライト事前生成）時にはまだ
+-- 無効な値なので、そのときは現在のウィンドウにフォールバックする
+local function current_stl_buf()
+  local winid = vim.g.statusline_winid
+  if not winid or not vim.api.nvim_win_is_valid(winid) then
+    return vim.api.nvim_get_current_buf()
+  end
+  return vim.api.nvim_win_get_buf(winid)
+end
+
 return {
   "nvim-lualine/lualine.nvim",
   cond = not vim.g.vscode,
@@ -73,21 +85,28 @@ return {
       end,
     })
 
+    local filename_component = {
+      "filename",
+      path = 1, -- cwd からの相対パス
+      fmt = function(str)
+        return vim.b[current_stl_buf()].diffview_relpath or str
+      end,
+      color = function()
+        local color = vim.b[current_stl_buf()].statusline_git_color
+        return color and { fg = color } or nil
+      end,
+    }
+
     require("lualine").setup({
       options = {
         theme = "dracula",
       },
       sections = {
-        lualine_c = {
-          {
-            "filename",
-            path = 1, -- cwd からの相対パス
-            color = function()
-              local color = vim.b[vim.api.nvim_get_current_buf()].statusline_git_color
-              return color and { fg = color } or nil
-            end,
-          },
-        },
+        lualine_c = { filename_component },
+      },
+      -- 非アクティブなウィンドウは inactive_sections が別に使われるので、同じ設定を渡す
+      inactive_sections = {
+        lualine_c = { filename_component },
       },
     })
 

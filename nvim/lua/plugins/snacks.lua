@@ -21,6 +21,112 @@ local function sort_dirs_first(a, b)
   return #ap < #bp
 end
 
+-- コピー先に同名がある場合、VSCode 風に「〜 copy」「〜 copy 2」…と番号を振って衝突を避ける
+local function unique_path(dir, name)
+  local to = dir .. "/" .. name
+  if not vim.uv.fs_stat(to) then
+    return to
+  end
+  -- 先頭のドットは拡張子とみなさない（.env など）
+  local stem, ext = name:match("^(.+)(%.[^.]+)$")
+  stem, ext = stem or name, ext or ""
+  local base = stem:gsub(" copy%s*%d*$", "")
+  for i = 1, math.huge do
+    local suffix = i == 1 and " copy" or (" copy " .. i)
+    to = dir .. "/" .. base .. suffix .. ext
+    if not vim.uv.fs_stat(to) then
+      return to
+    end
+  end
+end
+
+-- キーワードで検索できる自作コマンドパレット。
+-- text にコマンド名と検索用キーワードをまとめて書き、fn に実行内容を持たせる。
+local custom_commands = {
+  {
+    text = "Copy Relative Path of Active File",
+    fn = function()
+      local file = vim.api.nvim_buf_get_name(0)
+      if file == "" then
+        return Snacks.notify.warn("アクティブなファイルがない")
+      end
+      -- ":." は cwd からの相対パスに変換する modifier（lualine の path = 1 と同じ考え方）
+      local relpath = vim.fn.fnamemodify(file, ":.")
+      vim.fn.setreg("+", relpath)
+      Snacks.notify.info("コピーした: " .. relpath)
+    end,
+  },
+  {
+    text = "Copy Current Branch",
+    fn = function()
+      local cwd = vim.fn.getcwd()
+      vim.system({ "git", "branch", "--show-current" }, { text = true, cwd = cwd }, function(result)
+        vim.schedule(function()
+          local branch = vim.trim(result.stdout or "")
+          if result.code ~= 0 or branch == "" then
+            return Snacks.notify.warn("ブランチ名を取得できない")
+          end
+          vim.fn.setreg("+", branch)
+          Snacks.notify.info("コピーした: " .. branch)
+        end)
+      end)
+    end,
+  },
+}
+
+-- 自作コマンドと Ex コマンドをまとめた1つのピッカーとして開く
+local function open_command_palette()
+  local items = vim.deepcopy(custom_commands)
+  -- snacks 標準の "commands" ソースと同じ手順で Ex コマンド一覧を集める
+  require("snacks.picker.source.vim").commands()(function(item)
+    items[#items + 1] = item
+  end)
+
+  Snacks.picker.pick({
+    source = "custom_commands",
+    items = items,
+    format = function(item)
+      return { { item.text } }
+    end,
+    confirm = function(picker, item)
+      picker:close()
+      if item.fn then
+        item.fn()
+      elseif item.cmd then
+        -- snacks 標準の "cmd" アクションと同じく、コマンドラインに入力した状態にする
+        vim.schedule(function()
+          vim.api.nvim_input(":")
+          vim.schedule(function()
+            vim.fn.setcmdline(item.cmd)
+          end)
+        end)
+      end
+    end,
+  })
+end
+
+local function explorer_paste(picker)
+  local reg = vim.v.register ~= "" and vim.v.register or "+"
+  local files = vim.split(vim.fn.getreg(reg) or "", "\n", { plain = true })
+  files = vim.tbl_filter(function(file)
+    return file ~= "" and vim.uv.fs_stat(file) ~= nil
+  end, files)
+  if #files == 0 then
+    return Snacks.notify.warn(("`%s` レジスタにファイルがない"):format(reg))
+  end
+
+  local dir = picker:dir()
+  for _, from in ipairs(files) do
+    local name = vim.fn.fnamemodify(from:gsub("/$", ""), ":t")
+    Snacks.picker.util.copy_path(from, unique_path(dir, name))
+  end
+
+  local Tree = require("snacks.explorer.tree")
+  Tree:refresh(dir)
+  Tree:open(dir)
+  require("snacks.explorer.actions").update(picker, { target = dir })
+end
+
 return {
   "folke/snacks.nvim",
   cond = not vim.g.vscode,
@@ -84,10 +190,8 @@ return {
     },
     {
       "<leader>p",
-      function()
-        Snacks.picker.commands()
-      end,
-      desc = "コマンドパレット",
+      open_command_palette,
+      desc = "コマンドパレット（Ex コマンド + 自作コマンド）",
     },
     {
       "<leader>gc",
@@ -106,7 +210,19 @@ return {
         -- ファイル一覧を走査順ではなく、ディレクトリ優先のパス順で並べる
         files = { sort = sort_dirs_first, hidden = true, ignored = true },
         -- ファイラはデフォルトで左に出るので右に寄せる
-        explorer = { layout = { layout = { position = "right" } }, hidden = true, ignored = true },
+        explorer = {
+          layout = { layout = { position = "right" } },
+          hidden = true,
+          ignored = true,
+          -- .git は VSCode 同様に隠す（hidden = true で他のドットファイルは見せたいので、ここだけ個別に除外する）
+          exclude = { ".git" },
+          actions = { explorer_paste = explorer_paste },
+          -- esc で誤って閉じてしまわないようにする（閉じるのは <leader>e に任せる）
+          win = {
+            input = { keys = { ["<esc>"] = { "", mode = "n" } } },
+            list = { keys = { ["<esc>"] = { "", mode = "n" } } },
+          },
+        },
       },
     },
     dashboard = {

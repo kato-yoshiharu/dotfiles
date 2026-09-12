@@ -6,6 +6,11 @@ return {
   -- 他のプラグインの描画前に色を確定させるため遅延読み込みしない
   lazy = false,
   config = function()
+    require("dracula").setup({
+      -- wezterm の背景透過・ぼかしを透かして見せる
+      transparent_bg = true,
+    })
+
     local function diff_hl()
       local set = vim.api.nvim_set_hl
       set(0, "DiffAdd", { bg = "#2f4f38" })
@@ -17,6 +22,16 @@ return {
       set(0, "diffAdded", { bg = "#2f4f38", fg = "#50fa7b" })
       set(0, "diffRemoved", { bg = "#5a2e3a" })
       set(0, "diffChanged", { bg = "#2d3b5c", fg = "#ffb86c" })
+
+      -- デフォルトの Comment は暗すぎて透過背景で見にくいため明るいグレーにする
+      set(0, "Comment", { fg = "#a4b1cd", italic = true })
+
+      -- snacks.nvim のフローティングウィンドウ（explorer/picker 等）を透過させる
+      set(0, "NormalFloat", { bg = "none" })
+      set(0, "SnacksNormal", { bg = "none" })
+      set(0, "SnacksNormalNC", { bg = "none" })
+      set(0, "SnacksWinBar", { bg = "none" })
+      set(0, "SnacksWinBarNC", { bg = "none" })
     end
 
     -- colorscheme を読み直したときに上書きが巻き戻らないようにする

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://vicinae.com/schemas/config.json",
+  "theme": {
+    "dark": {
+      "name": "tokyo-night-storm"
+    }
+  },
+  "global_shortcuts": {
+    "toggle": "cmd+space"
+  }
+}
