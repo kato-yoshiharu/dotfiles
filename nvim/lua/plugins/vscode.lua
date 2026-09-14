@@ -7,10 +7,10 @@ local vscode = require("vscode")
 
 vim.keymap.set({ "n", "v" }, "<leader>hs", function()
   vscode.call("git.stageSelectedRanges")
-end, { desc = "hunk をステージ (VS Code)" })
+end, { desc = "選択行をステージ (VS Code)" })
 
 vim.keymap.set({ "n", "v" }, "<leader>hr", function()
   vscode.call("git.revertSelectedRanges")
-end, { desc = "hunk をリセット (VS Code)" })
+end, { desc = "選択行をリセット (VS Code)" })
 
 return {}

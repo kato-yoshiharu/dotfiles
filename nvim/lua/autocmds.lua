@@ -1,3 +1,17 @@
+-- 外部プロセス（Claude Code など）がファイルを書き換えたとき、
+-- フォーカス移動を待たずに反映させる
+local checktime_group = vim.api.nvim_create_augroup("Checktime", { clear = true })
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  group = checktime_group,
+  callback = function()
+    -- コマンドライン入力中に呼ぶとプロンプトが崩れるので避ける
+    if vim.fn.getcmdwintype() == "" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
 local group = vim.api.nvim_create_augroup("ReloadConfig", { clear = true })
 
 -- lua/ 配下は dotfiles へのシンボリックリンクなので、

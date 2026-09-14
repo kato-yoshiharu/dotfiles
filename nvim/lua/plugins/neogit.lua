@@ -33,13 +33,13 @@ return {
     },
   },
   opts = {
-    -- ステータスは専用タブで開き、元のウィンドウ配置を壊さない
-    kind = "tab",
     graph_style = "unicode",
     integrations = {
       diffview = true,
       snacks = true,
     },
+    treesitter_diff_highlight = true,
+    disable_line_numbers = false,
   },
   config = function(_, opts)
     require("neogit").setup(opts)
@@ -58,7 +58,7 @@ return {
           return
         end
 
-        local msg = input.get_user_input("Commit message", { strip_spaces = true })
+        local msg = input.get_user_input("Commit message", { strip_spaces = false })
         if not msg or msg == "" then
           return
         end

@@ -6,12 +6,14 @@ opt.ignorecase = true
 opt.smartcase = true
 -- ヤンク・削除を OS のクリップボードと共有する
 opt.clipboard = "unnamed"
+-- 外部でファイルが書き換えられたら自動で読み直す（autocmds.lua の checktime と対）
+opt.autoread = true
 
 if not vim.g.vscode then
   -- 行番号を表示する
   opt.number = true
-  -- 行番号をカーソル行からの相対値で表示する
-  opt.relativenumber = true
+  -- 絶対的な行番号のほうがCoding Agentに伝えやすいため
+  opt.relativenumber = false
   -- サイン欄を常に表示して本文の横ずれを防ぐ
   -- git の差分の帯と LSP 診断のマークを並べるので、2 列分確保する
   opt.signcolumn = "yes:2"

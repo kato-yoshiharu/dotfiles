@@ -50,6 +50,11 @@ ln_files_in_dir "$DOTFILES_PATH/claude/output-styles" "$HOME/.claude/output-styl
 mkdir -p "$HOME/.claude/hooks"
 ln_files_in_dir "$DOTFILES_PATH/claude/hooks" "$HOME/.claude/hooks"
 
+# Codex
+mkdir -p "$HOME/.codex"
+ln -sfnv "$DOTFILES_PATH/AGENTS.md" "$HOME/.codex/AGENTS.md"
+ln -sfnv "$DOTFILES_PATH/.codex/hooks.json" "$HOME/.codex/hooks.json"
+
 # bin
 mkdir -p "$HOME/bin"
 ln_files_in_dir "$DOTFILES_PATH/bin" "$HOME/bin"

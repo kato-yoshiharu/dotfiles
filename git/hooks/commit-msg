@@ -1,0 +1,10 @@
+#!/bin/sh
+# コミットメッセージの前後に空白文字があれば拒否する
+
+msg_file="$1"
+msg=$(cat "$msg_file")
+
+if printf '%s' "$msg" | grep -qE '^[[:space:]]|[[:space:]]$'; then
+  echo "エラー: コミットメッセージの先頭/末尾に空白文字があります。" >&2
+  exit 1
+fi

@@ -9,7 +9,11 @@
 	ae = !sh ~/.commands/git-add-empty.sh
 [push]
 	autoSetupRemote = true
+[core]
+	hooksPath = ~/development/suimenkathemove/dotfiles/git/hooks
 [credential]
 	helper = store
 [mailmap]
 	file = ~/.mailmap
+[status]
+	showUntrackedFiles = all
