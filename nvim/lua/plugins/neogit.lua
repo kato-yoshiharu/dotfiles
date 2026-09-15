@@ -140,6 +140,18 @@ return {
 
         -- visual選択でのstage/unstageは選択範囲がまとめて消えるため、カーソル行ではなく
         -- 選択範囲の一番上の行を覚えておく(そこに後続の項目が繰り上がってくる)
+        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+          buffer = ev.buf,
+          callback = function()
+            local mode = vim.fn.mode()
+            if mode == "v" or mode == "V" or mode == "\22" then
+              last_status_line = math.min(vim.fn.line("."), vim.fn.line("v"))
+            else
+              last_status_line = vim.api.nvim_win_get_cursor(0)[1]
+            end
+          end,
+        })
+
         -- 画面幅を超える行を折り返す
         -- FileType 発火時点ではまだウィンドウに表示されていないことがあるため一tick遅らせる
         vim.schedule(function()
