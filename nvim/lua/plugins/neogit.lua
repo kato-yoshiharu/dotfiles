@@ -114,6 +114,21 @@ return {
       end
     end
 
+    -- stage/unstageするとファイルがセクションをまたいで移動し、neogitはカーソル位置を
+    -- 復元できず先頭行に戻してしまう。押す前の行番号を覚えておき、再描画後に同じ行へ戻す
+    local last_status_line
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "NeogitStatusRefreshed",
+      callback = function()
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].filetype == "NeogitStatus" then
+            vim.api.nvim_win_set_cursor(win, { line, 0 })
+          end
+        end
+      end,
+    })
+
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "NeogitStatus",
       callback = function(ev)
