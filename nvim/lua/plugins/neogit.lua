@@ -138,6 +138,8 @@ return {
           Snacks.picker.lines()
         end, { buffer = ev.buf, desc = "status の行を fuzzy 検索" })
 
+        -- visual選択でのstage/unstageは選択範囲がまとめて消えるため、カーソル行ではなく
+        -- 選択範囲の一番上の行を覚えておく(そこに後続の項目が繰り上がってくる)
         -- 画面幅を超える行を折り返す
         -- FileType 発火時点ではまだウィンドウに表示されていないことがあるため一tick遅らせる
         vim.schedule(function()
