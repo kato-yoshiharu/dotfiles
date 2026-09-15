@@ -12,18 +12,11 @@ return {
     on_attach = function(buf)
       local gs = require("gitsigns")
 
-      -- ノーマルはカーソル行だけ、ビジュアルは選択行だけが対象になる
-      vim.keymap.set("n", "<leader>hs", function()
-        gs.stage_hunk({ vim.fn.line("."), vim.fn.line(".") })
-      end, { buffer = buf, desc = "カーソル行をステージ" })
       vim.keymap.set("v", "<leader>hs", function()
         -- line(".") がカーソル行、line("v") が選択の開始行
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
       end, { buffer = buf, desc = "選択行をステージ" })
 
-      vim.keymap.set("n", "<leader>hr", function()
-        gs.reset_hunk({ vim.fn.line("."), vim.fn.line(".") })
-      end, { buffer = buf, desc = "カーソル行をリセット" })
       vim.keymap.set("v", "<leader>hr", function()
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
       end, { buffer = buf, desc = "選択行をリセット" })

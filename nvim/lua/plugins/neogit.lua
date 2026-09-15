@@ -73,6 +73,47 @@ return {
       end)()
     end
 
+    -- cherry-pick popup の範囲選択(commit select)ではなく、checkout と同じ
+    -- ブランチ名の fuzzy 検索でブランチを選び、そのブランチにしかないコミットを
+    -- --no-commit で取り込む(git cherry-pick a..b --no-commit 相当)
+    do
+      local Builder = require("neogit.lib.popup.builder")
+      local original_build = Builder.build
+
+      local function apply_from_branch(popup)
+        local git = require("neogit.lib.git")
+        local notification = require("neogit.lib.notification")
+        local FuzzyFinderBuffer = require("neogit.buffers.fuzzy_finder")
+
+        local branch = FuzzyFinderBuffer.new(git.refs.list_branches())
+            :open_async({ prompt_prefix = "Apply from branch" })
+        if not branch then
+          return
+        end
+
+        -- git log HEAD..branch 相当(パッチ内容の重複判定はせず、単純なレンジで取得)
+        local commits =
+            git.cli["rev-list"].args("--reverse", ("HEAD..%s"):format(branch)).call({ hidden = true }).stdout
+
+        if #commits == 0 then
+          notification.warn("No commits to apply")
+          return
+        end
+
+        git.cherry_pick.apply(commits, popup:get_arguments())
+        notification.info(("Applied %d commit(s) from %q"):format(#commits, branch))
+      end
+
+      function Builder:build()
+        -- cherry-pick 中断中は "Apply" action が無いので、そちらには追加しない
+        if self.state.name == "NeogitCherryPickPopup" and self.state.keys["a"] then
+          self:action("b", "Apply from branch (--no-commit)", apply_from_branch)
+        end
+
+        return original_build(self)
+      end
+    end
+
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "NeogitStatus",
       callback = function(ev)
@@ -80,6 +121,14 @@ return {
         vim.keymap.set("n", "<leader>/", function()
           Snacks.picker.lines()
         end, { buffer = ev.buf, desc = "status の行を fuzzy 検索" })
+
+        -- 画面幅を超える行を折り返す
+        -- FileType 発火時点ではまだウィンドウに表示されていないことがあるため一tick遅らせる
+        vim.schedule(function()
+          for _, win in ipairs(vim.fn.win_findbuf(ev.buf)) do
+            vim.wo[win].wrap = true
+          end
+        end)
       end,
     })
 
