@@ -30,10 +30,11 @@ config.font = wezterm.font_with_fallback({
   "Apple Color Emoji",
 })
 
--- 左 Option を文字合成ではなく ALT として送る。
+-- 左右の Option を文字合成ではなく ALT として送る。
 -- fzf の Alt+C（配下ディレクトリへ移動）などを効かせるために必要。
 -- 引き換えに Option+A → å のような合成入力は使えなくなる。
 config.send_composed_key_when_left_alt_is_pressed = false
+config.send_composed_key_when_right_alt_is_pressed = false
 
 config.keys = {
   -- CMD+Enter を ALT+Enter として送る。受け手（Claude Code）は meta+enter として解釈する。

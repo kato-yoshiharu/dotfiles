@@ -10,6 +10,7 @@ brew install --cask firefox
 brew install --cask thebrowsercompany-dia
 
 brew install --cask docker
+brew install --cask karabiner-elements
 brew install --cask nikitabobko/tap/aerospace
 brew install --cask raycast
 brew install --cask tableplus

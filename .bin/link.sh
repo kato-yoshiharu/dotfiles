@@ -70,3 +70,7 @@ ln_files_in_dir "$DOTFILES_PATH/aerospace" "$HOME/.config/aerospace"
 # yazi
 mkdir -p "$HOME/.config/yazi"
 ln_files_in_dir "$DOTFILES_PATH/yazi" "$HOME/.config/yazi"
+
+# Karabiner-Elements
+mkdir -p "$HOME/.config/karabiner"
+ln_files_in_dir "$DOTFILES_PATH/karabiner" "$HOME/.config/karabiner"
