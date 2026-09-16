@@ -18,7 +18,7 @@ MY_TMPDIR=$(mktemp -d)
 
 restore_files() {
   while IFS= read -r FILE; do
-    TMPFILE="$MY_TMPDIR/$(echo "$FILE" | sha256sum | cut -c1-8)_$(basename "$FILE")"
+    TMPFILE="$MY_TMPDIR/$(echo "$FILE" | shasum -a 256 | cut -c1-8)_$(basename "$FILE")"
     [ -f "$TMPFILE" ] && cp "$TMPFILE" "$FILE"
   done <<< "$UNTRACKED_FILES"
   rm -rf "$MY_TMPDIR"
@@ -27,7 +27,7 @@ restore_files() {
 trap restore_files EXIT
 
 while IFS= read -r FILE; do
-  TMPFILE="$MY_TMPDIR/$(echo "$FILE" | sha256sum | cut -c1-8)_$(basename "$FILE")"
+  TMPFILE="$MY_TMPDIR/$(echo "$FILE" | shasum -a 256 | cut -c1-8)_$(basename "$FILE")"
   cp "$FILE" "$TMPFILE"
   true > "$FILE"
   git add "$FILE"
@@ -35,4 +35,4 @@ done <<< "$UNTRACKED_FILES"
 
 git commit -m "add empty files"
 
-git push
+git push -u origin HEAD
