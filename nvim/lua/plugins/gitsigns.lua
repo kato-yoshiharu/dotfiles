@@ -12,6 +12,22 @@ return {
     on_attach = function(buf)
       local gs = require("gitsigns")
 
+      vim.keymap.set("n", "]c", function()
+        if vim.wo.diff then
+          vim.cmd.normal({ "]c", bang = true })
+        else
+          gs.nav_hunk("next")
+        end
+      end, { buffer = buf, desc = "次のhunkに移動" })
+
+      vim.keymap.set("n", "[c", function()
+        if vim.wo.diff then
+          vim.cmd.normal({ "[c", bang = true })
+        else
+          gs.nav_hunk("prev")
+        end
+      end, { buffer = buf, desc = "前のhunkに移動" })
+
       vim.keymap.set("v", "<leader>hs", function()
         -- line(".") がカーソル行、line("v") が選択の開始行
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })

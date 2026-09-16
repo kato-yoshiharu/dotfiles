@@ -40,6 +40,12 @@ return {
     },
     treesitter_diff_highlight = true,
     disable_line_numbers = false,
+    mappings = {
+      status = {
+        ["]c"] = "GoToNextHunkHeader",
+        ["[c"] = "GoToPreviousHunkHeader",
+      },
+    },
   },
   config = function(_, opts)
     require("neogit").setup(opts)
