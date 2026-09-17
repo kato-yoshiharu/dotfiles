@@ -17,3 +17,5 @@
 	file = ~/.mailmap
 [status]
 	showUntrackedFiles = all
+[branch]
+	autoSetupMerge = simple
