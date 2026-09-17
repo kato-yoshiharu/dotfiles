@@ -40,6 +40,7 @@ return {
     },
     treesitter_diff_highlight = true,
     disable_line_numbers = false,
+    disable_hint = true,
     mappings = {
       status = {
         ["]c"] = "GoToNextHunkHeader",
