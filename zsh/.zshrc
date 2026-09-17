@@ -57,3 +57,14 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
 # bindkey -v の後に読み込む必要がある
 eval "$(fzf --zsh)"
+
+# ghq のリポジトリ配置先（既存の ~/development とは分離する）
+export GHQ_ROOT="$HOME/repos"
+
+# ghq で管理しているリポジトリを fzf で選んで cd する
+ghq-fzf-cd() {
+  local repo
+  repo=$(ghq list -p | fzf --prompt="ghq> ")
+  [[ -n "$repo" ]] && cd "$repo"
+}
+bindkey -s '^g' 'ghq-fzf-cd\n'
