@@ -182,6 +182,13 @@ return {
       desc = "文字列を検索",
     },
     {
+      "<leader>fb",
+      function()
+        Snacks.picker.buffers()
+      end,
+      desc = "開いているバッファを検索",
+    },
+    {
       "<leader>fp",
       function()
         Snacks.picker.projects()

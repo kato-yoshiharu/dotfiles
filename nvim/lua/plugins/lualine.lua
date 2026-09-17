@@ -100,6 +100,8 @@ return {
     require("lualine").setup({
       options = {
         theme = "dracula",
+        -- タブが1つしかないときは表示しない
+        always_show_tabline = false,
       },
       sections = {
         lualine_c = { filename_component },
@@ -107,6 +109,11 @@ return {
       -- 非アクティブなウィンドウは inactive_sections が別に使われるので、同じ設定を渡す
       inactive_sections = {
         lualine_c = { filename_component },
+      },
+      -- 画面上部（tabline）に Vim 組み込みのタブページ一覧を表示する。
+      -- バッファ一覧は bufferline が winbar 側に表示する
+      tabline = {
+        lualine_a = { "tabs" },
       },
     })
 
