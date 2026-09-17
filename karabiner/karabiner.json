@@ -56,6 +56,138 @@
                 "to": [{ "key_code": "right_arrow" }]
               }
             ]
+          },
+          {
+            "description": "shift+fn+hjkl to shift+arrow keys (extend selection, vim-like)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "h",
+                  "modifiers": { "mandatory": ["fn", "shift"] }
+                },
+                "to": [{ "key_code": "left_arrow", "modifiers": ["left_shift"] }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "j",
+                  "modifiers": { "mandatory": ["fn", "shift"] }
+                },
+                "to": [{ "key_code": "down_arrow", "modifiers": ["left_shift"] }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "k",
+                  "modifiers": { "mandatory": ["fn", "shift"] }
+                },
+                "to": [{ "key_code": "up_arrow", "modifiers": ["left_shift"] }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "l",
+                  "modifiers": { "mandatory": ["fn", "shift"] }
+                },
+                "to": [{ "key_code": "right_arrow", "modifiers": ["left_shift"] }]
+              }
+            ]
+          },
+          {
+            "description": "cmd+fn+hjkl to cmd+arrow keys (line start/end, doc start/end, vim-like)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "h",
+                  "modifiers": { "mandatory": ["command", "fn"], "optional": ["any"] }
+                },
+                "to": [{ "key_code": "left_arrow", "modifiers": ["left_command"] }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "j",
+                  "modifiers": { "mandatory": ["command", "fn"], "optional": ["any"] }
+                },
+                "to": [{ "key_code": "down_arrow", "modifiers": ["left_command"] }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "k",
+                  "modifiers": { "mandatory": ["command", "fn"], "optional": ["any"] }
+                },
+                "to": [{ "key_code": "up_arrow", "modifiers": ["left_command"] }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "l",
+                  "modifiers": { "mandatory": ["command", "fn"], "optional": ["any"] }
+                },
+                "to": [{ "key_code": "right_arrow", "modifiers": ["left_command"] }]
+              }
+            ]
+          },
+          {
+            "description": "shift+cmd+fn+hjkl to shift+cmd+arrow keys (extend selection to line/doc start/end, vim-like)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "h",
+                  "modifiers": { "mandatory": ["command", "shift", "fn"], "optional": ["any"] }
+                },
+                "to": [{ "key_code": "left_arrow", "modifiers": ["left_command", "left_shift"] }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "j",
+                  "modifiers": { "mandatory": ["command", "shift", "fn"], "optional": ["any"] }
+                },
+                "to": [{ "key_code": "down_arrow", "modifiers": ["left_command", "left_shift"] }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "k",
+                  "modifiers": { "mandatory": ["command", "shift", "fn"], "optional": ["any"] }
+                },
+                "to": [{ "key_code": "up_arrow", "modifiers": ["left_command", "left_shift"] }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "l",
+                  "modifiers": { "mandatory": ["command", "shift", "fn"], "optional": ["any"] }
+                },
+                "to": [{ "key_code": "right_arrow", "modifiers": ["left_command", "left_shift"] }]
+              }
+            ]
+          },
+          {
+            "description": "control+fn+f/b to page down/up (vim-like)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f",
+                  "modifiers": { "mandatory": ["control", "fn"], "optional": ["any"] }
+                },
+                "to": [{ "key_code": "page_down" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "b",
+                  "modifiers": { "mandatory": ["control", "fn"], "optional": ["any"] }
+                },
+                "to": [{ "key_code": "page_up" }]
+              }
+            ]
           }
         ]
       },
