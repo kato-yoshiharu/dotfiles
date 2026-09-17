@@ -49,6 +49,18 @@ config.keys = {
     mods = "CMD",
     action = wezterm.action.SendKey({ key = "z", mods = "ALT" }),
   },
+  -- Ctrl+Tab / Ctrl+Shift+Tab は wezterm のタブ切り替えに既定で割り当てられているため無効化し、
+  -- herdr のワークスペース切り替え（next_workspace / previous_workspace）に渡す。
+  {
+    key = "Tab",
+    mods = "CTRL",
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+  {
+    key = "Tab",
+    mods = "CTRL|SHIFT",
+    action = wezterm.action.DisableDefaultAssignment,
+  },
 }
 
 return config
