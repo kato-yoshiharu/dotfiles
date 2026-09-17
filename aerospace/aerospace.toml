@@ -142,7 +142,7 @@ alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
 alt-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
 alt-b = 'workspace B'
-alt-c = 'workspace C'
+# fzf の Alt+C (ディレクトリ fuzzy 検索 cd) と衝突するため無効化
 alt-d = 'workspace D'
 alt-e = 'workspace E'
 alt-f = 'workspace F'
