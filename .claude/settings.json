@@ -8,6 +8,10 @@
     "defaultMode": "auto"
   },
   "model": "sonnet",
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "hooks": {
     "PreToolUse": [
       {
