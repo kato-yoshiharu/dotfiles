@@ -137,6 +137,61 @@ return {
       end,
     })
 
+    -- branch popup の delete(D) は fuzzy finder で Tab により複数マークしても先頭の1つしか
+    -- 削除しないため、マークしたブランチをすべて受け取り、ローカルは git branch -d、
+    -- リモート(origin/xxx)は git push origin --delete xxx で1つずつ削除する
+    do
+      local branch_actions = require("neogit.popups.branch.actions")
+
+      function branch_actions.delete_branch(popup)
+        local git = require("neogit.lib.git")
+        local input = require("neogit.lib.input")
+        local notification = require("neogit.lib.notification")
+        local event = require("neogit.lib.event")
+        local util = require("neogit.lib.util")
+        local FuzzyFinderBuffer = require("neogit.buffers.fuzzy_finder")
+
+        local options = util.deduplicate(util.merge({ popup.state.env.ref_name }, git.refs.list_branches()))
+        local selected = FuzzyFinderBuffer.new(options)
+            :open_async({ prompt_prefix = "Delete branch", refocus_status = false, allow_multi = true })
+        if not selected or #selected == 0 then
+          return
+        end
+
+        local message = #selected == 1 and ("Delete branch '%s'?"):format(selected[1])
+            or ("Delete %d branches? (%s)"):format(#selected, table.concat(selected, ", "))
+        if not input.get_permission(message) then
+          return
+        end
+
+        local current = git.branch.current()
+        for _, name in ipairs(selected) do
+          local remote, branch_name = git.branch.parse_remote_branch(name)
+          if remote and remote ~= "." and branch_name then
+            local result = git.cli.push.remote(remote).delete.to(branch_name).call({ await = true })
+            if result:success() then
+              notification.info(("Deleted remote branch '%s/%s'"):format(remote, branch_name))
+              event.send("BranchDelete", { branch_name = branch_name })
+            else
+              notification.error(("Failed to delete '%s/%s'\n%s"):format(
+                remote, branch_name, table.concat(result.stderr, "\n")))
+            end
+          elseif branch_name == current then
+            -- チェックアウト中のブランチは消せないのでスキップする
+            notification.warn(("Skipped '%s': currently checked out"):format(branch_name))
+          elseif branch_name then
+            -- 未マージのコミットがあれば、強制削除してよいか git.branch.delete が確認する
+            if git.branch.delete(branch_name) then
+              notification.info(("Deleted branch '%s'"):format(branch_name))
+              event.send("BranchDelete", { branch_name = branch_name })
+            else
+              notification.error(("Failed to delete branch '%s'"):format(branch_name))
+            end
+          end
+        end
+      end
+    end
+
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "NeogitStatus",
       callback = function(ev)
