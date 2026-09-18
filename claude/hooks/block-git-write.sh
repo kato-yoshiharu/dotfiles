@@ -25,6 +25,8 @@ OPTS="(${SP}+(-[cC]${SP}+${TOK}+|--${VAL}${SP}+${TOK}+|-${TOK}+))*"
 SUB="${SP}+(commit|push|merge|rebase|pull)(${SP}|\$)"
 
 # ; & | ( ) 改行 を改行に潰し、各コマンドの先頭を行頭に揃えてから照合する。
+# クォート内の文字列（pbcopy に渡すコマンド例など）はコマンド区切りではないため、
+# 先に単引用符・二重引用符で囲まれた範囲を空にしてから区切り文字を潰す。
 jq -r '.tool_input.command // empty' |
   tr ';&|()\n' '\n' |
   grep -qE "^${SP}*$ENV$WRAP$GIT$OPTS$SUB" || exit 0
