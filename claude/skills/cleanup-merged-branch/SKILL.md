@@ -48,6 +48,11 @@ description: >-
    ```
 
 5. worktree に未コミット・未pushの変更が残っていないか確認する。残っていれば、破棄してよいかをユーザーに確認する。
+6. worktree を使っていた場合、対応する herdr workspace が残っていないか確認する(`herdr workspace list` の
+   `worktree.checkout_path` で該当 worktree のパスを探す)。見つかれば、閉じてよいかユーザーに確認し、
+   承認されたら `herdr workspace close <workspace_id> --group` を実行する。
+7. worktree を使っていた場合、動作確認のためにその worktree を指すよう実環境側(`~/.commands` など)で
+   張り替えた symlink が無いか確認し、あればユーザーに伝える。
 
 ## ルール
 
