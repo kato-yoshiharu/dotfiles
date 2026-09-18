@@ -25,7 +25,6 @@ OPTS="(${SP}+(-[cC]${SP}+${TOK}+|--${VAL}${SP}+${TOK}+|-${TOK}+))*"
 SUB="${SP}+(commit|push|merge|rebase|pull)(${SP}|\$)"
 
 jq -r '.tool_input.command // empty' |
-  tr ';&|()\n' '\n' |
   grep -qE "^${SP}*$ENV$WRAP$GIT$OPTS$SUB" || exit 0
 
 # PreToolUse では exit 2 がブロックを意味し、stderr がそのまま理由として渡る
