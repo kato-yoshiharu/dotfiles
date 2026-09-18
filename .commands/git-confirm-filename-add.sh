@@ -1,11 +1,9 @@
 #!/bin/bash
 set -e
 
-# ステージ済みの変更があると、意図しない差分まで commit されるので中断する
-if ! git diff --cached --quiet; then
-  echo "There are staged changes." >&2
-  exit 1
-fi
+current_branch=$(git branch | grep \* | cut -d ' ' -f2)
+
+sh "$(dirname "$0")/git-require-remote-branch.sh" "$current_branch"
 
 UNTRACKED_FILES=$(git ls-files --others --exclude-standard)
 
@@ -33,6 +31,11 @@ while IFS= read -r FILE; do
   git add "$FILE"
 done <<< "$UNTRACKED_FILES"
 
-git commit -m "add empty files"
+UNTRACKED_FILES_ARR=()
+while IFS= read -r FILE; do
+  UNTRACKED_FILES_ARR+=("$FILE")
+done <<< "$UNTRACKED_FILES"
+
+git commit -m "add empty files" -- "${UNTRACKED_FILES_ARR[@]}"
 
 git push -u origin HEAD

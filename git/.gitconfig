@@ -3,10 +3,11 @@
     name = kato-yoshiharu
 [alias]
 	cbn = !sh ~/.commands/check-branch-name.sh
-	ccm = !sh ~/.commands/check-commit-message.sh
 	ptb = !sh ~/.commands/push-trial-branch.sh
-	cn = !git commit -m "confirmed" && git push
-	ae = !sh ~/.commands/git-add-empty.sh
+	cfa = !sh ~/.commands/git-confirm-filename-add.sh
+	cfr = !sh ~/.commands/git-confirm-filename-rename.sh
+	cc = !sh ~/.commands/git-confirmed-commit.sh
+	ctd = !sh ~/.commands/git-check-trial-diff.sh
 [push]
 	autoSetupRemote = true
 [core]

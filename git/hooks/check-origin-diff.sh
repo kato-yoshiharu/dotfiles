@@ -6,6 +6,11 @@ if [ -z "$BRANCH" ]; then
   exit 0
 fi
 
+# trial ブランチはローカルのみで使う(originにpushしない)想定のため対象外にする
+if [ "$BRANCH" = "trial" ]; then
+  exit 0
+fi
+
 # Check if origin exists
 if ! git remote get-url origin > /dev/null 2>&1; then
   exit 0
@@ -17,8 +22,9 @@ fi
 # fi
 
 # Check if origin/<branch> exists
-if ! git rev-parse "origin/$BRANCH" > /dev/null 2>&1; then
-  exit 0
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+if ! "$SCRIPT_DIR/../../.commands/git-require-remote-branch.sh" "$BRANCH"; then
+  exit 1
 fi
 
 UNPUSHED=$(git rev-list HEAD ^"origin/$BRANCH" --count 2>/dev/null)

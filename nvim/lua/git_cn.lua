@@ -1,4 +1,4 @@
--- 選択行だけをステージして `git cn`（commit -m "confirmed" && push）するための共通処理
+-- 選択行だけをステージして `git cc`（commit -m "confirmed" && push）するための共通処理
 local M = {}
 
 local function git(cwd, args)
@@ -11,7 +11,7 @@ function M.index_is_clean(cwd)
   if out.code == 0 then
     return true
   end
-  vim.notify("git cn: ステージ済みの変更があります。", vim.log.levels.ERROR)
+  vim.notify("git cc: ステージ済みの変更があります。", vim.log.levels.ERROR)
   return false
 end
 
@@ -27,18 +27,18 @@ function M.commit(cwd)
       -- 100ms x 20 = 約2秒。hunk の stage は通常数十msで終わるため、
       -- これを超えるのは stage 失敗か対象なしとみなして打ち切る
       if tries > 20 then
-        vim.notify("git cn: ステージされた変更がありません", vim.log.levels.WARN)
+        vim.notify("git cc: ステージされた変更がありません", vim.log.levels.WARN)
         return
       end
       vim.defer_fn(run, 100)
       return
     end
-    vim.system({ "git", "cn" }, { cwd = cwd, text = true }, function(out)
+    vim.system({ "git", "cc" }, { cwd = cwd, text = true }, function(out)
       vim.schedule(function()
         if out.code == 0 then
-          vim.notify("git cn: commit && push しました")
+          vim.notify("git cc: commit && push しました")
         else
-          vim.notify("git cn 失敗:\n" .. (out.stderr or ""), vim.log.levels.ERROR)
+          vim.notify("git cc 失敗:\n" .. (out.stderr or ""), vim.log.levels.ERROR)
         end
       end)
     end)

@@ -109,7 +109,7 @@ return {
           vim.fn.feedkeys("s", "mx")
         end, { buffer = ev.buf, desc = "選択行をステージ" })
 
-        -- 選択行（ノーマルモードはカーソル位置）を fugitive の s でステージして git cn
+        -- 選択行（ノーマルモードはカーソル位置）を fugitive の s でステージして git cc
         vim.keymap.set({ "n", "v" }, "<leader>cn", function()
           local git_cn = require("git_cn")
           local cwd = vim.fn.getcwd()
@@ -119,7 +119,7 @@ return {
           -- ステージは fugitive 側のキーマップ（s）に任せる。m でそのマッピングを展開する
           vim.fn.feedkeys("s", "mx")
           git_cn.commit(cwd)
-        end, { buffer = ev.buf, desc = "選択行をステージして git cn" })
+        end, { buffer = ev.buf, desc = "選択行をステージして git cc" })
       end,
     })
   end,
