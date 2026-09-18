@@ -34,6 +34,9 @@ return {
       end, { buffer = buf, desc = "選択行をステージ" })
 
       vim.keymap.set("v", "<leader>hr", function()
+        if vim.fn.confirm("選択行の変更を破棄しますか？", "&Yes\n&No", 2) ~= 1 then
+          return
+        end
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
       end, { buffer = buf, desc = "選択行をリセット" })
     end,

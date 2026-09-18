@@ -200,6 +200,21 @@ return {
           Snacks.picker.lines()
         end, { buffer = ev.buf, desc = "status の行を fuzzy 検索" })
 
+        -- gitsigns（通常のバッファ）と同じキーで押せるように、neogit標準の s / x に委譲する。
+        -- discard は確認ダイアログを伴う非同期処理なので、"x"フラグ(即時実行)だと
+        -- ダイアログの応答待ちとかみ合わないことがあるため、次のtickに回す
+        vim.keymap.set("v", "<leader>hs", function()
+          vim.schedule(function()
+            vim.fn.feedkeys("s", "m")
+          end)
+        end, { buffer = ev.buf, desc = "選択行をステージ" })
+
+        vim.keymap.set("v", "<leader>hr", function()
+          vim.schedule(function()
+            vim.fn.feedkeys("x", "m")
+          end)
+        end, { buffer = ev.buf, desc = "選択行をリセット(discard)" })
+
         -- visual選択でのstage/unstageは選択範囲がまとめて消えるため、カーソル行ではなく
         -- 選択範囲の一番上の行を覚えておく(そこに後続の項目が繰り上がってくる)
         vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
