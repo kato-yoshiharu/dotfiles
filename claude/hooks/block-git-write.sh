@@ -24,7 +24,7 @@ OPTS="(${SP}+(-[cC]${SP}+${TOK}+|--${VAL}${SP}+${TOK}+|-${TOK}+))*"
 # 拒否するサブコマンド。末尾の境界で commit-graph などを除く
 SUB="${SP}+(commit|push|merge|rebase|pull)(${SP}|\$)"
 
-# ; & | ( ) 改行 を改行に潰し、各コマンドの先頭を行頭に揃えてから照合する
+# ; & | ( ) 改行 を改行に潰し、各コマンドの先頭を行頭に揃えてから照合する。
 jq -r '.tool_input.command // empty' |
   tr ';&|()\n' '\n' |
   grep -qE "^${SP}*$ENV$WRAP$GIT$OPTS$SUB" || exit 0
