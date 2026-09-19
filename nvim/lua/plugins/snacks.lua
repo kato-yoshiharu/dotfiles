@@ -228,6 +228,10 @@ return {
       sources = {
         -- ファイル一覧を走査順ではなく、ディレクトリ優先のパス順で並べる
         files = { sort = sort_dirs_first, hidden = true, ignored = true },
+        projects = {
+          dev = { "~/development" },
+          max_depth = 3,
+        },
         -- ファイラはデフォルトで左に出るので右に寄せる
         explorer = {
           layout = { layout = { position = "right" } },
