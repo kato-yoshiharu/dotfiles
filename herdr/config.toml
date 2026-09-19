@@ -75,8 +75,10 @@ reload_config = "prefix+shift+r"
 # remove_worktree = ""  # optional, unset by default; opens confirmation
 # rename_workspace = "prefix+shift+w"
 # close_workspace = "prefix+shift+d"
-previous_workspace = "ctrl+shift+tab"
-next_workspace = "ctrl+tab"
+# herdr の workspace を tmux の session のように使うため、tmux の session 切り替え
+# prefix+( / prefix+) に合わせている。
+previous_workspace = "ctrl+9"
+next_workspace = "ctrl+0"
 # previous_agent = ""     # optional, unset by default
 # next_agent = ""         # optional, unset by default
 # focus_agent = ""        # optional indexed binding, e.g. "prefix+alt+1..9"
@@ -99,9 +101,9 @@ switch_workspace = "prefix+shift+1..9"
 # last_pane = ""          # optional, unset by default; bind e.g. "prefix+tab" for global back-and-forth
 split_vertical = "prefix+%"
 split_horizontal = "prefix+\""
-# close_pane = "prefix+x"
-# zoom = "prefix+z"       # legacy alias: fullscreen
-# resize_mode = "prefix+r"
+close_pane = "prefix+x"
+zoom = "prefix+z"              # legacy alias: fullscreen
+resize_mode = "prefix+r"
 # toggle_sidebar = "prefix+b"
 
 # Navigate-mode movement. These local shortcuts win while navigate mode is open.

@@ -72,6 +72,18 @@ local custom_commands = {
       end)
     end,
   },
+  {
+    text = "Close Other Buffers",
+    fn = function()
+      vim.cmd("BufferLineCloseOthers")
+    end,
+  },
+  {
+    text = "Close All Buffers",
+    fn = function()
+      vim.cmd("%bd | enew")
+    end,
+  },
 }
 
 -- 自作コマンドと Ex コマンドをまとめた1つのピッカーとして開く
@@ -196,7 +208,7 @@ return {
       desc = "プロジェクトを検索（cwd ごと切り替える）",
     },
     {
-      "<leader>p",
+      "<leader>P",
       open_command_palette,
       desc = "コマンドパレット（Ex コマンド + 自作コマンド）",
     },

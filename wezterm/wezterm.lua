@@ -50,7 +50,7 @@ config.keys = {
     action = wezterm.action.SendKey({ key = "z", mods = "ALT" }),
   },
   -- Ctrl+Tab / Ctrl+Shift+Tab は wezterm のタブ切り替えに既定で割り当てられているため無効化し、
-  -- herdr のワークスペース切り替え（next_workspace / previous_workspace）に渡す。
+  -- 素のキーとして nvim のバッファ切り替えに渡す。
   {
     key = "Tab",
     mods = "CTRL",
@@ -59,6 +59,13 @@ config.keys = {
   {
     key = "Tab",
     mods = "CTRL|SHIFT",
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+  -- Ctrl+0 は wezterm のフォントサイズリセットに既定で割り当てられているため無効化し、
+  -- herdr のワークスペース切り替え（next_workspace）に渡す。
+  {
+    key = "0",
+    mods = "CTRL",
     action = wezterm.action.DisableDefaultAssignment,
   },
 }
