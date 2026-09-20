@@ -203,6 +203,21 @@ return {
     {
       "<leader>fp",
       function()
+        Snacks.picker.projects({
+          -- cwd は変えず、そのプロジェクトの内容だけ覗く
+          confirm = function(picker, item)
+            picker:close()
+            if item then
+              Snacks.picker.files({ cwd = item.file })
+            end
+          end,
+        })
+      end,
+      desc = "プロジェクトを検索（cwd を変えずに覗く）",
+    },
+    {
+      "<leader>fP",
+      function()
         Snacks.picker.projects()
       end,
       desc = "プロジェクトを検索（cwd ごと切り替える）",
