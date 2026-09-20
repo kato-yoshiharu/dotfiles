@@ -52,7 +52,7 @@ claude() {
 eval "$(zoxide init zsh)"
 
 # fzf の探索コマンドを fd に差し替える
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+export FZF_DEFAULT_COMMAND='fd --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
 # bindkey -v の後に読み込む必要がある
