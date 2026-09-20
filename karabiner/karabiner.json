@@ -12,10 +12,6 @@
         {
           "from": { "key_code": "left_command" },
           "to": [{ "key_code": "fn" }]
-        },
-        {
-          "from": { "key_code": "right_option" },
-          "to": [{ "key_code": "right_command" }]
         }
       ],
       "complex_modifications": {
