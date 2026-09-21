@@ -234,6 +234,42 @@ return {
       end,
       desc = "git のコミット履歴",
     },
+    -- LSP（Neovim 0.11 の既定キー gr* / gO を snacks のピッカーに差し替える）
+    {
+      "gd",
+      function()
+        Snacks.picker.lsp_definitions()
+      end,
+      desc = "定義にジャンプ",
+    },
+    {
+      "grr",
+      function()
+        Snacks.picker.lsp_references()
+      end,
+      desc = "参照箇所を検索",
+    },
+    {
+      "gri",
+      function()
+        Snacks.picker.lsp_implementations()
+      end,
+      desc = "実装を検索",
+    },
+    {
+      "grt",
+      function()
+        Snacks.picker.lsp_type_definitions()
+      end,
+      desc = "型定義にジャンプ",
+    },
+    {
+      "gO",
+      function()
+        Snacks.picker.lsp_symbols()
+      end,
+      desc = "ファイル内のシンボルを検索",
+    },
   },
   opts = {
     picker = {
