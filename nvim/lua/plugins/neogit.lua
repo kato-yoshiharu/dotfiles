@@ -13,11 +13,22 @@ return {
       "<leader>gs",
       function()
         local neogit = require("neogit")
-        -- status バッファが表示中なら閉じる
-        for _, win in ipairs(vim.api.nvim_list_wins()) do
-          if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "NeogitStatus" then
-            neogit.close()
-            return
+        -- status バッファが今のタブで表示中なら閉じる。
+        -- 別タブで開いている場合は neogit.open() を呼ぶと(kind="tab"のため)重複して新しいタブが作られ、
+        -- self.buffer の参照先と実際に見ている画面がズレてキー入力が効かなくなるため、
+        -- 単にそのタブへ移動するだけにする
+        local current_tab = vim.api.nvim_get_current_tabpage()
+        for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+          for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+            if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "NeogitStatus" then
+              if tab == current_tab then
+                neogit.close()
+              else
+                vim.api.nvim_set_current_tabpage(tab)
+                vim.api.nvim_set_current_win(win)
+              end
+              return
+            end
           end
         end
         neogit.open()
@@ -50,6 +61,33 @@ return {
   },
   config = function(_, opts)
     require("neogit").setup(opts)
+
+    -- status バッファが別タブで開いている状態からもう一度 status を開くと、
+    -- neogit の Buffer:is_visible() がカレントタブしか見ないため既存インスタンスが再構築され、
+    -- その過程で古いキーマップが self.buffer == nil のまま発火してクラッシュする
+    -- (n_goto_file, n_down など発火するアクションはその時々で変わる)。
+    -- アクション個別ではなく status.actions 全体に対して汎用的にガードをかける
+    do
+      local actions = require("neogit.buffers.status.actions")
+
+      for name, action_fn in pairs(actions) do
+        if type(action_fn) == "function" then
+          actions[name] = function(self, ...)
+            local fn = action_fn(self, ...)
+            if type(fn) ~= "function" then
+              return fn
+            end
+
+            return function(...)
+              if not self.buffer then
+                return
+              end
+              return fn(...)
+            end
+          end
+        end
+      end
+    end
 
     -- COMMIT_EDITMSG バッファを開くと誤って他の行を編集してしまう不安があるため、
     -- ブランチ名入力と同じ一行入力欄でメッセージを受け取ってコミットする
