@@ -28,25 +28,34 @@ description: >-
      で、対象リポジトリのメイン worktree(最初のチェックアウト、`git worktree list` の1行目)の`_local` に symlink する。
      `_local` はそのリポジトリに閉じたローカルメモで、同一リポジトリの worktree 間でのみ共有する(他のリポジトリの `_local` とは別物)。
      メイン worktree に `_local` が無ければ `mkdir -p <メイン worktree>/_local` で先に作成する。
-3. 手順1で作成済みの workspace の `root_pane.pane_id` を使って Claude Code セッションを起動し、実装作業を委譲する
-   (「herdr でセッションを委譲する」を参照)。
+3. 手順1で作成済みの workspace の `root_pane.pane_id` を左ペインとして使い、そこで nvim を起動する。
+   その右に新規ペインを分割し、そちらで Claude Code セッションを起動して実装作業を委譲する
+   (「herdr でペインを分割してセッションを委譲する」を参照)。
 
-### herdr でセッションを委譲する
+### herdr でペインを分割してセッションを委譲する
 
 引き継ぎメッセージの組み立て方は `delegate-to-sub-session` スキルに従うが、完了報告を委譲元(自分)に返す部分は使わない。
-委譲先セッションを起動するペインの用意方法も異なる(ペイン分割ではなく、手順1で `herdr worktree create` が作成済みの workspace のペインを使う)。
 
 ```bash
+# <left_pane_id> は手順1の `herdr worktree create` レスポンスの .result.root_pane.pane_id
+herdr pane run <left_pane_id> nvim
+
+# 右に新規ペインを分割し、そこで Claude Code を起動する
+herdr pane split --pane <left_pane_id> --direction right --cwd <worktree>
+# 上記レスポンスの .result.pane.pane_id が <right_pane_id>
+
 cat > <スクラッチパッド>/handoff.txt <<'HANDOFF_EOF'
 <delegate-to-sub-session のテンプレートに沿った引き継ぎ内容>
 HANDOFF_EOF
-# <pane_id> は手順1の `herdr worktree create` レスポンスの .result.root_pane.pane_id
-herdr agent start "<branch-name>" --kind claude --pane <pane_id> -- "$(cat <スクラッチパッド>/handoff.txt)"
+herdr agent start "<branch-name>" --kind claude --pane <right_pane_id>
+herdr agent prompt "<branch-name>" "$(cat <スクラッチパッド>/handoff.txt)"
 ```
 
 - `<branch-name>` は herdr 上のラベル・エージェント名にもなるので、`[a-z][a-z0-9_-]{0,31}` に収まる短い名前にする。
 - `herdr agent start` が失敗する場合は `herdr agent list` / `herdr pane list` で該当 workspace のペインを再確認する
   (shell起動直後の環境によっては claude が自動起動しており pane_id がずれることがある)。
+- `herdr agent start` の `--` 経由での初回メッセージ渡しは失敗することがある(`invalid_agent_argument`)ため、
+  `agent start` でペインを起動してから `agent prompt` でメッセージを送る2段階に分ける。
 
 ## ルール
 
