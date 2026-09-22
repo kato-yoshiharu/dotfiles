@@ -281,7 +281,8 @@ return {
         files = { sort = sort_dirs_first, hidden = true, ignored = true },
         projects = {
           dev = { "~/development" },
-          max_depth = 3,
+          -- worktree配下（development/xxx/xxx-worktrees/yyy/.git）まで届くように
+          max_depth = 4,
         },
         -- ファイラはデフォルトで左に出るので右に寄せる
         explorer = {
