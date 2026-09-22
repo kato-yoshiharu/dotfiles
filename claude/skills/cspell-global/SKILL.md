@@ -1,24 +1,28 @@
 ---
 name: cspell-global
-description: グローバルの cspell 個人辞書（dotfiles の cspell.json）に単語を追加する。「cspell に追加して」「スペルチェックに登録して」「unknown word を許可して」など、cspell の未知語エラーを解消したいときに使う。
+description: グローバルの cspell 個人辞書（dotfiles の cspell-global worktree の cspell.json）に単語を追加する。「cspell に追加して」「スペルチェックに登録して」「unknown word を許可して」など、cspell の未知語エラーを解消したいときに使う。
 ---
 
 # グローバル cspell 辞書に単語を追加する
 
-対象ファイル: `~/development/suimenkathemove/dotfiles/cspell.json`
+対象ファイル: `~/development/suimenkathemove/dotfiles-worktrees/cspell-global/cspell.json`
 
-これは `install/install.sh` の `cspell link add` でグローバル設定として登録されている個人辞書。
+これは dotfiles リポジトリの `cspell-global` という名前の git worktree（ブランチ `cspell-global`）で、このグローバル辞書の編集専用に運用している。
+このスキルは常にこの専用 worktree の `cspell.json` を編集対象にする。
 
 プロジェクト固有の用語（そのリポジトリでしか使わない造語など）は、そこにプロジェクトローカルの
 `cspell.json` があればそちらに追加するか、ユーザーにどちらへ入れるか確認する。
 
 ## 手順
 
-1. 追加する単語を決める。
+1. 対象ファイルが存在するか確認する。存在しない場合は、dotfiles リポジトリで
+   `git worktree add ~/development/suimenkathemove/dotfiles-worktrees/cspell-global -b cspell-global origin/main`
+   などにより `cspell-global` worktree を作成してよいかユーザーに確認する。
+2. 追加する単語を決める。
    ユーザーが明示していない場合は、cspell の出力や対象ファイルから未知語を集める。
    - `npx cspell <path>` または `npx cspell lint --words-only --unique <path>` で未知語一覧を取得できる。
-2. `cspell.json` を Read し、Edit で `words` 配列の**正しい並び順の位置**に単語を挿入する。
-3. 追加後に `npx cspell <path>` を再実行して、エラーが解消したことを確認する。
+3. `cspell.json` を Read し、Edit で `words` 配列の**正しい並び順の位置**に単語を挿入する。
+4. 追加後に `npx cspell <path>` を再実行して、エラーが解消したことを確認する。
 
 ## ルール
 
