@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# PreToolUse(Bash) フック。git commit / git push / git merge / git rebase / git pull を拒否する。
+# PreToolUse(Bash) フック。git add / git commit / git push / git merge / git rebase / git pull を拒否する。
 # ブロックするときだけ stderr に理由を書いて exit 2 で終わる。exit 0 ならコマンドは通る。
 
 set -u
@@ -22,7 +22,7 @@ VAL='(exec-path|git-dir|work-tree|namespace|config-env)'
 # サブコマンド前のグローバルオプションを読み飛ばす。-c user.name=x、--git-dir /p、--no-pager
 OPTS="(${SP}+(-[cC]${SP}+${TOK}+|--${VAL}${SP}+${TOK}+|-${TOK}+))*"
 # 拒否するサブコマンド。末尾の境界で commit-graph などを除く
-SUB="${SP}+(commit|push|merge|rebase|pull)(${SP}|\$)"
+SUB="${SP}+(add|commit|push|merge|rebase|pull)(${SP}|\$)"
 
 # ; & | ( ) 改行 を改行に潰し、各コマンドの先頭を行頭に揃えてから照合する
 jq -r '.tool_input.command // empty' |
@@ -30,5 +30,5 @@ jq -r '.tool_input.command // empty' |
   grep -qE "^${SP}*$ENV$WRAP$GIT$OPTS$SUB" || exit 0
 
 # PreToolUse では exit 2 がブロックを意味し、stderr がそのまま理由として渡る
-echo 'git commit / git push / git merge / git rebase / git pull はブロックされている。' >&2
+echo 'git add / git commit / git push / git merge / git rebase / git pull はブロックされている。' >&2
 exit 2
