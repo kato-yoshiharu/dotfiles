@@ -94,7 +94,6 @@ return {
     local function commit_with_input()
       local a = require("neogit.lib.async")
       local git = require("neogit.lib.git")
-      local input = require("neogit.lib.input")
       local notification = require("neogit.lib.notification")
 
       a.void(function()
@@ -103,7 +102,17 @@ return {
           return
         end
 
-        local msg = input.get_user_input("Commit message", { strip_spaces = false })
+        -- neogit.lib.input 経由の vim.ui.input だとコミットメッセージの内容の境界をわかりやすくするための下線が引けないため、
+        -- Snacks.input を直接呼んでいる(下線の色は dracula.lua の NeogitCommitInputUnderline を参照)
+        local msg = a.wrap(function(opts, on_confirm)
+          Snacks.input(opts, on_confirm)
+        end, 2)({
+          prompt = "Commit message",
+          win = { width = 20 },
+          highlight = function(text)
+            return { { 0, #text, "NeogitCommitInputUnderline" } }
+          end,
+        })
         if not msg or msg == "" then
           return
         end

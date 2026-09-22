@@ -32,6 +32,9 @@ return {
       set(0, "SnacksNormalNC", { bg = "none" })
       set(0, "SnacksWinBar", { bg = "none" })
       set(0, "SnacksWinBarNC", { bg = "none" })
+
+      -- neogit のコミットメッセージ入力欄で、入力済み文字列の下に引く下線の色（nvim/lua/plugins/neogit.lua から参照）
+      set(0, "NeogitCommitInputUnderline", { underline = true, sp = "#bd93f9" })
     end
 
     -- colorscheme を読み直したときに上書きが巻き戻らないようにする
