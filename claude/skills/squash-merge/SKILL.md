@@ -28,10 +28,14 @@ description: >-
    - 入力欄は1回の送信（Enter）につき1コマンドが単位のため、複数のコマンドを確実に一括実行させるには `!` を先頭に付けた1行に `&&` で連結してまとめる。
    - コミットメッセージは、マージ先ブランチ（`<target-branch>`）と現在のブランチの差分の内容から1行で要約して提案する。
      本文（複数行・箇条書き）は付けない。
+   - カレントディレクトリが squash merge 元ブランチの worktree である場合、
+     このコマンドは worktree を一時的に `<target-branch>` へチェックアウトするため、
+     最後に `git checkout <branch-name>` で元に戻す。
+   - `<target-branch>` 自身の worktree で実行する場合は、このチェックアウト戻しは不要。
 
    <!-- markdownlint-disable MD013 -->
    ```text
-   !git checkout <target-branch> && git pull origin <target-branch> && git merge --squash <branch-name> && git commit -m "<squashコミットのメッセージ>" && git push origin <target-branch>
+   !git checkout <target-branch> && git pull origin <target-branch> && git merge --squash <branch-name> && git commit -m "<squashコミットのメッセージ>" && git push origin <target-branch> && git checkout <branch-name>
    ```
    <!-- markdownlint-enable MD013 -->
 5. squash merge 後、現在のブランチ（squash merge 元、および worktree・リモートブランチ）の削除は `cleanup-merged-branch` スキルに従う。
