@@ -32,6 +32,7 @@ brew install neovim
 brew install tree-sitter-cli
 brew install tmux
 brew install xh
+brew install lazysql
 
 # mise
 brew install mise
