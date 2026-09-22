@@ -33,6 +33,7 @@ brew install tree-sitter-cli
 brew install tmux
 brew install xh
 brew install lazysql
+brew install posting
 
 # mise
 brew install mise
