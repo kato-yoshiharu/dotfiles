@@ -275,6 +275,18 @@ return {
     -- インデントの深さに縦線を表示する
     indent = {
       enabled = true,
+      indent = {
+        -- 階層ごとに色を変える（レインボー表示）。dracula.lua の SnacksIndent1〜7 を巡回する
+        hl = {
+          "SnacksIndent1",
+          "SnacksIndent2",
+          "SnacksIndent3",
+          "SnacksIndent4",
+          "SnacksIndent5",
+          "SnacksIndent6",
+          "SnacksIndent7",
+        },
+      },
       -- 現在のスコープを目立つ色でアニメーション表示する機能は不要なので無効にする
       scope = { enabled = false },
     },

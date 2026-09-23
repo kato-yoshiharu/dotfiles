@@ -39,6 +39,15 @@ return {
       -- インデントガイドの縦線・不可視文字（space/tab）を明るくする
       set(0, "SnacksIndent", { fg = "#6272a4" })
       set(0, "Whitespace", { fg = "#6272a4" })
+
+      -- インデントガイドを階層ごとに色分け（レインボー表示、dracula 標準パレット）
+      set(0, "SnacksIndent1", { fg = "#bd93f9" })
+      set(0, "SnacksIndent2", { fg = "#50fa7b" })
+      set(0, "SnacksIndent3", { fg = "#ffb86c" })
+      set(0, "SnacksIndent4", { fg = "#ff79c6" })
+      set(0, "SnacksIndent5", { fg = "#8be9fd" })
+      set(0, "SnacksIndent6", { fg = "#f1fa8c" })
+      set(0, "SnacksIndent7", { fg = "#ff5555" })
     end
 
     -- colorscheme を読み直したときに上書きが巻き戻らないようにする
