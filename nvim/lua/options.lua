@@ -33,9 +33,9 @@ if not vim.g.vscode then
   opt.tabstop = 2
   -- undo 履歴をファイルに保存して、再起動後も元に戻せるようにする
   opt.undofile = true
-  -- 不可視文字を表示する（行末の改行位置がわかるように eol だけ記号にする）
+  -- 不可視文字を表示する（半角スペース・タブ・行末が見えるようにする）
   opt.list = true
-  opt.listchars = { eol = "↴" }
+  opt.listchars = { space = "·", tab = "▸ ", eol = "↴" }
   -- 行を折り返す
   opt.wrap = true
   -- 単語の途中で折り返さない

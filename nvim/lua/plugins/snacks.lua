@@ -272,6 +272,12 @@ return {
     },
   },
   opts = {
+    -- インデントの深さに縦線を表示する
+    indent = {
+      enabled = true,
+      -- 現在のスコープを目立つ色でアニメーション表示する機能は不要なので無効にする
+      scope = { enabled = false },
+    },
     picker = {
       enabled = true,
       -- 絞り込みが空のときも並べ替える（既定では走査順のまま）
