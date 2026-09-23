@@ -11,6 +11,8 @@ return {
       transparent_bg = true,
     })
 
+    local dracula = require("dracula.palette")
+
     local diff_colors = {
       add_bg = "#305444",
       add_text_bg = "#377950",
@@ -117,6 +119,26 @@ return {
       set(0, "SnacksIndent5", { fg = "#8be9fd" })
       set(0, "SnacksIndent6", { fg = "#f1fa8c" })
       set(0, "SnacksIndent7", { fg = "#ff5555" })
+
+      -- neogit の status 画面で変更種別ごとに色分けする
+      set(0, "NeogitChangeModified", { fg = dracula.cyan })
+      set(0, "NeogitChangeAdded", { fg = dracula.green })
+      set(0, "NeogitChangeDeleted", { fg = dracula.red })
+      set(0, "NeogitChangeRenamed", { fg = dracula.purple })
+      set(0, "NeogitChangeUpdated", { fg = dracula.orange })
+      set(0, "NeogitChangeCopied", { fg = dracula.yellow })
+      set(0, "NeogitChangeUnmerged", { fg = dracula.pink }) -- conflicting
+      set(0, "NeogitChangeNewFile", { fg = dracula.green }) -- untracked
+
+      -- neogit の status 画面のセクション見出し（Untracked files / Staged changes 等）の色
+      set(0, "NeogitUntrackedfiles", { fg = dracula.green, bold = true })
+      set(0, "NeogitUnstagedchanges", { fg = dracula.cyan, bold = true })
+      set(0, "NeogitStagedchanges", { fg = dracula.orange, bold = true })
+      set(0, "NeogitStashes", { fg = dracula.white, bold = true })
+      set(0, "NeogitUnmergedchanges", { fg = dracula.pink, bold = true })
+      set(0, "NeogitUnpushedchanges", { fg = dracula.comment, bold = true })
+      set(0, "NeogitRecentcommits", { fg = dracula.comment, bold = true })
+      set(0, "NeogitUnpulledchanges", { fg = dracula.comment, bold = true })
     end
 
     -- colorscheme を読み直したときに上書きが巻き戻らないようにする
