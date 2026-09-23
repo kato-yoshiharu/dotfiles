@@ -11,20 +11,89 @@ return {
       transparent_bg = true,
     })
 
-    local function diff_hl()
-      local set = vim.api.nvim_set_hl
-      set(0, "DiffAdd", { bg = "#2f4f38" })
-      set(0, "DiffDelete", { bg = "#5a2e3a", fg = "#6272a4" })
-      set(0, "DiffChange", { bg = "#2d3b5c" })
-      set(0, "DiffText", { bg = "#3f5a8a" })
-      set(0, "DiffTextAdd", { bg = "#3f7d55" })
+    local diff_colors = {
+      add_bg = "#305444",
+      add_text_bg = "#377950",
+      delete_bg = "#53333c",
+      delete_text_bg = "#7a3a42",
+      change_bg = "#383e55",
+      change_text_bg = "#454e6d",
+      -- visual選択時。Visual(#3E4452)と各side色を混ぜた色
+      add_visual_bg = "#374c4b",
+      delete_visual_bg = "#493c47",
+      change_visual_bg = "#3b4154",
+    }
 
-      set(0, "diffAdded", { bg = "#2f4f38", fg = "#50fa7b" })
-      set(0, "diffRemoved", { bg = "#5a2e3a" })
-      set(0, "diffChanged", { bg = "#2d3b5c", fg = "#ffb86c" })
+    -- 透過背景でも見やすい明るいグレー
+    local comment_bright = "#a4b1cd"
+
+    -- dracula.nvim 標準の背景色（transparent_bg = true でも diffview は不透明にしたいため）
+    local normal_bg = "#282a36"
+
+    -- 開いているdiffウィンドウを画面上の位置（左から右）で判定し、
+    -- Removed/Added/Changedの役割を割り当ててside別のハイライトを適用する
+    local function apply_diff_winhl()
+      local diff_wins = vim.tbl_filter(function(win)
+        return vim.api.nvim_win_is_valid(win) and vim.wo[win].diff
+      end, vim.api.nvim_list_wins())
+
+      if #diff_wins < 2 then
+        return
+      end
+
+      table.sort(diff_wins, function(left, right)
+        local left_pos = vim.api.nvim_win_get_position(left)
+        local right_pos = vim.api.nvim_win_get_position(right)
+
+        if left_pos[2] == right_pos[2] then
+          return left_pos[1] < right_pos[1]
+        end
+
+        return left_pos[2] < right_pos[2]
+      end)
+
+      for index, win in ipairs(diff_wins) do
+        local side = index == 1 and "Removed" or index == #diff_wins and "Added" or "Changed"
+
+        vim.wo[win].winhighlight = table.concat({
+          "Normal:DiffviewNormal",
+          "DiffAdd:DiffAdd" .. side,
+          "DiffChange:DiffChange" .. side,
+          "DiffDelete:DiffFiller",
+          "DiffText:DiffText" .. side,
+          "DiffTextAdd:DiffText" .. side,
+          "Visual:Visual" .. side,
+        }, ",")
+      end
+    end
+
+    local function override_hl()
+      local set = vim.api.nvim_set_hl
+
+      set(0, "DiffAddRemoved", { bg = diff_colors.delete_bg })
+      set(0, "DiffChangeRemoved", { bg = diff_colors.delete_bg })
+      set(0, "DiffTextRemoved", { bg = diff_colors.delete_text_bg })
+
+      set(0, "DiffAddAdded", { bg = diff_colors.add_bg })
+      set(0, "DiffChangeAdded", { bg = diff_colors.add_bg })
+      set(0, "DiffTextAdded", { bg = diff_colors.add_text_bg })
+
+      set(0, "DiffAddChanged", { bg = diff_colors.change_bg })
+      set(0, "DiffChangeChanged", { bg = diff_colors.change_bg })
+      set(0, "DiffTextChanged", { bg = diff_colors.change_text_bg })
+
+      set(0, "DiffFiller", { bg = "none" })
+
+      -- diffview/vimdiffのウィンドウはtransparent_bgの対象外にして不透明にする
+      set(0, "DiffviewNormal", { bg = normal_bg })
+
+      -- diffウィンドウ内だけ、visual選択でside色が消えないようside別のbgに差し替える
+      set(0, "VisualRemoved", { bg = diff_colors.delete_visual_bg })
+      set(0, "VisualAdded", { bg = diff_colors.add_visual_bg })
+      set(0, "VisualChanged", { bg = diff_colors.change_visual_bg })
 
       -- デフォルトの Comment は暗すぎて透過背景で見にくいため明るいグレーにする
-      set(0, "Comment", { fg = "#a4b1cd", italic = true })
+      set(0, "Comment", { fg = comment_bright, italic = true })
 
       -- snacks.nvim のフローティングウィンドウ（explorer/picker 等）を透過させる
       set(0, "NormalFloat", { bg = "none" })
@@ -53,7 +122,22 @@ return {
     -- colorscheme を読み直したときに上書きが巻き戻らないようにする
     vim.api.nvim_create_autocmd("ColorScheme", {
       pattern = "dracula",
-      callback = diff_hl,
+      callback = override_hl,
+    })
+
+    vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter", "WinNew", "WinClosed", "WinResized" }, {
+      pattern = "*",
+      callback = function()
+        vim.schedule(apply_diff_winhl)
+      end,
+    })
+
+    -- 'diff' オプションのオン/オフのみを監視する(pattern はオプション名にマッチする)
+    vim.api.nvim_create_autocmd("OptionSet", {
+      pattern = "diff",
+      callback = function()
+        vim.schedule(apply_diff_winhl)
+      end,
     })
 
     vim.cmd("colorscheme dracula")
