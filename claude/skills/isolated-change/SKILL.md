@@ -48,7 +48,10 @@ cat > <スクラッチパッド>/handoff.txt <<'HANDOFF_EOF'
 <delegate-to-sub-session のテンプレートに沿った引き継ぎ内容>
 HANDOFF_EOF
 herdr agent start "<branch-name>" --kind claude --pane <right_pane_id>
+herdr agent wait "<branch-name>" --until idle --timeout 30000
 herdr agent prompt "<branch-name>" "$(cat <スクラッチパッド>/handoff.txt)"
+herdr agent send-keys "<branch-name>" cmd+enter
+herdr agent wait "<branch-name>" --until working --until blocked --timeout 10000
 ```
 
 - `<branch-name>` は herdr 上のラベル・エージェント名にもなるので、`[a-z][a-z0-9_-]{0,31}` に収まる短い名前にする。
@@ -56,6 +59,11 @@ herdr agent prompt "<branch-name>" "$(cat <スクラッチパッド>/handoff.txt
   (shell起動直後の環境によっては claude が自動起動しており pane_id がずれることがある)。
 - `herdr agent start` の `--` 経由での初回メッセージ渡しは失敗することがある(`invalid_agent_argument`)ため、
   `agent start` でペインを起動してから `agent prompt` でメッセージを送る2段階に分ける。
+- `agent start` 直後はまだ Claude Code の入力欄が受付可能になっていないことがあり、
+  そのまま `agent prompt` すると入力はされるが送信(Enter)されない事故が起きる。
+  `agent wait --until idle` で入力受付可能になるのを待ってから送信する。
+- `~/.claude/keybindings.json` で Enter を改行・`cmd+enter` を送信に再割り当てしている場合、
+  `agent prompt` だけでは送信されないため `send-keys ... cmd+enter` で明示的に送信する。
 
 ## ルール
 
