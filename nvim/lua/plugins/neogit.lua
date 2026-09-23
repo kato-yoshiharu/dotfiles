@@ -44,7 +44,7 @@ return {
     },
   },
   opts = {
-    graph_style = "unicode",
+    graph_style = "kitty",
     integrations = {
       diffview = true,
       snacks = true,
@@ -61,6 +61,14 @@ return {
   },
   config = function(_, opts)
     require("neogit").setup(opts)
+
+    -- log popup の色付け(c)は初期 off なので、初回のみ既定で on にする(手動 off 後は上書きしない)
+    do
+      local state = require("neogit.lib.state")
+      if state.get({ "NeogitLogPopup", "color" }, nil) == nil then
+        state.set({ "NeogitLogPopup", "color" }, true)
+      end
+    end
 
     -- status バッファが別タブで開いている状態からもう一度 status を開くと、
     -- neogit の Buffer:is_visible() がカレントタブしか見ないため既存インスタンスが再構築され、
