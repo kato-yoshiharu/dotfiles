@@ -44,7 +44,7 @@ return {
     },
   },
   opts = {
-    graph_style = "kitty",
+    graph_style = "ascii",
     integrations = {
       diffview = true,
       snacks = true,
