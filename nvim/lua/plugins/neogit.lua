@@ -128,7 +128,10 @@ return {
         local result = git.cli.commit.message(msg).call({ await = true })
         if result:success() then
           notification.info("Committed")
-          git.repo:dispatch_refresh()
+          -- git.repo:dispatch_refresh() は git の内部状態を更新するだけで、
+          -- status バッファの再描画までは行わない(self:dispatch_refresh() を呼ぶ必要がある)ため、
+          -- staged changes がコミット後も画面から消えないままになっていた
+          require("neogit.buffers.status").instance():dispatch_refresh(nil, "commit_with_input")
         else
           notification.error(table.concat(result.stderr, "\n"))
         end
@@ -176,8 +179,77 @@ return {
       end
     end
 
+    -- Staged changes セクションを Unstaged changes より上に表示したい
+    -- config には表示順を変える設定がないため、生成後のツリーの中から該当セクションを探して入れ替える
+    do
+      local status_ui = require("neogit.buffers.status.ui")
+      local original_status = status_ui.Status
+
+      status_ui.Status = function(state, config)
+        local result = original_status(state, config)
+
+        local list = result[1]
+        if list and list.children then
+          local unstaged_idx, staged_idx
+          for i, child in ipairs(list.children) do
+            if child.options and child.options.section == "unstaged" then
+              unstaged_idx = i
+            elseif child.options and child.options.section == "staged" then
+              staged_idx = i
+            end
+          end
+
+          if unstaged_idx and staged_idx and staged_idx > unstaged_idx then
+            list.children[unstaged_idx], list.children[staged_idx] =
+                list.children[staged_idx], list.children[unstaged_idx]
+          end
+        end
+
+        return result
+      end
+    end
+
+    -- neogitのWatcherは.gitディレクトリの変更をrecursiveオプション無しで監視しているため、
+    -- refs/heads/<branch> や logs/HEAD のような1階層下のファイル変更(=git commit/pushなど、
+    -- neogitを経由しない外部コマンドでの操作)を検知できず、statusバッファが再描画されない。
+    -- recursive = true を渡して外部コマンドでの変更も拾えるようにする
+    do
+      local Watcher = require("neogit.watcher")
+      local config = require("neogit.config")
+
+      function Watcher:start()
+        if not config.values.filewatcher.enabled then
+          return self
+        end
+
+        if self.running then
+          return self
+        end
+
+        self.running = true
+        self.fs_event_handler:start(self.git_dir, { recursive = true }, self:fs_event_callback())
+        return self
+      end
+
+      -- buffer:redraw() だとカーソル位置が保存・復元されず先頭行に飛ぶため、
+      -- 保存・復元込みの dispatch_refresh() を使う(無ければ従来どおり redraw())
+      function Watcher:dispatch_refresh()
+        for _, buffer in pairs(self.buffers) do
+          if buffer.dispatch_refresh then
+            buffer:dispatch_refresh(nil, "watcher")
+          else
+            buffer:redraw()
+          end
+        end
+      end
+    end
+
     -- stage/unstageするとファイルがセクションをまたいで移動し、neogitはカーソル位置を
-    -- 復元できず先頭行に戻してしまう。押す前の行番号を覚えておき、再描画後に同じ行へ戻す
+    -- 復元できず先頭行に戻してしまう。押す前の行番号を覚えておき、再描画後に同じ行へ戻す。
+    -- 注意: git addなどでStaged changesセクションごと表示・非表示が切り替わる場合は
+    -- 行番号を保っても別内容にカーソルが乗ってズレて見えることがあるが、neogit本体の
+    -- resolve_cursor_location側もセクションの増減時は同種の問題を抱えており汎用的な解決策がないため、
+    -- ここでは対応していない(未解決の既知の問題)
     local last_status_line
     vim.api.nvim_create_autocmd("User", {
       pattern = "NeogitStatusRefreshed",
