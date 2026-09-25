@@ -1,0 +1,4 @@
+# 表の桁を揃える
+[MD060]
+enabled = true
+style = "aligned"

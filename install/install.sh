@@ -34,6 +34,7 @@ brew install tmux
 brew install xh
 brew install lazysql
 brew install posting
+brew install rumdl
 brew install pipx
 pipx install sqlit-tui
 pipx inject sqlit-tui psycopg2-binary

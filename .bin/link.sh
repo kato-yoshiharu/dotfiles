@@ -70,3 +70,7 @@ ln_files_in_dir "$DOTFILES_PATH/yazi" "$HOME/.config/yazi"
 # Karabiner-Elements
 mkdir -p "$HOME/.config/karabiner"
 ln_files_in_dir "$DOTFILES_PATH/karabiner" "$HOME/.config/karabiner"
+
+# rumdl
+mkdir -p "$HOME/.config/rumdl"
+ln_files_in_dir "$DOTFILES_PATH/rumdl" "$HOME/.config/rumdl"
