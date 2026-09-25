@@ -201,6 +201,13 @@ return {
       desc = "開いているバッファを検索",
     },
     {
+      "<leader>/",
+      function()
+        Snacks.picker.lines()
+      end,
+      desc = "現在のバッファ内をfuzzy検索",
+    },
+    {
       "<leader>fp",
       function()
         Snacks.picker.projects({
