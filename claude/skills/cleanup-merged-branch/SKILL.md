@@ -1,62 +1,37 @@
 ---
 name: cleanup-merged-branch
 description: >-
-  マージ済みなどで不要になったブランチを、ローカルブランチ・（pushしていれば）リモートブランチも含めて削除する
-  コマンドを、Claude Code の入力欄に貼り付けて実行できる形で提示する。
-  worktreeで使われている場合は worktree の削除も合わせて提示する。
-  「このブランチを削除して」「worktreeを片付けて」「mainに取り込んだからもういらない」などと言われたときに使う。
+  マージ済みなどで不要になったブランチを、ローカルブランチ・（pushしていれば）リモートブランチも含めて削除するコマンドを、
+  Claude Code の入力欄に貼り付けて実行できる形で提示する。
+  worktree で使われている場合は worktree の削除も合わせて提示する。
 ---
 
 # 不要になったブランチを片付ける
 
 ## 手順
 
-1. 対象ブランチが worktree でチェックアウトされているか確認する（`git worktree list`）。
-   このスキルは、削除対象ブランチの worktree の中から呼ばれるとは限らない（squash merge 後に
-   main 側から呼ばれるなど、無関係な場所から呼ばれることもある）。
-   `git worktree list` の出力から対象ブランチに対応する worktree のパスを機械的に特定する。
-   カレントディレクトリとの位置関係を前提にしない。
-2. worktree で使われている場合:
-   - `git worktree remove` はその worktree の中からは実行できない（削除対象のディレクトリを cwd にしたまま実行するとエラーになる）ため、
-     カレントディレクトリが削除対象の worktree 内であれば、先にリポジトリのルート（`git worktree list`
-     の1行目に出る、`.git` を直接持つディレクトリ）へ `cd` するコマンドを含める。
-     カレントディレクトリが削除対象の worktree の外（main 側から呼ばれた場合など）であれば、
-     `cd` は不要で `git worktree remove` から始める。
-   - Claude Code の入力欄（プロンプト）は1回の送信（Enter）につき1コマンドが単位のため、
-     複数のコマンドを確実に一括実行させるには `!` を先頭に付けた1行に `&&` で連結してまとめて提示する。
-   - カレントディレクトリが削除対象の worktree 内の場合:
+### 1. 削除対象の特定
 
-     <!-- markdownlint-disable MD013 -->
-     ```text
-     !cd <repo-root-path> && git worktree remove <worktree-path-relative-to-repo-root> && git branch -D <branch-name>
-     ```
-     <!-- markdownlint-enable MD013 -->
+- リモートブランチを削除するか
+  対象ブランチがリモートに push されているか確認する（`git ls-remote --heads origin <branch-name>` など）。
+- worktree を削除するか
+  `git worktree list` の出力（各行 `<path> <sha> [<branch>]` の形式）から `[<branch-name>]` を含む行を探し、そのパスを対応する worktree のパスとする。
+- スキル呼び出し時の引数に `すべて`, `全て`, `all` が含まれており、かつ worktree が存在する場合は、
+  worktree を削除対象に含める。
 
-   - カレントディレクトリが削除対象の worktree の外の場合:
+### 2. 削除コマンドの提示
 
-     ```text
-     !git worktree remove <worktree-path> && git branch -D <branch-name>
-     ```
+ローカルブランチ・（pushしていれば）リモートブランチ・（削除対象に含めていれば）worktree を、
+一括削除する1個のコマンドを提示する。
+コマンドは次の要素を、該当するものだけ `&&` で順につないで組み立てる。
 
-3. worktree を使っていない場合は `!git branch -D <branch-name>` を入力欄への貼り付け用に提示する。
-   マージ方法によっては fast-forward として検出されないことがあるため、`-d` ではなく `-D` を使う。
-4. 対象ブランチをリモートに push しているか確認する（`git ls-remote --heads origin <branch-name>` など）。
-   push していれば削除するかどうかをユーザーに確認したうえで、次を入力欄への貼り付け用に提示する。
-
-   ```text
-   !git push origin --delete <branch-name>
-   ```
-
-5. worktree に未コミット・未pushの変更が残っていないか確認する。残っていれば、破棄してよいかをユーザーに確認する。
-6. worktree を使っていた場合、対応する herdr workspace が残っていないか確認する(`herdr workspace list` の
-   `worktree.checkout_path` で該当 worktree のパスを探す)。見つかれば、閉じてよいかユーザーに確認し、
-   承認されたら `herdr workspace close <workspace_id> --group` を実行する。
-7. worktree を使っていた場合、動作確認のためにその worktree を指すよう実環境側(`~/.commands` など)で
-   張り替えた symlink が無いか確認し、あればユーザーに伝える。
+1. worktree が削除対象の場合のみ: `cd <repo-root-path> && git worktree remove <worktree-path-relative-to-repo-root>`
+2. 常に: `git branch -D <branch-name>`
+3. リモートに push 済みの場合のみ: `git push origin --delete <branch-name>`
 
 ## ルール
 
-- worktree 削除・ブランチ削除・リモートブランチ削除は必ずユーザーの明示的な実行に委ね、Claude 側から代理実行しない。
-- 未コミットの変更が残っている場合は、削除コマンドを提示する前に必ずユーザーに確認する。
+- ブランチ削除・リモートブランチ削除・worktree 削除は必ずユーザーの明示的な実行に委ね、Claude Code 側から実行しない。
 - 実行を要するコマンドは、Claude Code の入力欄に貼り付けて `!` で実行できる1行の形にして提示する。
-- 提示したコマンドは `pbcopy` でクリップボードにも同時にコピーする（テキスト表示は省略しない）。
+- 提示したコマンドは `pbcopy` でクリップボードにもコピーする。
+- 未コミットの変更が残っている場合は、削除コマンドを提示する前に必ずユーザーに確認する。
