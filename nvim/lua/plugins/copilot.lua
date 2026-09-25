@@ -5,7 +5,10 @@ return {
   event = "InsertEnter",
   opts = {
     suggestion = {
-      auto_trigger = true,
+      -- 自動トリガーを切って手動リクエストにする（候補は <M-]>/<M-[> でリクエスト）
+      auto_trigger = false,
+      -- true だと候補非表示時も Tab を横取りしてしまい、autolist などの Tab と競合するため無効化する
+      trigger_on_accept = false,
       keymap = {
         accept = "<Tab>",
       },
