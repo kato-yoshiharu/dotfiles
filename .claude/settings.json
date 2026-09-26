@@ -41,7 +41,7 @@
     "type": "command",
     "command": "sh \"$HOME/.claude/statusline-command.sh\""
   },
-  "effortLevel": "low",
+  "effortLevel": "medium",
   "autoUpdatesChannel": "stable",
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
