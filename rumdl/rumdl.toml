@@ -2,3 +2,7 @@
 [MD060]
 enabled = true
 style = "aligned"
+
+# リスト項目内の継続行を、次の行でさらに字下げして表現することがあるため無効化する
+[MD077]
+enabled = false
