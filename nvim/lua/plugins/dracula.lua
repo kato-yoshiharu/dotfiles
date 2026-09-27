@@ -97,6 +97,11 @@ return {
       -- デフォルトの Comment は暗すぎて透過背景で見にくいため明るいグレーにする
       set(0, "Comment", { fg = comment_bright, italic = true })
 
+      -- snacks.nvim のファイラ/ピッカーで、ドットファイルは通常ファイルと同じ色にし、
+      -- gitignore対象のファイルだけ区別できるよう暗めにする
+      set(0, "SnacksPickerPathHidden", { link = "Normal" })
+      set(0, "SnacksPickerPathIgnored", { fg = dracula.comment })
+
       -- snacks.nvim のフローティングウィンドウ（explorer/picker 等）を透過させる
       set(0, "NormalFloat", { bg = "none" })
       set(0, "SnacksNormal", { bg = "none" })
