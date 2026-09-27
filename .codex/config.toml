@@ -1,0 +1,19 @@
+# ~/.codex/config.toml は Codex 自身が実行のたびに書き換える
+# （projects の trust_level、hooks.state のハッシュ、tui の NUX 状態など）。
+# そのため symlink はせず、値を変えたときにこのファイルと
+# ~/.codex/config.toml の両方を手動で更新する運用にする。
+
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
+service_tier = "default"
+
+[tui]
+vim_mode_default = true
+
+# Claude Code の cmd+enter=送信 に合わせたいが、codex の keymap は
+# cmd(super) 修飾キーを未サポートなので Ctrl+Enter を送信キーにする。
+[tui.keymap.composer]
+submit = ["ctrl-enter"]
+
+[desktop]
+followUpQueueMode = "steer"
