@@ -7,13 +7,22 @@ model = "gpt-5.6-sol"
 model_reasoning_effort = "high"
 service_tier = "default"
 
+# ワークスペース内の read/write/コマンド実行は承認なしで進める。
+sandbox_mode = "workspace-write"
+approval_policy = "never"
+
 [tui]
 vim_mode_default = true
+alternate_screen = "always"
+notifications = true
 
 # Claude Code の cmd+enter=送信 に合わせたいが、codex の keymap は
 # cmd(super) 修飾キーを未サポートなので Ctrl+Enter を送信キーにする。
 [tui.keymap.composer]
 submit = ["ctrl-enter"]
+
+[notice]
+hide_full_access_warning = true
 
 [desktop]
 followUpQueueMode = "steer"
