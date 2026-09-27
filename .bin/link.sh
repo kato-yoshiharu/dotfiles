@@ -37,9 +37,11 @@ ln -sfnv "$DOTFILES_PATH/AGENTS.md" "$HOME/.claude/AGENTS.md"
 ln -sfnv "$DOTFILES_PATH/claude/keybindings.json" "$HOME/.claude/keybindings.json"
 ln -sfnv "$DOTFILES_PATH/claude/settings.json" "$HOME/.claude/settings.json"
 
-# Claude Code skills
+# Agent Skills (SKILL.md, Claude Code / Codex CLI 共通)
 mkdir -p "$HOME/.claude/skills"
-ln_files_in_dir "$DOTFILES_PATH/claude/skills" "$HOME/.claude/skills"
+ln_files_in_dir "$DOTFILES_PATH/.agents/skills" "$HOME/.claude/skills"
+mkdir -p "$HOME/.agents/skills"
+ln_files_in_dir "$DOTFILES_PATH/.agents/skills" "$HOME/.agents/skills"
 if [ -d "$DOTFILES_PATH/claude/skills-installed" ]; then
   ln_files_in_dir "$DOTFILES_PATH/claude/skills-installed" "$HOME/.claude/skills"
 fi
