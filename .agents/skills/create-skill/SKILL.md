@@ -10,7 +10,7 @@ description: >-
 対象ディレクトリ: `~/development/suimenkathemove/dotfiles/.agents/skills/<name>/SKILL.md`
 
 `~/.claude/skills/<name>` と `~/.agents/skills/<name>` からシンボリックリンクを張ることで、Claude Code・Codex CLI 双方の全プロジェクトで有効になる。
-`claude/skills-installed/` は外部から入れたスキルなので、そこには置かない。
+`.agents/skills-installed/` は外部から入れたスキルなので、そこには置かない。
 
 ## 手順
 
@@ -18,7 +18,7 @@ description: >-
    一度きりの作業はスキルにしない。
    繰り返し使う手順で、かつ毎回同じ判断を口頭で説明している場合が対象。
 2. **既存のスキル（組み込み、インストール済み、自作）に近いものがあるか確認する。**
-   インストール済みは `~/development/suimenkathemove/dotfiles/claude/skills-installed/`、
+   インストール済みは `~/development/suimenkathemove/dotfiles/.agents/skills-installed/`、
    自作は `~/development/suimenkathemove/dotfiles/.agents/skills/`。
    description を読み、近そうなものがあればそのファイルを全文読む。
    重なるなら、新規作成するか既存スキルに節を足すかをユーザーに確認する。
