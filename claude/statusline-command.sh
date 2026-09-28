@@ -11,14 +11,12 @@ model=$(echo "$input" | jq -r '.model.display_name // empty')
 effort=$(echo "$input" | jq -r '.effort.level // empty')
 
 # セッションの場所。
-# 手動git worktreeではworktree.nameが空なので、workspace.git_worktreeで補う。
+# ブランチ名は入力JSONに含まれないので、カレントディレクトリでgitに問い合わせる。
 repo=$(echo "$input" | jq -r '.workspace.repo.name // empty')
-worktree=$(echo "$input" | jq -r '.worktree.name // empty')
-if [ -z "$worktree" ]; then
-  worktree=$(echo "$input" | jq -r '.workspace.git_worktree // empty')
-fi
 dir=$(echo "$input" | jq -r '.workspace.current_dir // empty')
-if [ -z "$repo" ] && [ -z "$worktree" ] && [ -n "$dir" ]; then
+branch=""
+if [ -n "$dir" ]; then
+  branch=$(git -C "$dir" branch --show-current 2>/dev/null)
   dirname="${dir##*/}"
 fi
 
@@ -33,33 +31,24 @@ if [ -n "$model" ]; then
 fi
 
 # リポジトリ名を青色で表示する。
+# リポジトリ名が取れないときは、カレントディレクトリ名で代用する。
 # モデル名が既に出力済みなら区切りの" | "を先に挟む。
-if [ -n "$repo" ]; then
+place="${repo:-$dirname}"
+if [ -n "$place" ]; then
   [ -n "$model" ] && printf " | "
-  printf "\033[34m%s\033[0m" "$repo"
+  printf "\033[34m%s\033[0m" "$place"
 fi
 
-# worktree名を緑色で表示する。
-# リポジトリ名の続きであることを示すため、リポジトリ名がある場合は" | "ではなく"/"で繋ぐ。
-# リポジトリ名がなくモデル名だけある場合は" | "を先に挟む。
-if [ -n "$worktree" ]; then
-  if [ -n "$repo" ]; then
-    printf "\033[34m/\033[0m"
-  elif [ -n "$model" ]; then
-    printf " | "
-  fi
-  printf "\033[32m%s\033[0m" "$worktree"
-fi
-
-# リポジトリ名・worktree名がどちらも取れないときは、カレントディレクトリ名を青色でフォールバック表示する。
-if [ -z "$repo" ] && [ -z "$worktree" ] && [ -n "$dirname" ]; then
-  [ -n "$model" ] && printf " | "
-  printf "\033[34m%s\033[0m" "$dirname"
+# ブランチ名を緑色で表示する。
+# リポジトリ名の続きであることを示すため、"/"で繋ぐ。
+if [ -n "$branch" ]; then
+  [ -n "$place" ] && printf "\033[34m/\033[0m"
+  printf "\033[32m%s\033[0m" "$branch"
 fi
 
 # 使用率が取れているときだけ黄色で表示する。
 # それまでに何か出力済みなら区切りの" | "を先に挟む。
 if [ -n "$used" ]; then
-  { [ -n "$model" ] || [ -n "$repo" ] || [ -n "$worktree" ] || [ -n "$dirname" ]; } && printf " | "
+  { [ -n "$model" ] || [ -n "$place" ]; } && printf " | "
   printf "\033[36mTokens:\033[0m \033[33m%.0f%%\033[0m used" "$used"
 fi
