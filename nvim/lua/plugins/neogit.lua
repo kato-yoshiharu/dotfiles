@@ -179,29 +179,48 @@ return {
       end
     end
 
-    -- Staged changes セクションを Unstaged changes より上に表示したい
-    -- config には表示順を変える設定がないため、生成後のツリーの中から該当セクションを探して入れ替える
+    -- Staged changes セクションを常に一番上に表示したい。
+    -- config には表示順を変える設定がないため、生成後のツリーの中から該当セクションを探して並び替える。
     do
       local status_ui = require("neogit.buffers.status.ui")
       local original_status = status_ui.Status
+
+      local section_order = { staged = 1, untracked = 2, unstaged = 3 }
 
       status_ui.Status = function(state, config)
         local result = original_status(state, config)
 
         local list = result[1]
         if list and list.children then
-          local unstaged_idx, staged_idx
+          local entries = {}
+          local min_idx
           for i, child in ipairs(list.children) do
-            if child.options and child.options.section == "unstaged" then
-              unstaged_idx = i
-            elseif child.options and child.options.section == "staged" then
-              staged_idx = i
+            local section = child.options and child.options.section
+            if section_order[section] then
+              table.insert(entries, { idx = i, section = section, child = child })
+              min_idx = min_idx and math.min(min_idx, i) or i
             end
           end
 
-          if unstaged_idx and staged_idx and staged_idx > unstaged_idx then
-            list.children[unstaged_idx], list.children[staged_idx] =
-                list.children[staged_idx], list.children[unstaged_idx]
+          if #entries > 1 then
+            -- 並び替え後の順序を決める
+            table.sort(entries, function(a, b)
+              return section_order[a.section] < section_order[b.section]
+            end)
+
+            -- 元の位置を後ろから消してから、最小位置に並び替え後の順序で詰め直す
+            local original_indices = {}
+            for _, entry in ipairs(entries) do
+              table.insert(original_indices, entry.idx)
+            end
+            table.sort(original_indices, function(a, b) return a > b end)
+            for _, idx in ipairs(original_indices) do
+              table.remove(list.children, idx)
+            end
+
+            for offset, entry in ipairs(entries) do
+              table.insert(list.children, min_idx + offset - 1, entry.child)
+            end
           end
         end
 
