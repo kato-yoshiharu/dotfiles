@@ -49,6 +49,6 @@ if not vim.g.vscode then
   -- （diffview の差分比較画面でも折り返す）
   opt.diffopt:append("followwrap")
   -- 起動時の intro 画面（:intro）を出さない。
-  -- explorer を開くまでの一瞬だけ表示されてちらつくため
+  -- dashboard を開くまでの一瞬だけ表示されてちらつくため
   opt.shortmess:append("I")
 end

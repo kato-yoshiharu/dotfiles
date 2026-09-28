@@ -144,19 +144,8 @@ return {
   cond = not vim.g.vscode,
   -- lazy = false のプラグイン間で先に読み込む（描画前に色を確定させる）
   priority = 1000,
-  -- 起動直後に explorer を出すので遅延読み込みしない
+  -- dashboard を起動直後に出すので遅延読み込みしない
   lazy = false,
-  init = function()
-    vim.api.nvim_create_autocmd("VimEnter", {
-      callback = function()
-        -- ファイルやディレクトリを指定して起動したときは、そのバッファを邪魔しない
-        if vim.fn.argc() > 0 then
-          return
-        end
-        Snacks.explorer()
-      end,
-    })
-  end,
   keys = {
     {
       "<leader>e",
