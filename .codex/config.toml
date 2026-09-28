@@ -9,7 +9,8 @@ service_tier = "default"
 
 # ワークスペース内の read/write/コマンド実行は承認なしで進める。
 sandbox_mode = "workspace-write"
-approval_policy = "never"
+approval_policy = "on-request"
+approvals_reviewer = "auto_review"
 
 [tui]
 vim_mode_default = true
