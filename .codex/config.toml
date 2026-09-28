@@ -21,8 +21,6 @@ notifications = true
 status_line = ["model-with-reasoning", "git-branch", "context-used"]
 status_line_use_colors = true
 
-# Claude Code の cmd+enter=送信 に合わせたいが、codex の keymap は
-# cmd(super) 修飾キーを未サポートなので Ctrl+Enter を送信キーにする。
 [tui.keymap.composer]
 submit = ["ctrl-enter"]
 
