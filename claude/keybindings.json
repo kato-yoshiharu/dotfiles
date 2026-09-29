@@ -7,7 +7,6 @@
       "bindings": {
         "enter": "chat:newline",
         "ctrl+enter": "chat:submit",
-        "meta+enter": "chat:submit",
         "cmd+z": "chat:undo",
         "meta+z": "chat:undo"
       }
