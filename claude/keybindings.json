@@ -10,6 +10,13 @@
         "cmd+z": "chat:undo",
         "meta+z": "chat:undo"
       }
+    },
+    {
+      "context": "Select",
+      "bindings": {
+        "enter": null,
+        "ctrl+enter": "select:accept"
+      }
     }
   ]
 }
