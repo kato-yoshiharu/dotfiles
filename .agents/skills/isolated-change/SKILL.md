@@ -38,11 +38,12 @@ description: >-
 
 ```bash
 # <left_pane_id> は手順1の `herdr worktree create` レスポンスの .result.root_pane.pane_id
-herdr pane run <left_pane_id> nvim
-
-# 右に新規ペインを分割し、そこで Claude Code を起動する
+# 先に右へ新規ペインを分割し、左ペインのサイズを確定させる
 herdr pane split --pane <left_pane_id> --direction right --cwd <worktree>
 # 上記レスポンスの .result.pane.pane_id が <right_pane_id>
+
+# サイズ確定後に nvim を起動する
+herdr pane run <left_pane_id> nvim
 
 cat > <スクラッチパッド>/handoff.txt <<'HANDOFF_EOF'
 <delegate-to-sub-session のテンプレートに沿った引き継ぎ内容>
@@ -54,6 +55,7 @@ herdr agent send-keys "<branch-name>" ctrl+enter
 herdr agent wait "<branch-name>" --until working --until blocked --timeout 10000
 ```
 
+- nvim を起動してから split すると、起動中のリサイズで画面描画が崩れる(ステータスラインが重複するなど)ため、必ず split を先に行う。
 - `<branch-name>` は herdr 上のラベル・エージェント名にもなるので、`[a-z][a-z0-9_-]{0,31}` に収まる短い名前にする。
 - `herdr agent start` が失敗する場合は `herdr agent list` / `herdr pane list` で該当 workspace のペインを再確認する
   (shell起動直後の環境によっては claude が自動起動しており pane_id がずれることがある)。
