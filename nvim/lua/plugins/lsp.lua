@@ -9,6 +9,7 @@ local servers = {
   "html", -- html
   "jsonls", -- json
   "lua_ls", -- lua
+  "nil_ls", -- nix
   "pyright", -- python
   "rust_analyzer", -- rust
   "taplo", -- toml
