@@ -18,7 +18,7 @@ alternate_screen = "always"
 notifications = true
 
 # project-rootはworktree内ではworktree名を返しgit-branchと重複するため含めない。
-status_line = ["model-with-reasoning", "git-branch", "context-used"]
+status_line = ["model-with-reasoning", "git-branch", "context-used", "five-hour-limit", "weekly-limit"]
 status_line_use_colors = true
 
 [tui.keymap.composer]

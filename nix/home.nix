@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 let
   # 自作 skill は .agents/skills 直下のディレクトリを全て有効にする。
   localSkills = lib.attrNames (
@@ -11,6 +11,8 @@ in
   home.stateVersion = "25.05";
 
   programs.home-manager.enable = true;
+
+  home.packages = [ pkgs.ccusage ];
 
   xdg.configFile."nix/nix.conf".text = ''
     experimental-features = nix-command flakes
