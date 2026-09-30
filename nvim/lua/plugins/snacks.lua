@@ -230,6 +230,20 @@ return {
       end,
       desc = "git のコミット履歴",
     },
+    {
+      "<leader>d",
+      function()
+        Snacks.picker.diagnostics_buffer()
+      end,
+      desc = "現在のファイルの診断を検索",
+    },
+    {
+      "<leader>D",
+      function()
+        Snacks.picker.diagnostics()
+      end,
+      desc = "開いている全バッファの診断を検索",
+    },
     -- LSP（Neovim 0.11 の既定キー gr* / gO を snacks のピッカーに差し替える）
     {
       "gd",
