@@ -1,7 +1,5 @@
 vscode/settings.json
 zsh/.zshrc.local
 
-.agents/skills-installed/
-
 # Override global gitignore
 !.cursor

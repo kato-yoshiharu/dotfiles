@@ -9,8 +9,9 @@ description: >-
 
 対象ディレクトリ: `~/development/suimenkathemove/dotfiles/.agents/skills/<name>/SKILL.md`
 
-`~/.claude/skills/<name>` と `~/.agents/skills/<name>` からシンボリックリンクを張ることで、Claude Code・Codex CLI 双方の全プロジェクトで有効になる。
-`.agents/skills-installed/` は外部から入れたスキルなので、そこには置かない。
+nix（home-manager の agent-skills-nix）が `~/.claude/skills` と `~/.agents/skills` に同期することで、Claude Code・Codex CLI 双方の全プロジェクトで有効になる。
+新規作成したスキルは `home-manager switch` を再実行すると反映される。
+外部から入れるスキルは `flake.nix` の input と `nix/home.nix` で宣言するので、ここには置かない。
 
 ## 手順
 
@@ -18,7 +19,7 @@ description: >-
    一度きりの作業はスキルにしない。
    繰り返し使う手順で、かつ毎回同じ判断を口頭で説明している場合が対象。
 2. **既存のスキル（組み込み、インストール済み、自作）に近いものがあるか確認する。**
-   インストール済みは `~/development/suimenkathemove/dotfiles/.agents/skills-installed/`、
+   インストール済みは `~/.agents/skills/`（nix が管理する読み取り専用の同期先）、
    自作は `~/development/suimenkathemove/dotfiles/.agents/skills/`。
    description を読み、近そうなものがあればそのファイルを全文読む。
    重なるなら、新規作成するか既存スキルに節を足すかをユーザーに確認する。

@@ -8,17 +8,6 @@ ln_files_in_dir() {
   done
 }
 
-# 外部skillのエントリを、自作skillと同名でなければリンクする。
-ln_installed_skills() {
-  for FILE in $(cd "$1" && ls -A); do
-    if [ -e "$DOTFILES_PATH/.agents/skills/$FILE" ]; then
-      echo "skip: $FILE は自作skillと同名のためリンクしない" >&2
-      continue
-    fi
-    ln -sfnv "$1/$FILE" "$2/$FILE"
-  done
-}
-
 # zsh
 ln_files_in_dir "$DOTFILES_PATH/zsh" "$HOME"
 
@@ -48,16 +37,6 @@ ln -sfnv "$DOTFILES_PATH/AGENTS.md" "$HOME/.claude/AGENTS.md"
 ln -sfnv "$DOTFILES_PATH/claude/keybindings.json" "$HOME/.claude/keybindings.json"
 ln -sfnv "$DOTFILES_PATH/claude/settings.json" "$HOME/.claude/settings.json"
 ln -sfnv "$DOTFILES_PATH/claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
-
-# Agent Skills (SKILL.md, Claude Code / Codex CLI 共通)
-mkdir -p "$HOME/.claude/skills"
-ln_files_in_dir "$DOTFILES_PATH/.agents/skills" "$HOME/.claude/skills"
-mkdir -p "$HOME/.agents/skills"
-ln_files_in_dir "$DOTFILES_PATH/.agents/skills" "$HOME/.agents/skills"
-if [ -d "$DOTFILES_PATH/.agents/skills-installed" ]; then
-  ln_installed_skills "$DOTFILES_PATH/.agents/skills-installed" "$HOME/.claude/skills"
-  ln_installed_skills "$DOTFILES_PATH/.agents/skills-installed" "$HOME/.agents/skills"
-fi
 
 # Claude Code output styles
 mkdir -p "$HOME/.claude/output-styles"
