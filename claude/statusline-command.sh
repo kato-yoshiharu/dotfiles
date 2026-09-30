@@ -76,3 +76,7 @@ week=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 limit "5h" "$five"
 limit "7d" "$week"
 
+
+# 最後の項目が取れていないと終了ステータスが非0になり、
+# Claude Code側が出力を捨てて表示されなくなるので、0で終わらせる。
+exit 0
