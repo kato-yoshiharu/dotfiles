@@ -78,9 +78,26 @@
         "agents-voltagent": "agents-voltagent",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "skills-mattpocock-skills": "skills-mattpocock-skills",
         "skills-natural-japanese": "skills-natural-japanese",
         "skills-vercel-agent-skills": "skills-vercel-agent-skills",
         "skills-vercel-skills": "skills-vercel-skills"
+      }
+    },
+    "skills-mattpocock-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790685460,
+        "narHash": "sha256-zQ/wVrcHjIC+UjP4nDw3HARMqZd6LIDFmHKlp8AADYI=",
+        "owner": "mattpocock",
+        "repo": "skills",
+        "rev": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mattpocock",
+        "repo": "skills",
+        "type": "github"
       }
     },
     "skills-natural-japanese": {

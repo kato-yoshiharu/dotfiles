@@ -25,6 +25,10 @@
       url = "github:coji/natural-japanese";
       flake = false;
     };
+    skills-mattpocock-skills = {
+      url = "github:mattpocock/skills";
+      flake = false;
+    };
 
     # 外部 sub agent の取得元
     agents-voltagent = {

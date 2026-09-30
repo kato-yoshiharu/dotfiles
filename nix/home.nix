@@ -41,6 +41,10 @@ in
 
     sources = {
       local.path = ../.agents/skills;
+      mattpocock-skills = {
+        input = "skills-mattpocock-skills";
+        subdir = "skills/productivity";
+      };
       natural-japanese = {
         input = "skills-natural-japanese";
         subdir = "skills";
@@ -67,6 +71,10 @@ in
       find-skills = {
         from = "vercel-skills";
         path = "find-skills";
+      };
+      grilling = {
+        from = "mattpocock-skills";
+        path = "grilling";
       };
       natural-japanese = {
         from = "natural-japanese";
