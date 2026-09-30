@@ -13,6 +13,33 @@ return {
       "<leader>gs",
       function()
         local neogit = require("neogit")
+        -- log view(status で la など)が開いていれば先に閉じる。
+        -- 閉じるとウィンドウ・タブの一覧が変わるため、先に対象を集めてから閉じる
+        local log_wins = {}
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "NeogitLogView" then
+            table.insert(log_wins, win)
+          end
+        end
+        local closed_log = #log_wins > 0
+        for _, win in ipairs(log_wins) do
+          if vim.api.nvim_win_is_valid(win) then
+            local tab = vim.api.nvim_win_get_tabpage(win)
+            -- タブ内で最後のウィンドウなら :close は失敗するため、タブごと閉じる
+            if #vim.api.nvim_tabpage_list_wins(tab) == 1 then
+              vim.cmd("tabclose " .. vim.api.nvim_tabpage_get_number(tab))
+            else
+              vim.api.nvim_win_close(win, true)
+            end
+          end
+        end
+
+        if closed_log then
+          -- log を閉じたら status も一緒に閉じる
+          neogit.close()
+          return
+        end
+
         -- status バッファが今のタブで表示中なら閉じる。
         -- 別タブで開いている場合は neogit.open() を呼ぶと(kind="tab"のため)重複して新しいタブが作られ、
         -- self.buffer の参照先と実際に見ている画面がズレてキー入力が効かなくなるため、
