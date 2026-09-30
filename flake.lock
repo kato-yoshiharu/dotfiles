@@ -20,6 +20,22 @@
         "type": "github"
       }
     },
+    "agents-voltagent": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789979067,
+        "narHash": "sha256-OPy2toCmhPbDnqUcM7B+Ufm6BA8xIpNc6U8Gemc/1jk=",
+        "owner": "VoltAgent",
+        "repo": "awesome-claude-code-subagents",
+        "rev": "82b73821baa7a911d5b14cfb6da238b7f0db6b42",
+        "type": "github"
+      },
+      "original": {
+        "owner": "VoltAgent",
+        "repo": "awesome-claude-code-subagents",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -59,6 +75,7 @@
     "root": {
       "inputs": {
         "agent-skills": "agent-skills",
+        "agents-voltagent": "agents-voltagent",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "skills-natural-japanese": "skills-natural-japanese",

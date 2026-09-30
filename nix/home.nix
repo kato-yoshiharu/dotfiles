@@ -1,9 +1,25 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, inputs, ... }:
 let
   # 自作 skill は .agents/skills 直下のディレクトリを全て有効にする。
   localSkills = lib.attrNames (
     lib.filterAttrs (_: type: type == "directory") (builtins.readDir ../.agents/skills)
   );
+
+  # 自作 sub agent は claude/agents 直下の *.md をファイル単位で配置する。
+  localAgents = lib.mapAttrs' (name: _: {
+    name = ".claude/agents/${name}";
+    value.source = ../claude/agents/${name};
+  }) (
+    lib.filterAttrs (
+      name: type: type == "regular" && lib.hasSuffix ".md" name
+    ) (builtins.readDir ../claude/agents)
+  );
+
+  # 外部 sub agent は flake input（flake = false）から1ファイルずつ指定する。
+  externalAgents = {
+    ".claude/agents/VoltAgent/awesome-claude-code-subagents/code-reviewer.md".source =
+      "${inputs.agents-voltagent}/categories/04-quality-security/code-reviewer.md";
+  };
 in
 {
   home.username = "katouyoshiharu";
@@ -13,6 +29,8 @@ in
   programs.home-manager.enable = true;
 
   home.packages = [ pkgs.ccusage ];
+
+  home.file = localAgents // externalAgents;
 
   xdg.configFile."nix/nix.conf".text = ''
     experimental-features = nix-command flakes

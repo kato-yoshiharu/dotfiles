@@ -25,6 +25,12 @@
       url = "github:coji/natural-japanese";
       flake = false;
     };
+
+    # 外部 sub agent の取得元
+    agents-voltagent = {
+      url = "github:VoltAgent/awesome-claude-code-subagents";
+      flake = false;
+    };
   };
 
   outputs =
