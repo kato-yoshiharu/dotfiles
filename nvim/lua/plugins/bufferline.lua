@@ -15,6 +15,7 @@ return {
       end,
       desc = "バッファを閉じる",
     },
+    { "<leader>X", "<cmd>BufferLineCloseOthers<cr>", desc = "他のバッファを閉じる" },
   },
   config = function(_, opts)
     require("bufferline").setup(opts)
