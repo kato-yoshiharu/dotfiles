@@ -7,7 +7,14 @@ return {
   keys = {
     { "<C-Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "次のバッファに移動" },
     { "<C-S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "前のバッファに移動" },
-    { "<leader>x", "<cmd>bdelete<cr>", desc = "バッファを閉じる" },
+    -- :bdelete だとウィンドウの分割まで消えるので、Snacks.bufdelete() を使う。
+    {
+      "<leader>x",
+      function()
+        Snacks.bufdelete()
+      end,
+      desc = "バッファを閉じる",
+    },
   },
   config = function(_, opts)
     require("bufferline").setup(opts)
@@ -21,6 +28,14 @@ return {
       -- tabline はもう bufferline が使わないので、バッファ数に応じて showtabline を書き換えないようにする
       auto_toggle_bufferline = false,
       diagnostics = "nvim_lsp",
+      -- 既定の bdelete! だとマウスで閉じたときも分割が消えるので、
+      -- キーマップと同じく Snacks.bufdelete() に揃える。
+      close_command = function(n)
+        Snacks.bufdelete(n)
+      end,
+      right_mouse_command = function(n)
+        Snacks.bufdelete(n)
+      end,
     },
     highlights = {
       background = { italic = false },
