@@ -426,9 +426,9 @@ return {
         -- それより後に上書きする必要があり vim.schedule で1ティック遅らせる
         vim.schedule(function()
           vim.keymap.set("n", "c", function()
-            local winnr = vim.fn.bufwinnr(ev.buf)
-            if winnr ~= -1 then
-              vim.api.nvim_win_close(vim.fn.win_getid(winnr), true)
+            local popup = require("neogit.lib.popup").instance
+            if popup then
+              popup:close()
             end
             commit_with_input()
           end, { buffer = ev.buf, desc = "git commit(一行入力欄でメッセージ入力)" })
