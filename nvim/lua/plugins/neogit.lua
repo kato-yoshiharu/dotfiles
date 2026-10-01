@@ -310,6 +310,24 @@ return {
       end,
     })
 
+    -- push などの実行中に出るコンソール(NeogitConsole)では、<esc> がプロセスの停止(process:stop())に
+    -- 割り当てられているため、画面を閉じるつもりで押すと push が中断されて "Failed to push to ..." になる。
+    -- <esc> はプロセスを止めずにコンソールを隠すだけにする(中断したいときは <c-c> を使う)
+    do
+      local ProcessBuffer = require("neogit.buffers.process")
+      local original_open = ProcessBuffer.open
+
+      function ProcessBuffer:open()
+        local result = original_open(self)
+        if self.buffer then
+          vim.keymap.set("n", "<esc>", function()
+            self:hide()
+          end, { buffer = self.buffer.handle, nowait = true, desc = "コンソールを隠す(プロセスは止めない)" })
+        end
+        return result
+      end
+    end
+
     -- branch popup の delete(D) は fuzzy finder で Tab により複数マークしても先頭の1つしか
     -- 削除しないため、マークしたブランチをすべて受け取り、ローカルは git branch -d、
     -- リモート(origin/xxx)は git push origin --delete xxx で1つずつ削除する
