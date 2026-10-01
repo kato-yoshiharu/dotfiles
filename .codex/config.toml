@@ -22,7 +22,10 @@ status_line = ["model-with-reasoning", "git-branch", "context-used", "five-hour-
 status_line_use_colors = true
 
 [tui.keymap.composer]
-submit = ["ctrl-enter"]
+submit = ["alt-enter"]
+
+[tui.keymap.editor]
+insert_newline = ["enter", "ctrl-m", "shift-enter", "ctrl-j"]
 
 [notice]
 hide_full_access_warning = true

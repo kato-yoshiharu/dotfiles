@@ -55,7 +55,7 @@ HANDOFF_EOF
 herdr agent start "<branch-name>" --kind claude --pane <right_pane_id>
 herdr agent wait "<branch-name>" --until idle --timeout 30000
 herdr agent prompt "<branch-name>" "$(cat <scratchpad-dir>/handoff.txt)"
-herdr agent send-keys "<branch-name>" ctrl+enter
+herdr agent send-keys "<branch-name>" alt+enter
 herdr agent wait "<branch-name>" --until working --until blocked --timeout 10000
 ```
 
@@ -67,8 +67,8 @@ herdr agent wait "<branch-name>" --until working --until blocked --timeout 10000
 - `agent start` 直後はまだ Claude Code の入力欄が受付可能になっていないことがあり、
   そのまま `agent prompt` すると入力はされるが送信(Enter)されない事故が起きる。
   `agent wait --until idle` で入力受付可能になるのを待ってから送信する。
-- `~/.claude/keybindings.json` で Enter を改行・`ctrl+enter` を送信に再割り当てしている場合、
-  `agent prompt` だけでは送信されないため `send-keys ... ctrl+enter` で明示的に送信する。
+- `~/.claude/keybindings.json` で Enter を改行・`meta+enter`(端末からは `alt+enter`)を送信に再割り当てしている場合、
+  `agent prompt` だけでは送信されないため `send-keys ... alt+enter` で明示的に送信する。
 
 ## ルール
 
