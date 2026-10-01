@@ -81,7 +81,7 @@ local custom_commands = {
   {
     text = "Close All Buffers",
     fn = function()
-      vim.cmd("%bd | enew")
+      Snacks.bufdelete.all()
     end,
   },
 }
