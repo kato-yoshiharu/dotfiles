@@ -45,6 +45,10 @@ in
         input = "skills-mattpocock-skills";
         subdir = "skills/productivity";
       };
+      mattpocock-skills-engineering = {
+        input = "skills-mattpocock-skills";
+        subdir = "skills/engineering";
+      };
       natural-japanese = {
         input = "skills-natural-japanese";
         subdir = "skills";
@@ -75,6 +79,14 @@ in
       grilling = {
         from = "mattpocock-skills";
         path = "grilling";
+      };
+      domain-modeling = {
+        from = "mattpocock-skills-engineering";
+        path = "domain-modeling";
+      };
+      grill-with-docs = {
+        from = "mattpocock-skills-engineering";
+        path = "grill-with-docs";
       };
       natural-japanese = {
         from = "natural-japanese";
