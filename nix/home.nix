@@ -49,6 +49,10 @@ in
         input = "skills-mattpocock-skills";
         subdir = "skills/engineering";
       };
+      claude-plugins-community-eli5 = {
+        input = "skills-claude-plugins-community";
+        subdir = "eli5/skills";
+      };
       natural-japanese = {
         input = "skills-natural-japanese";
         subdir = "skills";
@@ -87,6 +91,10 @@ in
       grill-with-docs = {
         from = "mattpocock-skills-engineering";
         path = "grill-with-docs";
+      };
+      eli5 = {
+        from = "claude-plugins-community-eli5";
+        path = "eli5";
       };
       natural-japanese = {
         from = "natural-japanese";

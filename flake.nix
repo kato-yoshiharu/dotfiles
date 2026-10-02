@@ -29,6 +29,10 @@
       url = "github:mattpocock/skills";
       flake = false;
     };
+    skills-claude-plugins-community = {
+      url = "github:anthropics/claude-plugins-community";
+      flake = false;
+    };
 
     # 外部 sub agent の取得元
     agents-voltagent = {

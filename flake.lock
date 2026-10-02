@@ -78,10 +78,27 @@
         "agents-voltagent": "agents-voltagent",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "skills-claude-plugins-community": "skills-claude-plugins-community",
         "skills-mattpocock-skills": "skills-mattpocock-skills",
         "skills-natural-japanese": "skills-natural-japanese",
         "skills-vercel-agent-skills": "skills-vercel-agent-skills",
         "skills-vercel-skills": "skills-vercel-skills"
+      }
+    },
+    "skills-claude-plugins-community": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790878891,
+        "narHash": "sha256-nUw8RB0vWVkJu5eaxafUtjPTlhRakJcJEOztq5YGnAY=",
+        "owner": "anthropics",
+        "repo": "claude-plugins-community",
+        "rev": "87c843d52c12f4bc91bb23b47132eb08b70e6cb6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anthropics",
+        "repo": "claude-plugins-community",
+        "type": "github"
       }
     },
     "skills-mattpocock-skills": {
