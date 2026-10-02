@@ -39,7 +39,7 @@ description: >-
    !git checkout <マージ先ブランチ> && git pull origin <マージ先ブランチ> && git merge --squash <現在のブランチ名> && git commit -m "<コミットメッセージ>" && git push origin <マージ先ブランチ> && git checkout <現在のブランチ名>
    ```
    <!-- markdownlint-enable MD013 -->
-7. squash merge 後、現在のブランチ（squash merge 元、および worktree・リモートブランチ）の削除は `cleanup-merged-branch` スキルに従う。
+7. squash merge 後、現在のブランチ（squash merge 元、および worktree・リモートブランチ）の削除は、ユーザーが対象の worktree 内で `cleanup-worktree` コマンドを実行して行う。
 
 ## ルール
 

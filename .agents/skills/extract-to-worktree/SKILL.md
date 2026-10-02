@@ -76,4 +76,4 @@ herdr agent wait "<branch-name>" --until working --until blocked --timeout 10000
 
 ## 完了後の後始末
 
-完了の判断はユーザーが行う。worktree が不要になったとユーザーから伝えられたら、`cleanup-merged-branch` スキルを使う。
+完了の判断はユーザーが行う。worktree が不要になったとユーザーから伝えられたら、対象の worktree 内で `cleanup-worktree` コマンドを実行するよう案内する。
