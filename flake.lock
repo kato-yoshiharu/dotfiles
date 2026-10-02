@@ -20,6 +20,22 @@
         "type": "github"
       }
     },
+    "agents-alirezarezvani": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787752382,
+        "narHash": "sha256-ehAXxfKTvK0QZrSkUfweQdTud7NTvQermM+jJF2ggV0=",
+        "owner": "alirezarezvani",
+        "repo": "claude-skills",
+        "rev": "19392f7a08264ed00486a251f5b2098321771f94",
+        "type": "github"
+      },
+      "original": {
+        "owner": "alirezarezvani",
+        "repo": "claude-skills",
+        "type": "github"
+      }
+    },
     "agents-voltagent": {
       "flake": false,
       "locked": {
@@ -75,6 +91,7 @@
     "root": {
       "inputs": {
         "agent-skills": "agent-skills",
+        "agents-alirezarezvani": "agents-alirezarezvani",
         "agents-voltagent": "agents-voltagent",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",

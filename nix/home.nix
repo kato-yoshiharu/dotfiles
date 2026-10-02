@@ -19,6 +19,8 @@ let
   externalAgents = {
     ".claude/agents/VoltAgent/awesome-claude-code-subagents/code-reviewer.md".source =
       "${inputs.agents-voltagent}/categories/04-quality-security/code-reviewer.md";
+    ".claude/agents/alirezarezvani/devils-advocate.md".source =
+      "${inputs.agents-alirezarezvani}/c-level-advisor/executive-mentor/agents/devils-advocate.md";
   };
 in
 {

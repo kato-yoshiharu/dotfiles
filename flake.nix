@@ -39,6 +39,10 @@
       url = "github:VoltAgent/awesome-claude-code-subagents";
       flake = false;
     };
+    agents-alirezarezvani = {
+      url = "github:alirezarezvani/claude-skills";
+      flake = false;
+    };
   };
 
   outputs =
