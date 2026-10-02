@@ -10,6 +10,7 @@ eval "$(mise activate zsh)"
 # .commands
 alias hello-world="sh ~/.commands/hello-world.sh"
 alias tmux-start="sh ~/.commands/tmux-start.sh"
+alias cleanup-worktree="bash ~/.commands/cleanup-worktree.sh"
 
 # herdr
 sh ~/.commands/herdr-start.sh
