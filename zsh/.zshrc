@@ -58,6 +58,10 @@ export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
 # bindkey -v の後に読み込む必要がある
 eval "$(fzf --zsh)"
 
+# Claude Code・Codex の Ctrl+G（外部エディタ起動）で Neovim を開く
+export VISUAL=nvim
+export EDITOR=nvim
+
 # ghq のリポジトリ配置先（既存の ~/development とは分離する）
 export GHQ_ROOT="$HOME/repos"
 
