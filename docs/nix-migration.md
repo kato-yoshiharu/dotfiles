@@ -13,6 +13,7 @@
 - ディレクトリ直下のエントリ単位で配置し、`~/.config/nvim` のような配置先のディレクトリ自体は symlink にしない
 - 次のものだけは、配置先のディレクトリごと symlink にする
   - 公式がディレクトリ単位の symlink を求めるもの（Karabiner）
+  - 配置先にリポジトリ外のファイルが置かれず、ファイルの追加が多いもの（`.commands`）
 
 判断の理由は [ADR 0001](adr/0001-zsh-config-placement.md) と [ADR 0002](adr/0002-config-placement-strategy.md) に記録している。
 用語は [GLOSSARY.md](../GLOSSARY.md) に従う。
