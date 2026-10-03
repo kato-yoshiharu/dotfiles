@@ -20,4 +20,3 @@ flake input 由来でストアにしかないためである。
 
 ## Consequences 配置方式の決定に伴う影響
 
-- 参照先は絶対パスになるため、メイン worktree に固定する。`home.nix` の `dotfilesDir` で1か所に定義する。
