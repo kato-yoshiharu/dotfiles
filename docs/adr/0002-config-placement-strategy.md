@@ -10,5 +10,6 @@
 `~/.config/nvim` には、リポジトリにないファイル（`_backup/` や worktree 向けの `after`）がある。
 ディレクトリ単位で配置すると、`switch -b` でこれらがディレクトリごと退避されるためである。
 ただし Karabiner は、`karabiner.json` 自体が symlink だと設定の変更を検知しないため、公式の指示どおりディレクトリ単位にする。
+`.commands` もディレクトリ単位にする。
 ## Consequences 配置方式の決定に伴う影響
 
