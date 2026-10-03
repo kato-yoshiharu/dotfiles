@@ -13,3 +13,5 @@
 編集内容は `switch` するまで反映されない。
 
 **ストア外配置**:
+_Avoid_: out-of-store symlink
+
