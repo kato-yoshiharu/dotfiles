@@ -27,3 +27,4 @@
 | 1    | git、`.commands`                                                  | ストア外配置   |
 | 2    | zsh                                                               | ストア外配置   |
 | 3    | tmux                                                              | ストア経由配置 |
+| 5    | Claude Code、Codex                                                | ストア外配置   |
