@@ -2,7 +2,6 @@
 
 `.bin/link.sh` の symlink 配置を `nix/home.nix` へ段階的に移し、完了時に `link.sh` を廃止する。
 
-## 配置方式の選び方
 
 
 - ディレクトリ直下のエントリ単位で配置し、`~/.config/nvim` のような配置先のディレクトリ自体は symlink にしない
