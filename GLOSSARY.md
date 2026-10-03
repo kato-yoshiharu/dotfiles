@@ -13,5 +13,6 @@
 編集内容は `switch` するまで反映されない。
 
 **ストア外配置**:
+編集は `switch` なしで反映される。
 _Avoid_: out-of-store symlink
 
