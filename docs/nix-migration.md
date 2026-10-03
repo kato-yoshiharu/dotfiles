@@ -16,14 +16,13 @@
 
 各段階を1コミットにし、段階ごとに実機で動作を確認する。
 
-| 段階 | 対象                                                              | 配置方式       |
-| ---- | ----------------------------------------------------------------- | -------------- |
-| 1    | git、`.commands`                                                  | ストア外配置   |
-| 2    | zsh                                                               | ストア外配置   |
-| 3    | tmux                                                              | ストア経由配置 |
-| 4    | nvim、wezterm、aerospace、yazi、vicinae、rumdl、karabiner、VSCode | ストア外配置   |
-| 5    | Claude Code、Codex                                                | ストア外配置   |
-| 6    | `link.sh` の削除、`Makefile.toml` と README の更新                | なし           |
+| 段階 | 対象                                                                    |
+| ---- | ----------------------------------------------------------------------- |
+| 1    | git、`.commands`                                                        |
+| 2    | zsh                                                                     |
+| 3    | tmux、nvim、wezterm、aerospace、yazi、vicinae、rumdl、karabiner、VSCode |
+| 4    | Claude Code、Codex                                                      |
+| 5    | `link.sh` の削除、`Makefile.toml` と README の更新                      |
 
 - `.commands` は `.gitconfig` のエイリアスと git hooks から呼ばれるため、git と同じ段階にしている
 - zsh は失敗すると新しいシェルが設定なしで起動するため、git と分けて原因を切り分けられるようにしている
