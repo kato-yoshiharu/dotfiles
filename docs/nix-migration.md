@@ -4,3 +4,5 @@
 
 ## 配置方式の選び方
 
+用語は [GLOSSARY.md](../GLOSSARY.md) に従う。
+
