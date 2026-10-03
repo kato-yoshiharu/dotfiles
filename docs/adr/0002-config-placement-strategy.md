@@ -21,3 +21,4 @@ flake input 由来でストアにしかないためである。
 ## Consequences 配置方式の決定に伴う影響
 
 - 参照先は絶対パスになるため、どの worktree を指すかを決める必要がある。
+  `makers switch` を実行した worktree を参照先にし、worktree で `makers switch` するだけで、すべての設定をその worktree の内容に切り替えて試せるようにする。
