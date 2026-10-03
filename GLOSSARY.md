@@ -16,4 +16,5 @@
 _Avoid_: out-of-store symlink
 
 **メイン worktree**:
+dotfiles リポジトリのクローン本体（`~/development/suimenkathemove/dotfiles`）。
 通常はここで `makers switch` し、ストア外配置の参照先にする。
