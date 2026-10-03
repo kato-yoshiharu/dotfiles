@@ -23,3 +23,4 @@ flake input 由来でストアにしかないためである。
 - 参照先は絶対パスになるため、どの worktree を指すかを決める必要がある。
   `makers switch` を実行した worktree を参照先にし、worktree で `makers switch` するだけで、すべての設定をその worktree の内容に切り替えて試せるようにする。
   worktree のルートは環境変数 `DOTFILES_DIR` で渡し、`home.nix` の `dotfilesDir` で受け取る。
+- 環境変数を読むため、`switch` に `--impure` が必要になる。
