@@ -15,6 +15,7 @@
 
 例外として、`.claude/agents` の外部 agent はストア経由で配置する。
 flake input 由来でストアにしかないためである。
+自作 agent は `/agents` で書き換えられ、編集頻度も高いため、原則どおりストア外配置にする。
 
 ## Consequences 配置方式の決定に伴う影響
 
