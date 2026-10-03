@@ -16,3 +16,4 @@
 _Avoid_: out-of-store symlink
 
 **メイン worktree**:
+通常はここで `makers switch` し、ストア外配置の参照先にする。
