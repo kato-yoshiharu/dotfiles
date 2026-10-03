@@ -33,3 +33,4 @@
 
 段階の並びの理由:
 
+- `.commands` は `.gitconfig` のエイリアスと git hooks から呼ばれるため、git と同じ段階にしている
