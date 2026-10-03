@@ -15,3 +15,4 @@
 編集は `switch` なしで反映される。
 _Avoid_: out-of-store symlink
 
+**メイン worktree**:
