@@ -8,6 +8,9 @@
 
 - 原則として out-of-store symlink にする
 - 次の条件をすべて満たす設定だけをストア経由配置にする
+  - ツールが書き換えないと確認できている
+  - 編集頻度が低い
+
 判断の理由は [ADR 0001](adr/0001-zsh-config-placement.md) と [ADR 0002](adr/0002-config-placement-strategy.md) に記録している。
 用語は [GLOSSARY.md](../GLOSSARY.md) に従う。
 
