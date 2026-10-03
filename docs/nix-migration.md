@@ -29,6 +29,7 @@
 | 4    | Claude Code、Codex                                                      |
 | 5    | `link.sh` の削除、`Makefile.toml` と README の更新                      |
 
+- `makers switch` は以降の全段階の手順で使うため、配置を移す前に定義する
 - `.commands` は `.gitconfig` のエイリアスと git hooks から呼ばれるため、git と同じ段階にしている
 - zsh は失敗すると新しいシェルが設定なしで起動するため、git と分けて原因を切り分けられるようにしている
 - Claude Code と Codex は作業中のセッション自身の設定を壊しうるため、後ろ寄せにしている
