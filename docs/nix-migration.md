@@ -30,3 +30,4 @@
 | 4    | nvim、wezterm、aerospace、yazi、vicinae、rumdl、karabiner、VSCode | ストア外配置   |
 | 5    | Claude Code、Codex                                                | ストア外配置   |
 | 6    | `link.sh` の削除、`Makefile.toml` と README の更新                | なし           |
+
