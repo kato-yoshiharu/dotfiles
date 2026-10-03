@@ -19,3 +19,4 @@
 用語は [GLOSSARY.md](../GLOSSARY.md) に従う。
 
 ## 移行の段階と配置方式
+
