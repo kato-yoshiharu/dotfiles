@@ -32,5 +32,6 @@
 | 6    | `link.sh` の削除、`Makefile.toml` と README の更新                | なし           |
 
 - `.commands` は `.gitconfig` のエイリアスと git hooks から呼ばれるため、git と同じ段階にしている
+- zsh は失敗すると新しいシェルが設定なしで起動するため、git と分けて原因を切り分けられるようにしている
 - Claude Code と Codex は作業中のセッション自身の設定を壊しうるため、後ろ寄せにしている
 
