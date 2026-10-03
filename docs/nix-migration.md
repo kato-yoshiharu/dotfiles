@@ -28,3 +28,4 @@
 | 2    | zsh                                                               | ストア外配置   |
 | 3    | tmux                                                              | ストア経由配置 |
 | 5    | Claude Code、Codex                                                | ストア外配置   |
+| 6    | `link.sh` の削除、`Makefile.toml` と README の更新                | なし           |
