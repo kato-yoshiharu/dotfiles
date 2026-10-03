@@ -6,6 +6,7 @@
 
 配置方式を選ぶルール:
 
+- 原則として out-of-store symlink にする
 判断の理由は [ADR 0001](adr/0001-zsh-config-placement.md) と [ADR 0002](adr/0002-config-placement-strategy.md) に記録している。
 用語は [GLOSSARY.md](../GLOSSARY.md) に従う。
 
