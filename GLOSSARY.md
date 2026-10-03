@@ -11,7 +11,7 @@
 編集内容は `switch` するまで反映されない。
 
 **ストア外配置**:
-ホームからメイン worktree 内のファイルへ直接 symlink を張る配置。
+ホームから、`makers switch` を実行した worktree 内のファイルへ直接 symlink を張る配置。
 編集は `switch` なしで反映される。
 _Avoid_: out-of-store symlink
 
