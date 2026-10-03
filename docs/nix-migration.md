@@ -2,6 +2,9 @@
 
 `.bin/link.sh` の symlink 配置を `nix/home.nix` へ段階的に移し、完了時に `link.sh` を廃止する。
 
+## 配置のルール
+
+設定は `mkOutOfStoreSymlink` によるストア外配置にする。
 
 配置の単位のルール:
 
