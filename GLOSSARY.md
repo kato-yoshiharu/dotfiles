@@ -16,3 +16,4 @@
 _Avoid_: out-of-store symlink
 
 **メイン worktree**:
+ストア外配置の参照先になる worktree。
