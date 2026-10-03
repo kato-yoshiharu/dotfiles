@@ -22,6 +22,7 @@
 
 | 段階 | 対象                                                                    |
 | ---- | ----------------------------------------------------------------------- |
+| 0    | `makers switch` の定義（`dotfilesDir`、`Makefile.toml`、README）        |
 | 1    | git、`.commands`                                                        |
 | 2    | zsh                                                                     |
 | 3    | tmux、nvim、wezterm、aerospace、yazi、vicinae、rumdl、karabiner、VSCode |
