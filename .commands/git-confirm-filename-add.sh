@@ -5,7 +5,7 @@ current_branch=$(git branch | grep \* | cut -d ' ' -f2)
 
 sh "$(dirname "$0")/git-require-remote-branch.sh" "$current_branch"
 
-UNTRACKED_FILES=$(git ls-files --others --exclude-standard)
+UNTRACKED_FILES=$(git -c core.quotepath=false ls-files --others --exclude-standard)
 
 if [ -z "$UNTRACKED_FILES" ]; then
   echo "No untracked files found."
