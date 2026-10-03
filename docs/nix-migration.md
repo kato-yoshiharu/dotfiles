@@ -31,8 +31,6 @@
 | 5    | Claude Code、Codex                                                | ストア外配置   |
 | 6    | `link.sh` の削除、`Makefile.toml` と README の更新                | なし           |
 
-段階の並びの理由:
-
 - `.commands` は `.gitconfig` のエイリアスと git hooks から呼ばれるため、git と同じ段階にしている
 - Claude Code と Codex は作業中のセッション自身の設定を壊しうるため、後ろ寄せにしている
 
