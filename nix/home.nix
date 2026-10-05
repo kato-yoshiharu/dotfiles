@@ -59,6 +59,10 @@ in
         input = "skills-natural-japanese";
         subdir = "skills";
       };
+      i-have-adhd = {
+        input = "skills-i-have-adhd";
+        subdir = "skills";
+      };
       vercel-agent-skills = {
         input = "skills-vercel-agent-skills";
         subdir = "skills";
@@ -101,6 +105,10 @@ in
       natural-japanese = {
         from = "natural-japanese";
         path = "natural-japanese";
+      };
+      i-have-adhd = {
+        from = "i-have-adhd";
+        path = "i-have-adhd";
       };
     };
 

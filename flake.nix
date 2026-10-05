@@ -29,6 +29,10 @@
       url = "github:mattpocock/skills";
       flake = false;
     };
+    skills-i-have-adhd = {
+      url = "github:ayghri/i-have-adhd";
+      flake = false;
+    };
     skills-claude-plugins-community = {
       url = "github:anthropics/claude-plugins-community";
       flake = false;

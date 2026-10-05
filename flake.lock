@@ -96,6 +96,7 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "skills-claude-plugins-community": "skills-claude-plugins-community",
+        "skills-i-have-adhd": "skills-i-have-adhd",
         "skills-mattpocock-skills": "skills-mattpocock-skills",
         "skills-natural-japanese": "skills-natural-japanese",
         "skills-vercel-agent-skills": "skills-vercel-agent-skills",
@@ -115,6 +116,22 @@
       "original": {
         "owner": "anthropics",
         "repo": "claude-plugins-community",
+        "type": "github"
+      }
+    },
+    "skills-i-have-adhd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789836285,
+        "narHash": "sha256-UExi0k71MOtLwqVaFRGhgvqq6+jxwbQxZZVZxceHGrw=",
+        "owner": "ayghri",
+        "repo": "i-have-adhd",
+        "rev": "839872f9d1cd634fed642b4589ce7226199cc15f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ayghri",
+        "repo": "i-have-adhd",
         "type": "github"
       }
     },
