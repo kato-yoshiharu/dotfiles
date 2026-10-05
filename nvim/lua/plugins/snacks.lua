@@ -139,6 +139,16 @@ local function explorer_paste(picker)
   require("snacks.explorer.actions").update(picker, { target = dir })
 end
 
+-- 標準の explorer_del は n モードにしか割り当てられておらず、
+-- ビジュアルモードで d を押すとバッファ自体の削除になり E21 になる。
+-- ビジュアルの範囲を選択に変換してから、標準の削除に渡す
+local function explorer_del_visual(picker)
+  if vim.fn.mode():find("^[vV]") then
+    picker.list:select()
+  end
+  require("snacks.explorer.actions").actions.explorer_del(picker)
+end
+
 return {
   "folke/snacks.nvim",
   cond = not vim.g.vscode,
@@ -319,11 +329,16 @@ return {
           ignored = true,
           -- .git は VSCode 同様に隠す（hidden = true で他のドットファイルは見せたいので、ここだけ個別に除外する）
           exclude = { ".git" },
-          actions = { explorer_paste = explorer_paste },
+          actions = { explorer_paste = explorer_paste, explorer_del_visual = explorer_del_visual },
           -- esc で誤って閉じてしまわないようにする（閉じるのは <leader>e に任せる）
           win = {
             input = { keys = { ["<esc>"] = { "", mode = "n" } } },
-            list = { keys = { ["<esc>"] = { "", mode = "n" } } },
+            list = {
+              keys = {
+                ["<esc>"] = { "", mode = "n" },
+                ["d"] = { "explorer_del_visual", mode = { "n", "x" } },
+              },
+            },
           },
         },
       },
