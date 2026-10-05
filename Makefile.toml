@@ -29,3 +29,8 @@ make link
 script = '''
 tmux source-file ~/.tmux.conf
 '''
+
+[tasks.switch]
+script = '''
+nix run home-manager -- switch --flake ".#$(whoami)"
+'''
