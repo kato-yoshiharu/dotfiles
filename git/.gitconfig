@@ -1,6 +1,7 @@
 [user]
-    email = yoshiharu2580@gmail.com
-    name = kato-yoshiharu
+  email = yoshiharu2580@gmail.com
+  name = kato-yoshiharu
+  useConfigOnly = true
 [alias]
 	cbn = !sh ~/.commands/check-branch-name.sh
 	ptb = !sh ~/.commands/push-trial-branch.sh
