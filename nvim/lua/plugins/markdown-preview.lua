@@ -5,7 +5,6 @@ return {
   cmd = { "MarkdownPreviewToggle" },
   -- mkdp#util#install() は遅延ロード中だと autoload が読めず失敗することがあるため、
   -- npm で直接ビルドする。
-  build = "cd app && npm install && git restore yarn.lock && rm -f package-lock.json",
   init = function()
     vim.g.mkdp_filetypes = { "markdown" }
   end,
