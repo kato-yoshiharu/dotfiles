@@ -89,6 +89,9 @@ return {
   config = function(_, opts)
     require("neogit").setup(opts)
 
+    -- neogit は list を off にするため、空白(listchars)が表示されない。
+    -- 差分の本文だけ表示するには自前の描画が要るので、対応しない。
+
     -- log popup の色付け(c)は初期 off なので、初回のみ既定で on にする(手動 off 後は上書きしない)
     do
       local state = require("neogit.lib.state")
