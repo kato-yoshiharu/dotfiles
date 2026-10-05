@@ -32,9 +32,11 @@ argument-hint: "[切り出す実装内容(省略時は直前の会話内容と�
    - `ln -sfnv ~/development/suimenkathemove/dotfiles/_global <worktree>/_global`
    - `ln -sfnv <メイン worktree>/_repo <worktree>/_repo`
    - `mkdir -p <worktree>/_local`
-3. 手順1で作成済みの workspace の `root_pane.pane_id` を左ペインとして使い、そこで Neovim を起動する。
+3. 切り出す対象が未コミット変更なら、適切な方法で新規 worktree に移す。
+4. 手順1で作成済みの workspace の `root_pane.pane_id` を左ペインとして使い、そこで Neovim を起動する。
    その右に新規ペインを分割し、そちらで Claude Code セッションを起動して実装作業を委譲する
    (「herdr でペインを分割してセッションを委譲する」を参照)。
+5. 手順3で変更を移していれば、その変更を現在の worktree から削除する。
 
 ### herdr でペインを分割してセッションを委譲する
 
