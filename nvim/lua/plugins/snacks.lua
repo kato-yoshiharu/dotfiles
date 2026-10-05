@@ -193,6 +193,21 @@ return {
       desc = "文字列を検索",
     },
     {
+      "<leader>fG",
+      function()
+        Snacks.picker.projects({
+          -- cwd は変えず、選んだプロジェクトの中だけを grep する
+          confirm = function(picker, item)
+            picker:close()
+            if item then
+              Snacks.picker.grep({ cwd = item.file })
+            end
+          end,
+        })
+      end,
+      desc = "プロジェクトを選んで文字列を検索（cwd を変えずに）",
+    },
+    {
       "<leader>fb",
       function()
         Snacks.picker.buffers()
