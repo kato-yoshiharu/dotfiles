@@ -63,6 +63,10 @@ eval "$(fzf --zsh)"
 export VISUAL=nvim
 export EDITOR=nvim
 
+# git merge でマージコミットのメッセージ編集エディタを開かない(--no-edit を既定にする)。
+# 明示的に --edit を付ければ開ける
+export GIT_MERGE_AUTOEDIT=no
+
 # ghq のリポジトリ配置先（既存の ~/development とは分離する）
 export GHQ_ROOT="$HOME/repos"
 
