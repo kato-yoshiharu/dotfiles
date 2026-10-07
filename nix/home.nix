@@ -30,7 +30,10 @@ in
 
   programs.home-manager.enable = true;
 
-  home.packages = [ pkgs.ccusage ];
+  home.packages = [
+    pkgs.ccusage
+    inputs.backlog-md.packages.${pkgs.system}.default
+  ];
 
   home.file = localAgents // externalAgents;
 

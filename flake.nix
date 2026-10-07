@@ -12,6 +12,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    backlog-md = {
+      url = "github:MrLesk/Backlog.md";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # 外部 skill の取得元
     skills-vercel-agent-skills = {
       url = "github:vercel-labs/agent-skills";
