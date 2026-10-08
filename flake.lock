@@ -183,13 +183,31 @@
         "backlog-md": "backlog-md",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "skills-archify": "skills-archify",
         "skills-claude-plugins-community": "skills-claude-plugins-community",
+        "skills-explainer": "skills-explainer",
         "skills-i-have-adhd": "skills-i-have-adhd",
         "skills-mattpocock-skills": "skills-mattpocock-skills",
         "skills-natural-japanese": "skills-natural-japanese",
         "skills-vercel-agent-skills": "skills-vercel-agent-skills",
         "skills-vercel-skills": "skills-vercel-skills",
         "skills-yomiyasu": "skills-yomiyasu"
+      }
+    },
+    "skills-archify": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791483047,
+        "narHash": "sha256-FIRTDZYFHT5Q7l0ZJ51k2+rvmluTu6KNqKriLpEmDY4=",
+        "owner": "tt-a1i",
+        "repo": "archify",
+        "rev": "bb990b17b886e83d633e273221615eb259a92c78",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tt-a1i",
+        "repo": "archify",
+        "type": "github"
       }
     },
     "skills-claude-plugins-community": {
@@ -205,6 +223,22 @@
       "original": {
         "owner": "anthropics",
         "repo": "claude-plugins-community",
+        "type": "github"
+      }
+    },
+    "skills-explainer": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791278496,
+        "narHash": "sha256-X28LASU60zC8Q/8asgAr2UWIMxjYsVPEvd/bTro3c4o=",
+        "owner": "mizchi",
+        "repo": "explainer",
+        "rev": "578defba7249fde5366689424ed6017f76b5598b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mizchi",
+        "repo": "explainer",
         "type": "github"
       }
     },

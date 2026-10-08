@@ -70,6 +70,15 @@ in
         input = "skills-i-have-adhd";
         subdir = "skills";
       };
+      archify = {
+        input = "skills-archify";
+      };
+      # explainer-book は ../explainer を兄弟ディレクトリ経由で参照するため、
+      # 同じ source から explainer 系をまとめて有効にする。
+      explainer = {
+        input = "skills-explainer";
+        subdir = "skills";
+      };
       vercel-agent-skills = {
         input = "skills-vercel-agent-skills";
         subdir = "skills";
@@ -81,7 +90,14 @@ in
     };
 
     # yomiyasu は subdir = "skills" 配下で発見された ID で有効にする。
-    skills.enable = localSkills ++ [ "yomiyasu" ];
+    skills.enable = localSkills ++ [
+      "yomiyasu"
+      "explainer"
+      "explainer-book"
+      "first-reader"
+      "d2-diagram"
+      "d2-slides"
+    ];
     skills.explicit = {
       # 上流のフォルダ名は react-best-practices だが、
       # SKILL.md の name は vercel-react-best-practices である。
@@ -121,6 +137,10 @@ in
       i-have-adhd = {
         from = "i-have-adhd";
         path = "i-have-adhd";
+      };
+      archify = {
+        from = "archify";
+        path = "archify";
       };
     };
 

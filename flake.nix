@@ -42,6 +42,14 @@
       url = "github:ayghri/i-have-adhd";
       flake = false;
     };
+    skills-archify = {
+      url = "github:tt-a1i/archify";
+      flake = false;
+    };
+    skills-explainer = {
+      url = "github:mizchi/explainer";
+      flake = false;
+    };
     skills-claude-plugins-community = {
       url = "github:anthropics/claude-plugins-community";
       flake = false;
