@@ -30,6 +30,10 @@
       url = "github:coji/natural-japanese";
       flake = false;
     };
+    skills-yomiyasu = {
+      url = "github:nanaism/yomiyasu";
+      flake = false;
+    };
     skills-mattpocock-skills = {
       url = "github:mattpocock/skills";
       flake = false;

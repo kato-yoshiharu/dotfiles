@@ -62,6 +62,7 @@ in
         input = "skills-natural-japanese";
         subdir = "skills";
       };
+      yomiyasu.input = "skills-yomiyasu";
       i-have-adhd = {
         input = "skills-i-have-adhd";
         subdir = "skills";
@@ -76,7 +77,8 @@ in
       };
     };
 
-    skills.enable = localSkills;
+    # yomiyasu は SKILL.md が source 直下にあり explicit の path で指せないため、発見された ID で有効にする。
+    skills.enable = localSkills ++ [ "yomiyasu" ];
     skills.explicit = {
       # 上流のフォルダ名は react-best-practices だが、
       # SKILL.md の name は vercel-react-best-practices である。

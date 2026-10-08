@@ -188,7 +188,8 @@
         "skills-mattpocock-skills": "skills-mattpocock-skills",
         "skills-natural-japanese": "skills-natural-japanese",
         "skills-vercel-agent-skills": "skills-vercel-agent-skills",
-        "skills-vercel-skills": "skills-vercel-skills"
+        "skills-vercel-skills": "skills-vercel-skills",
+        "skills-yomiyasu": "skills-yomiyasu"
       }
     },
     "skills-claude-plugins-community": {
@@ -284,6 +285,22 @@
       "original": {
         "owner": "vercel-labs",
         "repo": "skills",
+        "type": "github"
+      }
+    },
+    "skills-yomiyasu": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791427304,
+        "narHash": "sha256-t/R2QBoktkTpvPcy88U6URKwW6Qz5Fmc2RjZovHZvXk=",
+        "owner": "nanaism",
+        "repo": "yomiyasu",
+        "rev": "c2ffae670994fec96daef92e0bc219f5c1923113",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nanaism",
+        "repo": "yomiyasu",
         "type": "github"
       }
     },
