@@ -62,7 +62,10 @@ in
         input = "skills-natural-japanese";
         subdir = "skills";
       };
-      yomiyasu.input = "skills-yomiyasu";
+      yomiyasu = {
+        input = "skills-yomiyasu";
+        subdir = "skills";
+      };
       i-have-adhd = {
         input = "skills-i-have-adhd";
         subdir = "skills";
@@ -77,7 +80,7 @@ in
       };
     };
 
-    # yomiyasu は SKILL.md が source 直下にあり explicit の path で指せないため、発見された ID で有効にする。
+    # yomiyasu は subdir = "skills" 配下で発見された ID で有効にする。
     skills.enable = localSkills ++ [ "yomiyasu" ];
     skills.explicit = {
       # 上流のフォルダ名は react-best-practices だが、
