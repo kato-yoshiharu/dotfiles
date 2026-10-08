@@ -98,6 +98,10 @@ in
         from = "mattpocock-skills";
         path = "grilling";
       };
+      grill-me = {
+        from = "mattpocock-skills";
+        path = "grill-me";
+      };
       domain-modeling = {
         from = "mattpocock-skills-engineering";
         path = "domain-modeling";
