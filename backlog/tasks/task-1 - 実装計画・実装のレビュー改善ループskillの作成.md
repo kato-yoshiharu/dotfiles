@@ -10,6 +10,7 @@ dependencies: []
 references:
   - >-
     /Users/katouyoshiharu/development/suimenkathemove/memos/memos/coding-agent/evaluator-optimizer.md
+  - 'https://zenn.dev/avaintelligence/articles/dont-outsource-understanding-to-ai'
 ordinal: 1000
 ---
 
