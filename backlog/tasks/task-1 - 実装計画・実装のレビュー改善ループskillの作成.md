@@ -8,6 +8,7 @@ labels: []
 dependencies: []
 references:
   - >-
+    /Users/katouyoshiharu/development/suimenkathemove/memos/memos/coding-agent/evaluator-optimizer.md
 ordinal: 1000
 ---
 
