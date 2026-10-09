@@ -1,5 +1,6 @@
 ---
 id: TASK-1
+title: 実装計画・実装のレビュー改善ループ skill の作成
 status: In Progress
 assignee: []
 created_date: '2026-10-09 22:59'
