@@ -10,6 +10,7 @@ eval "$(mise activate zsh)"
 # .commands
 alias hello-world="sh ~/.commands/hello-world.sh"
 alias tmux-start="sh ~/.commands/tmux-start.sh"
+alias cleanup-worktree="bash ~/.commands/cleanup-worktree.sh"
 
 # herdr
 sh ~/.commands/herdr-start.sh
@@ -57,6 +58,14 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
 # bindkey -v の後に読み込む必要がある
 eval "$(fzf --zsh)"
+
+# Claude Code・Codex の Ctrl+G（外部エディタ起動）で Neovim を開く
+export VISUAL=nvim
+export EDITOR=nvim
+
+# git merge でマージコミットのメッセージ編集エディタを開かない(--no-edit を既定にする)。
+# 明示的に --edit を付ければ開ける
+export GIT_MERGE_AUTOEDIT=no
 
 # ghq のリポジトリ配置先（既存の ~/development とは分離する）
 export GHQ_ROOT="$HOME/repos"

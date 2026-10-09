@@ -9,6 +9,12 @@ return {
     -- 既定の 6 では LSP 診断（10 以上）に左を取られ、診断のある行だけ棒が
     -- 2 列目にずれて縦線が折れるので、診断より高くして常に左端に置く
     sign_priority = 100,
+    -- カーソル行の blame を行末に出す
+    current_line_blame = true,
+    current_line_blame_opts = { delay = 0 },
+    current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
+    -- 未コミットの行には "Not Committed Yet" が出るので、何も出さない
+    current_line_blame_formatter_nc = "",
     on_attach = function(buf)
       local gs = require("gitsigns")
 
@@ -27,6 +33,10 @@ return {
           gs.nav_hunk("prev")
         end
       end, { buffer = buf, desc = "前のhunkに移動" })
+
+      vim.keymap.set("n", "<leader>gb", function()
+        gs.blame_line({ full = true })
+      end, { buffer = buf, desc = "現在行のコミット詳細を表示" })
 
       vim.keymap.set("v", "<leader>hs", function()
         -- line(".") がカーソル行、line("v") が選択の開始行

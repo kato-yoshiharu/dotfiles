@@ -2,7 +2,7 @@
 set -e
 
 # stagedなrename(ファイル名の変更)のみを対象にする
-RENAMES=$(git diff --cached -M --name-status --diff-filter=R)
+RENAMES=$(git -c core.quotepath=false diff --cached -M --name-status --diff-filter=R)
 
 if [ -z "$RENAMES" ]; then
   echo "No staged renames found." >&2

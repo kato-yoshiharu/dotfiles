@@ -81,7 +81,7 @@ local custom_commands = {
   {
     text = "Close All Buffers",
     fn = function()
-      vim.cmd("%bd | enew")
+      Snacks.bufdelete.all()
     end,
   },
 }
@@ -139,24 +139,23 @@ local function explorer_paste(picker)
   require("snacks.explorer.actions").update(picker, { target = dir })
 end
 
+-- 標準の explorer_del は n モードにしか割り当てられておらず、
+-- ビジュアルモードで d を押すとバッファ自体の削除になり E21 になる。
+-- ビジュアルの範囲を選択に変換してから、標準の削除に渡す
+local function explorer_del_visual(picker)
+  if vim.fn.mode():find("^[vV]") then
+    picker.list:select()
+  end
+  require("snacks.explorer.actions").actions.explorer_del(picker)
+end
+
 return {
   "folke/snacks.nvim",
   cond = not vim.g.vscode,
   -- lazy = false のプラグイン間で先に読み込む（描画前に色を確定させる）
   priority = 1000,
-  -- 起動直後に explorer を出すので遅延読み込みしない
+  -- dashboard を起動直後に出すので遅延読み込みしない
   lazy = false,
-  init = function()
-    vim.api.nvim_create_autocmd("VimEnter", {
-      callback = function()
-        -- ファイルやディレクトリを指定して起動したときは、そのバッファを邪魔しない
-        if vim.fn.argc() > 0 then
-          return
-        end
-        Snacks.explorer()
-      end,
-    })
-  end,
   keys = {
     {
       "<leader>e",
@@ -194,11 +193,33 @@ return {
       desc = "文字列を検索",
     },
     {
+      "<leader>fG",
+      function()
+        Snacks.picker.projects({
+          -- cwd は変えず、選んだプロジェクトの中だけを grep する
+          confirm = function(picker, item)
+            picker:close()
+            if item then
+              Snacks.picker.grep({ cwd = item.file })
+            end
+          end,
+        })
+      end,
+      desc = "プロジェクトを選んで文字列を検索（cwd を変えずに）",
+    },
+    {
       "<leader>fb",
       function()
         Snacks.picker.buffers()
       end,
       desc = "開いているバッファを検索",
+    },
+    {
+      "<leader>/",
+      function()
+        Snacks.picker.lines()
+      end,
+      desc = "現在のバッファ内をfuzzy検索",
     },
     {
       "<leader>fp",
@@ -233,6 +254,20 @@ return {
         Snacks.picker.git_log()
       end,
       desc = "git のコミット履歴",
+    },
+    {
+      "<leader>d",
+      function()
+        Snacks.picker.diagnostics_buffer()
+      end,
+      desc = "現在のファイルの診断を検索",
+    },
+    {
+      "<leader>D",
+      function()
+        Snacks.picker.diagnostics()
+      end,
+      desc = "開いている全バッファの診断を検索",
     },
     -- LSP（Neovim 0.11 の既定キー gr* / gO を snacks のピッカーに差し替える）
     {
@@ -309,11 +344,16 @@ return {
           ignored = true,
           -- .git は VSCode 同様に隠す（hidden = true で他のドットファイルは見せたいので、ここだけ個別に除外する）
           exclude = { ".git" },
-          actions = { explorer_paste = explorer_paste },
+          actions = { explorer_paste = explorer_paste, explorer_del_visual = explorer_del_visual },
           -- esc で誤って閉じてしまわないようにする（閉じるのは <leader>e に任せる）
           win = {
             input = { keys = { ["<esc>"] = { "", mode = "n" } } },
-            list = { keys = { ["<esc>"] = { "", mode = "n" } } },
+            list = {
+              keys = {
+                ["<esc>"] = { "", mode = "n" },
+                ["d"] = { "explorer_del_visual", mode = { "n", "x" } },
+              },
+            },
           },
         },
       },

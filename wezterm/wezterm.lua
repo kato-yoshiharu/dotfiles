@@ -8,6 +8,13 @@ config.automatically_reload_config = true
 -- 日本語 IME を有効化
 config.use_ime = true
 
+-- ベルを無効化（音・視覚効果ともに出さない）
+config.audible_bell = "Disabled"
+config.visual_bell = {
+  fade_in_duration_ms = 0,
+  fade_out_duration_ms = 0,
+}
+
 -- 背景透過・ぼかし
 config.window_background_opacity = 0.8
 config.macos_window_background_blur = 20

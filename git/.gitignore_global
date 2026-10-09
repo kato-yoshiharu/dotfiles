@@ -9,5 +9,6 @@
 **/.claude/settings.local.json
 
 # Project local
+_global
+_repo
 _local
-_shared

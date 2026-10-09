@@ -1,3 +1,6 @@
+-- 同梱の ftplugin/markdown.vim が markdown だけ tabstop/shiftwidth を4に上書きするのを防ぐ
+vim.g.markdown_recommended_style = 0
+
 local opt = vim.opt
 
 -- 検索時に大文字小文字を区別しない
@@ -33,9 +36,9 @@ if not vim.g.vscode then
   opt.tabstop = 2
   -- undo 履歴をファイルに保存して、再起動後も元に戻せるようにする
   opt.undofile = true
-  -- 不可視文字を表示する（半角スペース・タブ・行末が見えるようにする）
+  -- 不可視文字を表示する
   opt.list = true
-  opt.listchars = { space = "·", tab = "▸ ", eol = "↴" }
+  opt.listchars = { space = "·", tab = "▸ " }
   -- 行を折り返す
   opt.wrap = true
   -- 単語の途中で折り返さない
@@ -46,6 +49,6 @@ if not vim.g.vscode then
   -- （diffview の差分比較画面でも折り返す）
   opt.diffopt:append("followwrap")
   -- 起動時の intro 画面（:intro）を出さない。
-  -- explorer を開くまでの一瞬だけ表示されてちらつくため
+  -- dashboard を開くまでの一瞬だけ表示されてちらつくため
   opt.shortmess:append("I")
 end

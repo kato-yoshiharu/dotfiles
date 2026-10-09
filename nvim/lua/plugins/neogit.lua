@@ -13,6 +13,33 @@ return {
       "<leader>gs",
       function()
         local neogit = require("neogit")
+        -- log view(status で la など)が開いていれば先に閉じる。
+        -- 閉じるとウィンドウ・タブの一覧が変わるため、先に対象を集めてから閉じる
+        local log_wins = {}
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "NeogitLogView" then
+            table.insert(log_wins, win)
+          end
+        end
+        local closed_log = #log_wins > 0
+        for _, win in ipairs(log_wins) do
+          if vim.api.nvim_win_is_valid(win) then
+            local tab = vim.api.nvim_win_get_tabpage(win)
+            -- タブ内で最後のウィンドウなら :close は失敗するため、タブごと閉じる
+            if #vim.api.nvim_tabpage_list_wins(tab) == 1 then
+              vim.cmd("tabclose " .. vim.api.nvim_tabpage_get_number(tab))
+            else
+              vim.api.nvim_win_close(win, true)
+            end
+          end
+        end
+
+        if closed_log then
+          -- log を閉じたら status も一緒に閉じる
+          neogit.close()
+          return
+        end
+
         -- status バッファが今のタブで表示中なら閉じる。
         -- 別タブで開いている場合は neogit.open() を呼ぶと(kind="tab"のため)重複して新しいタブが作られ、
         -- self.buffer の参照先と実際に見ている画面がズレてキー入力が効かなくなるため、
@@ -61,6 +88,9 @@ return {
   },
   config = function(_, opts)
     require("neogit").setup(opts)
+
+    -- neogit は list を off にするため、空白(listchars)が表示されない。
+    -- 差分の本文だけ表示するには自前の描画が要るので、対応しない。
 
     -- log popup の色付け(c)は初期 off なので、初回のみ既定で on にする(手動 off 後は上書きしない)
     do
@@ -128,7 +158,10 @@ return {
         local result = git.cli.commit.message(msg).call({ await = true })
         if result:success() then
           notification.info("Committed")
-          git.repo:dispatch_refresh()
+          -- git.repo:dispatch_refresh() は git の内部状態を更新するだけで、
+          -- status バッファの再描画までは行わない(self:dispatch_refresh() を呼ぶ必要がある)ため、
+          -- staged changes がコミット後も画面から消えないままになっていた
+          require("neogit.buffers.status").instance():dispatch_refresh(nil, "commit_with_input")
         else
           notification.error(table.concat(result.stderr, "\n"))
         end
@@ -176,8 +209,96 @@ return {
       end
     end
 
+    -- Staged changes セクションを常に一番上に表示したい。
+    -- config には表示順を変える設定がないため、生成後のツリーの中から該当セクションを探して並び替える。
+    do
+      local status_ui = require("neogit.buffers.status.ui")
+      local original_status = status_ui.Status
+
+      local section_order = { staged = 1, untracked = 2, unstaged = 3 }
+
+      status_ui.Status = function(state, config)
+        local result = original_status(state, config)
+
+        local list = result[1]
+        if list and list.children then
+          local entries = {}
+          local min_idx
+          for i, child in ipairs(list.children) do
+            local section = child.options and child.options.section
+            if section_order[section] then
+              table.insert(entries, { idx = i, section = section, child = child })
+              min_idx = min_idx and math.min(min_idx, i) or i
+            end
+          end
+
+          if #entries > 1 then
+            -- 並び替え後の順序を決める
+            table.sort(entries, function(a, b)
+              return section_order[a.section] < section_order[b.section]
+            end)
+
+            -- 元の位置を後ろから消してから、最小位置に並び替え後の順序で詰め直す
+            local original_indices = {}
+            for _, entry in ipairs(entries) do
+              table.insert(original_indices, entry.idx)
+            end
+            table.sort(original_indices, function(a, b) return a > b end)
+            for _, idx in ipairs(original_indices) do
+              table.remove(list.children, idx)
+            end
+
+            for offset, entry in ipairs(entries) do
+              table.insert(list.children, min_idx + offset - 1, entry.child)
+            end
+          end
+        end
+
+        return result
+      end
+    end
+
+    -- neogitのWatcherは.gitディレクトリの変更をrecursiveオプション無しで監視しているため、
+    -- refs/heads/<branch> や logs/HEAD のような1階層下のファイル変更(=git commit/pushなど、
+    -- neogitを経由しない外部コマンドでの操作)を検知できず、statusバッファが再描画されない。
+    -- recursive = true を渡して外部コマンドでの変更も拾えるようにする
+    do
+      local Watcher = require("neogit.watcher")
+      local config = require("neogit.config")
+
+      function Watcher:start()
+        if not config.values.filewatcher.enabled then
+          return self
+        end
+
+        if self.running then
+          return self
+        end
+
+        self.running = true
+        self.fs_event_handler:start(self.git_dir, { recursive = true }, self:fs_event_callback())
+        return self
+      end
+
+      -- buffer:redraw() だとカーソル位置が保存・復元されず先頭行に飛ぶため、
+      -- 保存・復元込みの dispatch_refresh() を使う(無ければ従来どおり redraw())
+      function Watcher:dispatch_refresh()
+        for _, buffer in pairs(self.buffers) do
+          if buffer.dispatch_refresh then
+            buffer:dispatch_refresh(nil, "watcher")
+          else
+            buffer:redraw()
+          end
+        end
+      end
+    end
+
     -- stage/unstageするとファイルがセクションをまたいで移動し、neogitはカーソル位置を
-    -- 復元できず先頭行に戻してしまう。押す前の行番号を覚えておき、再描画後に同じ行へ戻す
+    -- 復元できず先頭行に戻してしまう。押す前の行番号を覚えておき、再描画後に同じ行へ戻す。
+    -- 注意: git addなどでStaged changesセクションごと表示・非表示が切り替わる場合は
+    -- 行番号を保っても別内容にカーソルが乗ってズレて見えることがあるが、neogit本体の
+    -- resolve_cursor_location側もセクションの増減時は同種の問題を抱えており汎用的な解決策がないため、
+    -- ここでは対応していない(未解決の既知の問題)
     local last_status_line
     vim.api.nvim_create_autocmd("User", {
       pattern = "NeogitStatusRefreshed",
@@ -191,6 +312,24 @@ return {
         end
       end,
     })
+
+    -- push などの実行中に出るコンソール(NeogitConsole)では、<esc> がプロセスの停止(process:stop())に
+    -- 割り当てられているため、画面を閉じるつもりで押すと push が中断されて "Failed to push to ..." になる。
+    -- <esc> はプロセスを止めずにコンソールを隠すだけにする(中断したいときは <c-c> を使う)
+    do
+      local ProcessBuffer = require("neogit.buffers.process")
+      local original_open = ProcessBuffer.open
+
+      function ProcessBuffer:open()
+        local result = original_open(self)
+        if self.buffer then
+          vim.keymap.set("n", "<esc>", function()
+            self:hide()
+          end, { buffer = self.buffer.handle, nowait = true, desc = "コンソールを隠す(プロセスは止めない)" })
+        end
+        return result
+      end
+    end
 
     -- branch popup の delete(D) は fuzzy finder で Tab により複数マークしても先頭の1つしか
     -- 削除しないため、マークしたブランチをすべて受け取り、ローカルは git branch -d、
@@ -308,9 +447,9 @@ return {
         -- それより後に上書きする必要があり vim.schedule で1ティック遅らせる
         vim.schedule(function()
           vim.keymap.set("n", "c", function()
-            local winnr = vim.fn.bufwinnr(ev.buf)
-            if winnr ~= -1 then
-              vim.api.nvim_win_close(vim.fn.win_getid(winnr), true)
+            local popup = require("neogit.lib.popup").instance
+            if popup then
+              popup:close()
             end
             commit_with_input()
           end, { buffer = ev.buf, desc = "git commit(一行入力欄でメッセージ入力)" })

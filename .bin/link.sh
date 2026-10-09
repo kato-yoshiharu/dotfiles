@@ -33,14 +33,10 @@ ln -sfnv "$DOTFILES_PATH/tmux/.tmux.conf" "$HOME/.tmux.conf"
 ln_files_in_dir "$DOTFILES_PATH/vscode" "${HOME}/Library/Application Support/Code/User"
 
 # Claude Code
-ln -sfnv "$DOTFILES_PATH/.claude/settings.json" "$HOME/.claude/settings.json"
-
-# Claude Code skills
-mkdir -p "$HOME/.claude/skills"
-ln_files_in_dir "$DOTFILES_PATH/claude/skills" "$HOME/.claude/skills"
-if [ -d "$DOTFILES_PATH/claude/skills-installed" ]; then
-  ln_files_in_dir "$DOTFILES_PATH/claude/skills-installed" "$HOME/.claude/skills"
-fi
+ln -sfnv "$DOTFILES_PATH/AGENTS.md" "$HOME/.claude/AGENTS.md"
+ln -sfnv "$DOTFILES_PATH/claude/keybindings.json" "$HOME/.claude/keybindings.json"
+ln -sfnv "$DOTFILES_PATH/claude/settings.json" "$HOME/.claude/settings.json"
+ln -sfnv "$DOTFILES_PATH/claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 
 # Claude Code output styles
 mkdir -p "$HOME/.claude/output-styles"
@@ -70,3 +66,7 @@ ln_files_in_dir "$DOTFILES_PATH/yazi" "$HOME/.config/yazi"
 # Karabiner-Elements
 mkdir -p "$HOME/.config/karabiner"
 ln_files_in_dir "$DOTFILES_PATH/karabiner" "$HOME/.config/karabiner"
+
+# rumdl
+mkdir -p "$HOME/.config/rumdl"
+ln_files_in_dir "$DOTFILES_PATH/rumdl" "$HOME/.config/rumdl"
