@@ -19,6 +19,3 @@ ordinal: 1000
 <!-- SECTION:DESCRIPTION:BEGIN -->
 <!-- SECTION:DESCRIPTION:END -->
 
-## Acceptance Criteria
-<!-- AC:BEGIN -->
-<!-- AC:END -->
