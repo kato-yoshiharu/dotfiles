@@ -135,6 +135,7 @@
     "tabmove",
     "tabnew",
     "textlint",
+    "textlintrc",
     "textwidth",
     "tflock",
     "tfstate",
