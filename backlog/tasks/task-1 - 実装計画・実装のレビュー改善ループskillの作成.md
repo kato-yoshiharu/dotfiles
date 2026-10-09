@@ -17,5 +17,6 @@ ordinal: 1000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
+evaluator-optimizer パターン（生成 → 評価 → 改善の反復）を skill 化したい。
 
 <!-- SECTION:DESCRIPTION:END -->
