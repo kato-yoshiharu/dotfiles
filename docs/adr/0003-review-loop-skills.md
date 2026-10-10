@@ -11,6 +11,7 @@
 
 設計の出発点にした資料:
 
+- [memos リポジトリの memos/coding-agent/evaluator-optimizer.md](https://github.com/kato-yoshiharu/memos/blob/f9680b571e39956249a08ea26cb9d29a25c1280e/memos/coding-agent/evaluator-optimizer.md)
 - [AIに丸投げしないで理解するためのAI開発手法（Zenn）](https://zenn.dev/avaintelligence/articles/dont-outsource-understanding-to-ai)
 
 公式の資料:
