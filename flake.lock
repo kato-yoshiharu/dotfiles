@@ -183,6 +183,7 @@
         "backlog-md": "backlog-md",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "skills-addyosmani-agent-skills": "skills-addyosmani-agent-skills",
         "skills-affaan-m-ecc": "skills-affaan-m-ecc",
         "skills-archify": "skills-archify",
         "skills-claude-plugins-community": "skills-claude-plugins-community",
@@ -195,6 +196,22 @@
         "skills-vercel-skills": "skills-vercel-skills",
         "skills-walkinglabs-learn-harness-engineering": "skills-walkinglabs-learn-harness-engineering",
         "skills-yomiyasu": "skills-yomiyasu"
+      }
+    },
+    "skills-addyosmani-agent-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791051669,
+        "narHash": "sha256-eeldNNDQjP/Uk/BIRo33Q/xzCdPV3kGRGqU3XyQZnFY=",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "rev": "1401c8b8030e023baeebb31781a6653fe8e93026",
+        "type": "github"
+      },
+      "original": {
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "type": "github"
       }
     },
     "skills-affaan-m-ecc": {

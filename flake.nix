@@ -66,6 +66,10 @@
       url = "github:anthropics/claude-plugins-official";
       flake = false;
     };
+    skills-addyosmani-agent-skills = {
+      url = "github:addyosmani/agent-skills";
+      flake = false;
+    };
 
     # 外部 sub agent の取得元
     agents-voltagent = {

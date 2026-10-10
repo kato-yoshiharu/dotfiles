@@ -100,6 +100,10 @@ in
         input = "skills-claude-plugins-official";
         subdir = "plugins/claude-code-setup/skills";
       };
+      addyosmani-agent-skills = {
+        input = "skills-addyosmani-agent-skills";
+        subdir = "skills";
+      };
     };
 
     # yomiyasu は subdir = "skills" 配下で発見された ID で有効にする。
@@ -167,6 +171,10 @@ in
       claude-automation-recommender = {
         from = "claude-plugins-official-claude-code-setup";
         path = "claude-automation-recommender";
+      };
+      context-engineering = {
+        from = "addyosmani-agent-skills";
+        path = "context-engineering";
       };
     };
 
