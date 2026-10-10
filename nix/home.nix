@@ -91,6 +91,11 @@ in
         input = "skills-vercel-skills";
         subdir = "skills";
       };
+      # ECC は巨大なモノレポなので、skills.explicit で選んだものだけを有効にする。
+      affaan-m-ecc = {
+        input = "skills-affaan-m-ecc";
+        subdir = "skills";
+      };
     };
 
     # yomiyasu は subdir = "skills" 配下で発見された ID で有効にする。
@@ -146,6 +151,14 @@ in
       archify = {
         from = "archify";
         path = "archify";
+      };
+      eval-harness = {
+        from = "affaan-m-ecc";
+        path = "eval-harness";
+      };
+      agent-eval = {
+        from = "affaan-m-ecc";
+        path = "agent-eval";
       };
     };
 

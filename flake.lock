@@ -183,6 +183,7 @@
         "backlog-md": "backlog-md",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "skills-affaan-m-ecc": "skills-affaan-m-ecc",
         "skills-archify": "skills-archify",
         "skills-claude-plugins-community": "skills-claude-plugins-community",
         "skills-explainer": "skills-explainer",
@@ -193,6 +194,22 @@
         "skills-vercel-skills": "skills-vercel-skills",
         "skills-walkinglabs-learn-harness-engineering": "skills-walkinglabs-learn-harness-engineering",
         "skills-yomiyasu": "skills-yomiyasu"
+      }
+    },
+    "skills-affaan-m-ecc": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791590833,
+        "narHash": "sha256-uGTH0FpEQTGQQmmMArlHZbfT1KrsKdsikIWMGNoRpzg=",
+        "owner": "affaan-m",
+        "repo": "ECC",
+        "rev": "8384d609a0e6dc071503f669cb6a581420e23469",
+        "type": "github"
+      },
+      "original": {
+        "owner": "affaan-m",
+        "repo": "ECC",
+        "type": "github"
       }
     },
     "skills-archify": {
