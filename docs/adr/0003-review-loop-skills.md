@@ -4,6 +4,9 @@
 
 evaluator-optimizer パターン（生成役と評価役を分け、評価のフィードバックで改善を繰り返す）を、
 実装計画のレビューと、実装のレビューに使う skill にしたい[^memo][^building-effective-agents]。
+
+ただし、LLM によるレビュー・改善ループでは、よくある失敗がある。
+
 ## Decision 設計で決めたこと
 
 ### 工程の分け方
