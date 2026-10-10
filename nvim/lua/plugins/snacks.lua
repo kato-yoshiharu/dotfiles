@@ -73,6 +73,27 @@ local custom_commands = {
     end,
   },
   {
+    text = "Copy GitHub Permalink",
+    -- コミットは snacks.gitbrowse が「そのファイルを最後に変更したコミット」から決める
+    -- ビジュアル選択中にパレットを開いたときだけ、その行範囲を #L10-L20 のように付ける
+    fn = function(range)
+      Snacks.gitbrowse({
+        what = "permalink",
+        line_start = range and range[1] or nil,
+        line_end = range and range[2] or nil,
+        notify = false,
+        open = function(url)
+          -- snacks は範囲がないとき、カーソル行の #L を必ず付けてしまうので外す
+          if not range then
+            url = url:gsub("#L%d+%-L%d+$", "")
+          end
+          vim.fn.setreg("+", url)
+          Snacks.notify.info("コピーした: " .. url)
+        end,
+      })
+    end,
+  },
+  {
     text = "Close Other Buffers",
     fn = function()
       vim.cmd("BufferLineCloseOthers")
@@ -88,6 +109,12 @@ local custom_commands = {
 
 -- 自作コマンドと Ex コマンドをまとめた1つのピッカーとして開く
 local function open_command_palette()
+  -- ピッカーを開くとビジュアル選択が外れるので、開く前に行範囲を控える
+  local range
+  if vim.fn.mode():find("^[vV\22]") then
+    local a, b = vim.fn.line("v"), vim.fn.line(".")
+    range = { math.min(a, b), math.max(a, b) }
+  end
   local items = vim.deepcopy(custom_commands)
   -- snacks 標準の "commands" ソースと同じ手順で Ex コマンド一覧を集める
   require("snacks.picker.source.vim").commands()(function(item)
@@ -103,7 +130,7 @@ local function open_command_palette()
     confirm = function(picker, item)
       picker:close()
       if item.fn then
-        item.fn()
+        item.fn(range)
       elseif item.cmd then
         -- snacks 標準の "cmd" アクションと同じく、コマンドラインに入力した状態にする
         vim.schedule(function()
@@ -246,6 +273,7 @@ return {
     {
       "<leader>P",
       open_command_palette,
+      mode = { "n", "x" },
       desc = "コマンドパレット（Ex コマンド + 自作コマンド）",
     },
     {
