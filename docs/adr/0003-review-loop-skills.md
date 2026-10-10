@@ -12,3 +12,6 @@
 設計の出発点にした資料:
 
 - [AIに丸投げしないで理解するためのAI開発手法（Zenn）](https://zenn.dev/avaintelligence/articles/dont-outsource-understanding-to-ai)
+
+公式の資料:
+
