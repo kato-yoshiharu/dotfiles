@@ -186,6 +186,7 @@
         "skills-affaan-m-ecc": "skills-affaan-m-ecc",
         "skills-archify": "skills-archify",
         "skills-claude-plugins-community": "skills-claude-plugins-community",
+        "skills-claude-plugins-official": "skills-claude-plugins-official",
         "skills-explainer": "skills-explainer",
         "skills-i-have-adhd": "skills-i-have-adhd",
         "skills-mattpocock-skills": "skills-mattpocock-skills",
@@ -241,6 +242,22 @@
       "original": {
         "owner": "anthropics",
         "repo": "claude-plugins-community",
+        "type": "github"
+      }
+    },
+    "skills-claude-plugins-official": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791579249,
+        "narHash": "sha256-J3XPxc3PPIRq1pOBTQ4s6YlHY3JMDAuDFQVVC3Ih5mQ=",
+        "owner": "anthropics",
+        "repo": "claude-plugins-official",
+        "rev": "b8e53f1c05dff3b6d751297f6527990ffc81c2f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anthropics",
+        "repo": "claude-plugins-official",
         "type": "github"
       }
     },

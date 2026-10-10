@@ -96,6 +96,10 @@ in
         input = "skills-affaan-m-ecc";
         subdir = "skills";
       };
+      claude-plugins-official-claude-code-setup = {
+        input = "skills-claude-plugins-official";
+        subdir = "plugins/claude-code-setup/skills";
+      };
     };
 
     # yomiyasu は subdir = "skills" 配下で発見された ID で有効にする。
@@ -159,6 +163,10 @@ in
       agent-eval = {
         from = "affaan-m-ecc";
         path = "agent-eval";
+      };
+      claude-automation-recommender = {
+        from = "claude-plugins-official-claude-code-setup";
+        path = "claude-automation-recommender";
       };
     };
 

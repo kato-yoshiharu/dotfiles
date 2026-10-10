@@ -62,6 +62,10 @@
       url = "github:affaan-m/ECC";
       flake = false;
     };
+    skills-claude-plugins-official = {
+      url = "github:anthropics/claude-plugins-official";
+      flake = false;
+    };
 
     # 外部 sub agent の取得元
     agents-voltagent = {
