@@ -74,6 +74,10 @@ Markdown ドキュメントとコードコメントを編集するときのル�
 - WebSearch・WebFetchや、接続されているMCPの検索ツールなど、使える手段で実際に検索してから回答する
 - 検索した情報と記憶の情報が食い違う場合は、検索した情報を優先する
 
+## Backlog.mdのルール
+
+- Backlog.md のタスク名に空白を含めない
+
 <!-- BACKLOG.MD GUIDELINES START -->
 <!-- backlog.md-instructions-version: 1.53.0 -->
 <CRITICAL_INSTRUCTION>
@@ -87,6 +91,7 @@ This project uses Backlog.md for task and project management.
 Use the overview to decide whether to search, read, create, or update Backlog tasks.
 
 Before task lifecycle actions, read the matching detailed guide:
+
 - `backlog instructions task-creation` before creating or splitting tasks
 - `backlog instructions task-execution` before planning, changing status or assignee, adding a plan or implementation notes, or implementing task work
 - `backlog instructions task-finalization` before checking acceptance criteria, writing final summaries, or moving tasks to terminal statuses
