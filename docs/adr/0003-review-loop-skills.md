@@ -2,6 +2,7 @@
 
 ## Context 背景
 
+evaluator-optimizer パターン（生成役と評価役を分け、評価のフィードバックで改善を繰り返す）を、
 ## Decision 設計で決めたこと
 
 ### 工程の分け方
