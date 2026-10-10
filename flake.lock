@@ -191,6 +191,7 @@
         "skills-natural-japanese": "skills-natural-japanese",
         "skills-vercel-agent-skills": "skills-vercel-agent-skills",
         "skills-vercel-skills": "skills-vercel-skills",
+        "skills-walkinglabs-learn-harness-engineering": "skills-walkinglabs-learn-harness-engineering",
         "skills-yomiyasu": "skills-yomiyasu"
       }
     },
@@ -319,6 +320,22 @@
       "original": {
         "owner": "vercel-labs",
         "repo": "skills",
+        "type": "github"
+      }
+    },
+    "skills-walkinglabs-learn-harness-engineering": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790829039,
+        "narHash": "sha256-MzIGR9UMQcoqu0DE0SDHExJfaSy9917xr1QxjyBidMA=",
+        "owner": "walkinglabs",
+        "repo": "learn-harness-engineering",
+        "rev": "38ddcd2bf8d65271f668b94e7c875ca1d629d622",
+        "type": "github"
+      },
+      "original": {
+        "owner": "walkinglabs",
+        "repo": "learn-harness-engineering",
         "type": "github"
       }
     },

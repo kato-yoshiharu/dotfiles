@@ -50,6 +50,10 @@
       url = "github:mizchi/explainer";
       flake = false;
     };
+    skills-walkinglabs-learn-harness-engineering = {
+      url = "github:walkinglabs/learn-harness-engineering";
+      flake = false;
+    };
     skills-claude-plugins-community = {
       url = "github:anthropics/claude-plugins-community";
       flake = false;

@@ -79,6 +79,10 @@ in
         input = "skills-explainer";
         subdir = "skills";
       };
+      walkinglabs-learn-harness-engineering = {
+        input = "skills-walkinglabs-learn-harness-engineering";
+        subdir = "skills";
+      };
       vercel-agent-skills = {
         input = "skills-vercel-agent-skills";
         subdir = "skills";
@@ -97,6 +101,7 @@ in
       "first-reader"
       "d2-diagram"
       "d2-slides"
+      "harness-creator"
     ];
     skills.explicit = {
       # 上流のフォルダ名は react-best-practices だが、
