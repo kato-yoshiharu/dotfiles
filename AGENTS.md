@@ -75,6 +75,7 @@ Markdown ドキュメントとコードコメントを編集するときのル�
 ## Backlog.mdのルール
 
 - Backlog.md のタスク名に空白を含めない
+- Backlog の plan・notes・final summary などの文章は、1行に詰めず Markdown として書く。
 
 <!-- BACKLOG.MD GUIDELINES START -->
 <!-- backlog.md-instructions-version: 1.53.0 -->
