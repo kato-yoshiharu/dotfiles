@@ -7,6 +7,7 @@ evaluator-optimizer パターン（生成役と評価役を分け、評価のフ
 
 ただし、LLM によるレビュー・改善ループでは、よくある失敗がある。
 
+- LLM の評価者は、自分の出力を高く評価しがちである[^llm-evaluators][^self-preference]
 ## Decision 設計で決めたこと
 
 ### 工程の分け方
