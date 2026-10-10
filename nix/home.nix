@@ -168,6 +168,10 @@ in
         from = "affaan-m-ecc";
         path = "agent-eval";
       };
+      agentic-engineering = {
+        from = "affaan-m-ecc";
+        path = "agentic-engineering";
+      };
       claude-automation-recommender = {
         from = "claude-plugins-official-claude-code-setup";
         path = "claude-automation-recommender";
