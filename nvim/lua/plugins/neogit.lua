@@ -300,6 +300,9 @@ return {
     -- resolve_cursor_location側もセクションの増減時は同種の問題を抱えており汎用的な解決策がないため、
     -- ここでは対応していない(未解決の既知の問題)
     local last_status_line
+
+    -- visual で素の s を押すとステージされるが、押し間違いを防ぐためエラーにする。
+    local allow_visual_s = false
     vim.api.nvim_create_autocmd("User", {
       pattern = "NeogitStatusRefreshed",
       callback = function()
@@ -398,6 +401,7 @@ return {
         -- discard は確認ダイアログを伴う非同期処理なので、"x"フラグ(即時実行)だと
         -- ダイアログの応答待ちとかみ合わないことがあるため、次のtickに回す
         vim.keymap.set("v", "<leader>hs", function()
+          allow_visual_s = true
           vim.schedule(function()
             vim.fn.feedkeys("s", "m")
           end)
@@ -408,6 +412,26 @@ return {
             vim.fn.feedkeys("x", "m")
           end)
         end, { buffer = ev.buf, desc = "選択行をリセット(discard)" })
+
+        -- neogit は FileType 設定後に自前のキーマップを設定するため、
+        -- それより後に上書きする必要があり vim.schedule で1ティック遅らせる。
+        -- <leader>hs 経由のときは、上書き前の neogit 標準の s に委譲する
+        vim.schedule(function()
+          if not vim.api.nvim_buf_is_valid(ev.buf) then
+            return
+          end
+          local original = vim.fn.maparg("s", "v", false, true)
+          vim.keymap.set("v", "s", function()
+            if allow_visual_s then
+              allow_visual_s = false
+              if original.callback then
+                return original.callback()
+              end
+              return
+            end
+            vim.notify("行選択中の s は使えない。<leader>hs を使う", vim.log.levels.ERROR)
+          end, { buffer = ev.buf, nowait = true, desc = "行選択中の s はエラー" })
+        end)
 
         -- visual選択でのstage/unstageは選択範囲がまとめて消えるため、カーソル行ではなく
         -- 選択範囲の一番上の行を覚えておく(そこに後続の項目が繰り上がってくる)

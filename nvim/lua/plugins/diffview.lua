@@ -12,6 +12,11 @@ local function focus_diff_right()
   end
 end
 
+local function visual_s_error()
+  vim.notify("行選択中の s は使えない。<leader>hs を使う", vim.log.levels.ERROR)
+end
+local visual_s = { "x", "s", visual_s_error, { desc = "行選択中の s はエラー" } }
+
 return {
   "sindrets/diffview.nvim",
   cond = not vim.g.vscode,
@@ -34,10 +39,13 @@ return {
   },
   opts = {
     keymaps = {
+      view = { visual_s },
       file_panel = {
+        visual_s,
         { "n", "<C-l>", focus_diff_right, { desc = "右側の差分ウィンドウへ移動" } },
       },
       file_history_panel = {
+        visual_s,
         { "n", "<C-l>", focus_diff_right, { desc = "右側の差分ウィンドウへ移動" } },
       },
     },
