@@ -293,6 +293,47 @@ return {
       end
     end
 
+    -- Staged changes 内の各ファイルの差分(hunk)を、status を開いたときに展開済みにする。
+    -- neogit には差分の初期展開を変える設定がないため、
+    -- 再描画のたびにツリーから staged のファイル項目を探して on_open(差分の遅延ロードと展開)を呼ぶ。
+    do
+      local expanded_staged_ids = {}
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "NeogitStatusRefreshed",
+        callback = function()
+          local status = require("neogit.buffers.status").instance()
+          if not (status and status.buffer) then
+            return
+          end
+          local ui = status.buffer.ui
+
+          local present = {}
+          local function walk(node)
+            local options = node.options or {}
+            local id = options.id
+            if type(id) == "string" and vim.startswith(id, "staged--") then
+              present[id] = true
+              if options.on_open and not expanded_staged_ids[id] then
+                expanded_staged_ids[id] = true
+                options.on_open(node, ui)
+              end
+            end
+            for _, child in ipairs(node.children or {}) do
+              walk(child)
+            end
+          end
+          walk(ui.layout)
+
+          for id in pairs(expanded_staged_ids) do
+            if not present[id] then
+              expanded_staged_ids[id] = nil
+            end
+          end
+        end,
+      })
+    end
+
     -- stage/unstageするとファイルがセクションをまたいで移動し、neogitはカーソル位置を
     -- 復元できず先頭行に戻してしまう。押す前の行番号を覚えておき、再描画後に同じ行へ戻す。
     -- 注意: git addなどでStaged changesセクションごと表示・非表示が切り替わる場合は
