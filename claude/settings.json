@@ -9,6 +9,17 @@
       "Edit",
       "Write"
     ],
+    "deny": [
+      "Bash(gh repo delete *)",
+      "Bash(gh repo archive *)",
+      "Bash(gh release delete *)",
+      "Bash(gh secret delete *)",
+      "Bash(gh api *DELETE*)",
+      "Bash(gh api *delete*)",
+      "Bash(terraform destroy *)",
+      "Bash(terraform apply *-auto-approve*)",
+      "Bash(rm *)"
+    ],
     "defaultMode": "auto"
   },
   "model": "sonnet",
