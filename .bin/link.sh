@@ -51,6 +51,10 @@ mkdir -p "$HOME/.codex"
 ln -sfnv "$DOTFILES_PATH/.agents/AGENTS.md" "$HOME/.codex/AGENTS.md"
 ln -sfnv "$DOTFILES_PATH/.codex/hooks.json" "$HOME/.codex/hooks.json"
 
+# Codex rules
+mkdir -p "$HOME/.codex/rules"
+ln_files_in_dir "$DOTFILES_PATH/.codex/rules" "$HOME/.codex/rules"
+
 # Vicinae
 mkdir -p "$HOME/.config/vicinae"
 ln_files_in_dir "$DOTFILES_PATH/vicinae" "$HOME/.config/vicinae"
