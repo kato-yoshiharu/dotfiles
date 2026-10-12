@@ -8,6 +8,8 @@ return {
   opts = {
     formatters_by_ft = {
       markdown = { "rumdl" },
+      terraform = { "terraform_fmt" },
+      ["terraform-vars"] = { "terraform_fmt" },
     },
     format_on_save = {
       timeout_ms = 2000,

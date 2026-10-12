@@ -183,15 +183,51 @@
         "backlog-md": "backlog-md",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "skills-addyosmani-agent-skills": "skills-addyosmani-agent-skills",
+        "skills-affaan-m-ecc": "skills-affaan-m-ecc",
         "skills-archify": "skills-archify",
         "skills-claude-plugins-community": "skills-claude-plugins-community",
+        "skills-claude-plugins-official": "skills-claude-plugins-official",
         "skills-explainer": "skills-explainer",
         "skills-i-have-adhd": "skills-i-have-adhd",
         "skills-mattpocock-skills": "skills-mattpocock-skills",
         "skills-natural-japanese": "skills-natural-japanese",
         "skills-vercel-agent-skills": "skills-vercel-agent-skills",
         "skills-vercel-skills": "skills-vercel-skills",
+        "skills-walkinglabs-learn-harness-engineering": "skills-walkinglabs-learn-harness-engineering",
         "skills-yomiyasu": "skills-yomiyasu"
+      }
+    },
+    "skills-addyosmani-agent-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791051669,
+        "narHash": "sha256-eeldNNDQjP/Uk/BIRo33Q/xzCdPV3kGRGqU3XyQZnFY=",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "rev": "1401c8b8030e023baeebb31781a6653fe8e93026",
+        "type": "github"
+      },
+      "original": {
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "type": "github"
+      }
+    },
+    "skills-affaan-m-ecc": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791590833,
+        "narHash": "sha256-uGTH0FpEQTGQQmmMArlHZbfT1KrsKdsikIWMGNoRpzg=",
+        "owner": "affaan-m",
+        "repo": "ECC",
+        "rev": "8384d609a0e6dc071503f669cb6a581420e23469",
+        "type": "github"
+      },
+      "original": {
+        "owner": "affaan-m",
+        "repo": "ECC",
+        "type": "github"
       }
     },
     "skills-archify": {
@@ -223,6 +259,22 @@
       "original": {
         "owner": "anthropics",
         "repo": "claude-plugins-community",
+        "type": "github"
+      }
+    },
+    "skills-claude-plugins-official": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791579249,
+        "narHash": "sha256-J3XPxc3PPIRq1pOBTQ4s6YlHY3JMDAuDFQVVC3Ih5mQ=",
+        "owner": "anthropics",
+        "repo": "claude-plugins-official",
+        "rev": "b8e53f1c05dff3b6d751297f6527990ffc81c2f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anthropics",
+        "repo": "claude-plugins-official",
         "type": "github"
       }
     },
@@ -319,6 +371,22 @@
       "original": {
         "owner": "vercel-labs",
         "repo": "skills",
+        "type": "github"
+      }
+    },
+    "skills-walkinglabs-learn-harness-engineering": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790829039,
+        "narHash": "sha256-MzIGR9UMQcoqu0DE0SDHExJfaSy9917xr1QxjyBidMA=",
+        "owner": "walkinglabs",
+        "repo": "learn-harness-engineering",
+        "rev": "38ddcd2bf8d65271f668b94e7c875ca1d629d622",
+        "type": "github"
+      },
+      "original": {
+        "owner": "walkinglabs",
+        "repo": "learn-harness-engineering",
         "type": "github"
       }
     },

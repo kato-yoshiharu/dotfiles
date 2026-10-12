@@ -79,12 +79,29 @@ in
         input = "skills-explainer";
         subdir = "skills";
       };
+      walkinglabs-learn-harness-engineering = {
+        input = "skills-walkinglabs-learn-harness-engineering";
+        subdir = "skills";
+      };
       vercel-agent-skills = {
         input = "skills-vercel-agent-skills";
         subdir = "skills";
       };
       vercel-skills = {
         input = "skills-vercel-skills";
+        subdir = "skills";
+      };
+      # ECC は巨大なモノレポなので、skills.explicit で選んだものだけを有効にする。
+      affaan-m-ecc = {
+        input = "skills-affaan-m-ecc";
+        subdir = "skills";
+      };
+      claude-plugins-official-claude-code-setup = {
+        input = "skills-claude-plugins-official";
+        subdir = "plugins/claude-code-setup/skills";
+      };
+      addyosmani-agent-skills = {
+        input = "skills-addyosmani-agent-skills";
         subdir = "skills";
       };
     };
@@ -97,6 +114,7 @@ in
       "first-reader"
       "d2-diagram"
       "d2-slides"
+      "harness-creator"
     ];
     skills.explicit = {
       # 上流のフォルダ名は react-best-practices だが、
@@ -141,6 +159,26 @@ in
       archify = {
         from = "archify";
         path = "archify";
+      };
+      eval-harness = {
+        from = "affaan-m-ecc";
+        path = "eval-harness";
+      };
+      agent-eval = {
+        from = "affaan-m-ecc";
+        path = "agent-eval";
+      };
+      agentic-engineering = {
+        from = "affaan-m-ecc";
+        path = "agentic-engineering";
+      };
+      claude-automation-recommender = {
+        from = "claude-plugins-official-claude-code-setup";
+        path = "claude-automation-recommender";
+      };
+      context-engineering = {
+        from = "addyosmani-agent-skills";
+        path = "context-engineering";
       };
     };
 

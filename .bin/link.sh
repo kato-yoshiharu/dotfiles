@@ -33,7 +33,7 @@ ln -sfnv "$DOTFILES_PATH/tmux/.tmux.conf" "$HOME/.tmux.conf"
 ln_files_in_dir "$DOTFILES_PATH/vscode" "${HOME}/Library/Application Support/Code/User"
 
 # Claude Code
-ln -sfnv "$DOTFILES_PATH/AGENTS.md" "$HOME/.claude/AGENTS.md"
+ln -sfnv "$DOTFILES_PATH/.agents/AGENTS.md" "$HOME/.claude/AGENTS.md"
 ln -sfnv "$DOTFILES_PATH/claude/keybindings.json" "$HOME/.claude/keybindings.json"
 ln -sfnv "$DOTFILES_PATH/claude/settings.json" "$HOME/.claude/settings.json"
 ln -sfnv "$DOTFILES_PATH/claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
@@ -48,8 +48,12 @@ ln_files_in_dir "$DOTFILES_PATH/claude/hooks" "$HOME/.claude/hooks"
 
 # Codex
 mkdir -p "$HOME/.codex"
-ln -sfnv "$DOTFILES_PATH/AGENTS.md" "$HOME/.codex/AGENTS.md"
+ln -sfnv "$DOTFILES_PATH/.agents/AGENTS.md" "$HOME/.codex/AGENTS.md"
 ln -sfnv "$DOTFILES_PATH/.codex/hooks.json" "$HOME/.codex/hooks.json"
+
+# Codex rules
+mkdir -p "$HOME/.codex/rules"
+ln_files_in_dir "$DOTFILES_PATH/.codex/rules" "$HOME/.codex/rules"
 
 # Vicinae
 mkdir -p "$HOME/.config/vicinae"

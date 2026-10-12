@@ -9,6 +9,7 @@ local servers = {
   "html", -- html
   "jsonls", -- json
   "lua_ls", -- lua
+  "marksman", -- markdown（脚注の gd / grr に対応）
   "nil_ls", -- nix
   "pyright", -- python
   "rust_analyzer", -- rust

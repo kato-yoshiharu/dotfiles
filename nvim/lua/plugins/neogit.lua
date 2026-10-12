@@ -293,25 +293,251 @@ return {
       end
     end
 
-    -- stage/unstageするとファイルがセクションをまたいで移動し、neogitはカーソル位置を
-    -- 復元できず先頭行に戻してしまう。押す前の行番号を覚えておき、再描画後に同じ行へ戻す。
-    -- 注意: git addなどでStaged changesセクションごと表示・非表示が切り替わる場合は
-    -- 行番号を保っても別内容にカーソルが乗ってズレて見えることがあるが、neogit本体の
-    -- resolve_cursor_location側もセクションの増減時は同種の問題を抱えており汎用的な解決策がないため、
-    -- ここでは対応していない(未解決の既知の問題)
-    local last_status_line
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "NeogitStatusRefreshed",
-      callback = function()
-        for _, win in ipairs(vim.api.nvim_list_wins()) do
-          local buf = vim.api.nvim_win_get_buf(win)
-          if vim.bo[buf].filetype == "NeogitStatus" then
-            local line = math.min(last_status_line or 1, vim.api.nvim_buf_line_count(buf))
-            vim.api.nvim_win_set_cursor(win, { line, 0 })
+    -- Staged changes 内の各ファイルの差分(hunk)を、status を開いたときに展開済みにする。
+    -- neogit には差分の初期展開を変える設定がないため、
+    -- 再描画のたびにツリーから staged のファイル項目を探して on_open(差分の遅延ロードと展開)を呼ぶ。
+    do
+      local expanded_staged_ids = {}
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "NeogitStatusRefreshed",
+        callback = function()
+          local status = require("neogit.buffers.status").instance()
+          if not (status and status.buffer) then
+            return
           end
+          local ui = status.buffer.ui
+
+          local present = {}
+          local function walk(node)
+            local options = node.options or {}
+            local id = options.id
+            if type(id) == "string" and vim.startswith(id, "staged--") then
+              present[id] = true
+              if options.on_open and not expanded_staged_ids[id] then
+                expanded_staged_ids[id] = true
+                options.on_open(node, ui)
+              end
+            end
+            for _, child in ipairs(node.children or {}) do
+              walk(child)
+            end
+          end
+          walk(ui.layout)
+
+          for id in pairs(expanded_staged_ids) do
+            if not present[id] then
+              expanded_staged_ids[id] = nil
+            end
+          end
+        end,
+      })
+    end
+
+    -- neogit は各 hunk の位置(hunk.first / hunk.last)を、差分を読み込んだ時点の絶対行番号で一度だけ記録し、
+    -- 再描画しても更新しない(ファイル項目の位置 item.first / item.last は再描画のたびに更新される)。
+    -- そのため、上にある Staged changes の差分が後から展開されて行が増えると、
+    -- その下にある展開済みファイルの hunk の位置が古いまま残り、
+    -- visual 選択での stage(item_hunks)が選択とは別の行を patch にしてしまう。
+    -- 再描画のたびに、描画後のファイル項目の位置から hunk の位置を数え直す
+    -- (数え方は neogit の load_diff と同じ)
+    do
+      local Ui = require("neogit.lib.ui")
+      local original_update = Ui.update
+
+      local function sync_hunk_positions(node)
+        local options = node.options or {}
+        local item = options.item
+        -- on_open が nil になっていれば、差分は読み込み済み(load_diff が nil にする)
+        if item and item.diff and item.diff.hunks and options.on_open == nil and node.position then
+          local row = node.position.row_start + 1
+          for _, hunk in ipairs(item.diff.hunks) do
+            hunk.first = row
+            hunk.last = row + hunk.length
+            row = hunk.last + 1
+          end
+        end
+        for _, child in ipairs(node.children or {}) do
+          sync_hunk_positions(child)
+        end
+      end
+
+      function Ui:update(...)
+        local result = original_update(self, ...)
+        if self.layout then
+          sync_hunk_positions(self.layout)
+        end
+        return result
+      end
+    end
+
+    -- stage/unstageするとファイルがセクションをまたいで移動し、neogitはカーソル位置を
+    -- 復元できず先頭行に戻してしまう。
+    -- 単純に行番号を覚えておくと、Staged changesセクションが上に現れたとき(や差分が展開されたとき)に
+    -- その行数分だけカーソルがずれる。
+    -- そのため、押す前のカーソルが属するセクションと、その見出しからの相対行数を覚えておき、
+    -- 再描画後は同じセクションの見出しを探して、そこからの相対位置へ戻す。
+    -- セクションが消えた場合(最後の1件をstageしたときなど)は、行番号で戻す。
+    -- セクションの名前と範囲は neogit が持っている(ui.item_index)ので、見出しの文言には頼らず、それを使う
+    local function status_sections()
+      local status = require("neogit.buffers.status").instance()
+      if status and status.buffer then
+        return status.buffer.ui.item_index
+      end
+      return {}
+    end
+
+    -- lnum が属するセクションの名前と、その見出し行を返す
+    local function find_section_at(lnum)
+      for _, section in ipairs(status_sections()) do
+        if section.first and section.first <= lnum and lnum <= section.last then
+          return section.name, section.first
+        end
+      end
+    end
+
+    local function find_section_header(name)
+      for _, section in ipairs(status_sections()) do
+        if section.first and section.name == name then
+          return section.first
+        end
+      end
+    end
+
+    -- 再描画の前に覚えておく、カーソルの位置。
+    -- CursorMoved で常時記録すると、neogit が再描画中に動かしたカーソル位置で上書きされてしまう。
+    -- そのため、位置が動く操作(stage など)を実行する直前と、status から離れる瞬間(commit など)だけを記録する
+    local last_status_cursor
+    local SNAPSHOT_TTL_MS = 1500
+
+    local function restore_status_cursor()
+      if not last_status_cursor then
+        return
+      end
+      -- time が nil の間は、status から離れていて期限切れにしない(戻ってきたときに時刻が入る)
+      if last_status_cursor.time and vim.uv.now() - last_status_cursor.time > SNAPSHOT_TTL_MS then
+        last_status_cursor = nil
+        return
+      end
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == "NeogitStatus" then
+          local count = vim.api.nvim_buf_line_count(buf)
+          local line = last_status_cursor.line
+          if last_status_cursor.section then
+            local header_line = find_section_header(last_status_cursor.section)
+            if header_line then
+              line = header_line + last_status_cursor.offset
+            end
+            -- 末尾の項目をstageしたあとは相対位置がセクションの外(空行)にはみ出す。
+            -- 空行でsを押すとセクション全体が対象になってしまうため、直前の項目まで戻す
+            while line > 1 and line <= count and vim.api.nvim_buf_get_lines(buf, line - 1, line, false)[1] == "" do
+              line = line - 1
+            end
+          end
+          vim.api.nvim_win_set_cursor(win, { math.max(1, math.min(line, count)), 0 })
+        end
+      end
+    end
+
+    -- Staged changes の差分は非同期で展開されるため、再描画の直後に復元しても、
+    -- その後に行が増えてカーソルが別の行に乗ってしまい、意図しない行をstageしてしまう。
+    -- 差分の読み込みが終わるたびにも復元し直す
+    vim.api.nvim_create_autocmd("User", {
+      pattern = { "NeogitStatusRefreshed", "NeogitDiffLoaded" },
+      callback = restore_status_cursor,
+    })
+
+    local function snapshot_status_cursor()
+      local line
+      local mode = vim.fn.mode()
+      if mode == "v" or mode == "V" or mode == "\22" then
+        -- visual選択でのstage/unstageは選択範囲がまとめて消えるため、
+        -- 選択範囲の一番上の行を基準にする(そこに後続の項目が繰り上がってくる)
+        line = math.min(vim.fn.line("."), vim.fn.line("v"))
+      else
+        line = vim.api.nvim_win_get_cursor(0)[1]
+      end
+      local section, header_line = find_section_at(line)
+      last_status_cursor = {
+        line = line,
+        section = section,
+        offset = header_line and (line - header_line) or 0,
+        time = vim.uv.now(),
+      }
+    end
+
+    -- commit のように、popup やエディタへ移ってから戻ってくる操作では、
+    -- 押したキーの位置を記録できず、再描画で先頭行に戻ってしまう。
+    -- そのため、status から離れる瞬間の位置も記録しておき、
+    -- 戻ってきてから SNAPSHOT_TTL_MS の間に起きた再描画で復元する
+    vim.api.nvim_create_autocmd("WinLeave", {
+      callback = function()
+        if vim.bo.filetype == "NeogitStatus" then
+          snapshot_status_cursor()
+          last_status_cursor.time = nil
         end
       end,
     })
+
+    vim.api.nvim_create_autocmd("BufEnter", {
+      callback = function()
+        if vim.bo.filetype == "NeogitStatus" and last_status_cursor and not last_status_cursor.time then
+          last_status_cursor.time = vim.uv.now()
+        end
+      end,
+    })
+
+    -- status を閉じたあとも記録が残っていると、次に開いたときの最初の再描画で、閉じる前の位置へ寄せようとしてしまう。
+    -- そのため、status のバッファが消えるときに記録を捨てる
+    -- (status は kind="tab" で開くため、commit エディタなどへ移っても、バッファは消えない)
+    vim.api.nvim_create_autocmd("BufWipeout", {
+      callback = function(args)
+        if vim.bo[args.buf].filetype == "NeogitStatus" then
+          last_status_cursor = nil
+        end
+      end,
+    })
+
+    -- ファイルや差分が動いて、カーソルの位置がずれる action を、
+    -- 実行する直前(押した瞬間)の位置を記録してから呼ぶ。
+    do
+      local actions = require("neogit.buffers.status.actions")
+      local names = {
+        -- ファイルが staged と unstaged の間を動く
+        "n_stage",
+        "v_stage",
+        "n_unstage",
+        "v_unstage",
+        "n_stage_all",
+        "n_stage_unstaged",
+        "n_unstage_staged",
+        -- 変更の内容を捨てる
+        "n_discard",
+        "v_discard",
+        "n_reverse",
+        "v_reverse",
+        -- ファイルの扱いを変える
+        "n_untrack",
+        "v_untrack",
+        "n_rename",
+      }
+      for _, name in ipairs(names) do
+        local action_fn = actions[name]
+        if action_fn then
+          actions[name] = function(self, ...)
+            local fn = action_fn(self, ...)
+            if type(fn) ~= "function" then
+              return fn
+            end
+            return function(...)
+              snapshot_status_cursor()
+              return fn(...)
+            end
+          end
+        end
+      end
+    end
 
     -- push などの実行中に出るコンソール(NeogitConsole)では、<esc> がプロセスの停止(process:stop())に
     -- 割り当てられているため、画面を閉じるつもりで押すと push が中断されて "Failed to push to ..." になる。
@@ -386,6 +612,10 @@ return {
       end
     end
 
+    -- <leader>hs が送る s だけ、エラーにせず neogit 標準のステージに渡すためのフラグ。
+    -- 渡したら false に戻す。
+    -- 素の s は、押し間違いを防ぐためエラーにする。
+    local allow_visual_s = false
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "NeogitStatus",
       callback = function(ev)
@@ -398,6 +628,7 @@ return {
         -- discard は確認ダイアログを伴う非同期処理なので、"x"フラグ(即時実行)だと
         -- ダイアログの応答待ちとかみ合わないことがあるため、次のtickに回す
         vim.keymap.set("v", "<leader>hs", function()
+          allow_visual_s = true
           vim.schedule(function()
             vim.fn.feedkeys("s", "m")
           end)
@@ -409,19 +640,25 @@ return {
           end)
         end, { buffer = ev.buf, desc = "選択行をリセット(discard)" })
 
-        -- visual選択でのstage/unstageは選択範囲がまとめて消えるため、カーソル行ではなく
-        -- 選択範囲の一番上の行を覚えておく(そこに後続の項目が繰り上がってくる)
-        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-          buffer = ev.buf,
-          callback = function()
-            local mode = vim.fn.mode()
-            if mode == "v" or mode == "V" or mode == "\22" then
-              last_status_line = math.min(vim.fn.line("."), vim.fn.line("v"))
-            else
-              last_status_line = vim.api.nvim_win_get_cursor(0)[1]
+        -- neogit は FileType 設定後に自前のキーマップを設定するため、
+        -- それより後に上書きする必要があり vim.schedule で1ティック遅らせる。
+        -- <leader>hs 経由のときは、上書き前の neogit 標準の s に委譲する
+        vim.schedule(function()
+          if not vim.api.nvim_buf_is_valid(ev.buf) then
+            return
+          end
+          local original = vim.fn.maparg("s", "v", false, true)
+          vim.keymap.set("v", "s", function()
+            if allow_visual_s then
+              allow_visual_s = false
+              if original.callback then
+                return original.callback()
+              end
+              return
             end
-          end,
-        })
+            vim.notify("行選択中の s は使えない。<leader>hs を使う", vim.log.levels.ERROR)
+          end, { buffer = ev.buf, nowait = true, desc = "行選択中の s はエラー" })
+        end)
 
         -- 画面幅を超える行を折り返す
         -- FileType 発火時点ではまだウィンドウに表示されていないことがあるため一tick遅らせる
