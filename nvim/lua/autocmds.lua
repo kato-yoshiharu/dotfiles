@@ -12,6 +12,39 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
   end,
 })
 
+-- 起動直後の空の [No Name] バッファは、ファイルを開いたあとに不要になるので閉じる。
+local close_empty_group = vim.api.nvim_create_augroup("CloseEmptyBuffer", { clear = true })
+
+local function is_disposable_empty_buffer(buf)
+  -- 名前がない
+  return vim.api.nvim_buf_get_name(buf) == ""
+      -- terminal・help・quickfix などではない
+      and vim.bo[buf].buftype == ""
+      -- 中身が空(1行だけで、その行が空文字)
+      and vim.api.nvim_buf_line_count(buf) == 1
+      and vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1] == ""
+      -- どのタブのウィンドウにも表示されていない
+      and #vim.fn.win_findbuf(buf) == 0
+end
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = close_empty_group,
+  callback = function(args)
+    -- ファイルを開いたときだけ対象にする（help・terminal などでは閉じない）
+    if vim.bo[args.buf].buftype ~= "" or vim.api.nvim_buf_get_name(args.buf) == "" then
+      return
+    end
+
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      -- 今開いたバッファ自身は消さない
+      if buf ~= args.buf and is_disposable_empty_buffer(buf) then
+        -- 他の autocmd のエラーで残りの掃除が止まらないようにする
+        pcall(vim.api.nvim_buf_delete, buf, {})
+      end
+    end
+  end,
+})
+
 local group = vim.api.nvim_create_augroup("ReloadConfig", { clear = true })
 
 -- lua/ 配下は dotfiles へのシンボリックリンクなので、
