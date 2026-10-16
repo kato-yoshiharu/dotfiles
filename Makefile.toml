@@ -21,8 +21,6 @@ sh vscode/extensions/install.sh
 [tasks.link]
 script = '''
 sh .bin/link.sh
-cd dotfiles_private
-make link
 '''
 
 [tasks.reload-tmux-conf]
