@@ -17,8 +17,7 @@
       "Bash(gh api *DELETE*)",
       "Bash(gh api *delete*)",
       "Bash(terraform destroy *)",
-      "Bash(terraform apply *-auto-approve*)",
-      "Bash(rm *)"
+      "Bash(terraform apply *-auto-approve*)"
     ],
     "defaultMode": "auto"
   },

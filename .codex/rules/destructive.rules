@@ -7,4 +7,3 @@ prefix_rule(pattern = ["gh", "secret", "delete"], decision = "forbidden", justif
 prefix_rule(pattern = ["gh", "api", ["-X", "--method"], "DELETE"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")
 prefix_rule(pattern = ["terraform", "destroy"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")
 prefix_rule(pattern = ["terraform", "apply", "-auto-approve"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")
-prefix_rule(pattern = ["rm"], decision = "forbidden", justification = "破壊的なコマンドのため禁止。trash 等を使う")
