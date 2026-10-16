@@ -135,6 +135,12 @@ return {
       set(0, "NeogitChangeUnmerged", { fg = dracula.pink }) -- conflicting
       set(0, "NeogitChangeNewFile", { fg = dracula.green }) -- untracked
 
+      -- neogit でカーソル行にあるファイル名や diff の変更なしの行の文字色を、背景に重なっても読める明るいグレーにする
+      for _, name in ipairs({ "NeogitDiffContext", "NeogitDiffContextHighlight", "NeogitDiffContextCursor" }) do
+        local current = vim.api.nvim_get_hl(0, { name = name, link = false })
+        set(0, name, vim.tbl_extend("force", current, { fg = comment_bright }))
+      end
+
       -- neogit の status 画面のセクション見出し（Untracked files / Staged changes 等）の色
       set(0, "NeogitUntrackedfiles", { fg = dracula.green, bold = true })
       set(0, "NeogitUnstagedchanges", { fg = dracula.cyan, bold = true })
