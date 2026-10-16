@@ -296,7 +296,11 @@ return {
     -- Staged changes 内の各ファイルの差分(hunk)を、status を開いたときに展開済みにする。
     -- neogit には差分の初期展開を変える設定がないため、
     -- 再描画のたびにツリーから staged のファイル項目を探して on_open(差分の遅延ロードと展開)を呼ぶ。
+    -- staged のファイルが多いと、1ファイルの展開ごとに git diff --cached と --shortstat の2プロセスを直列に走らせ、
+    -- 差分の読み込みごとに再描画も走るため、status 画面が固まる。
+    -- そのため、staged のファイル数が上限を超えているときは自動展開しない(上限値は仮置き)
     do
+      local MAX_AUTO_EXPAND_STAGED = 20
       local expanded_staged_ids = {}
 
       vim.api.nvim_create_autocmd("User", {
@@ -307,6 +311,11 @@ return {
             return
           end
           local ui = status.buffer.ui
+
+          local staged_count = #require("neogit.lib.git").repo.state.staged.items
+          if staged_count > MAX_AUTO_EXPAND_STAGED then
+            return
+          end
 
           local present = {}
           local function walk(node)
