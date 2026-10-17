@@ -393,11 +393,11 @@
     "skills-yomiyasu": {
       "flake": false,
       "locked": {
-        "lastModified": 1791427304,
-        "narHash": "sha256-t/R2QBoktkTpvPcy88U6URKwW6Qz5Fmc2RjZovHZvXk=",
+        "lastModified": 1792198911,
+        "narHash": "sha256-GuCSFIHzkQwpKhB06jihweDitz6WWYj6xKDdmd9HG/s=",
         "owner": "nanaism",
         "repo": "yomiyasu",
-        "rev": "c2ffae670994fec96daef92e0bc219f5c1923113",
+        "rev": "1bc21f9c8e6a55fc4ccd5a2c7dfe78a7b0d814c5",
         "type": "github"
       },
       "original": {
