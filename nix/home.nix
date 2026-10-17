@@ -41,9 +41,41 @@ in
     }
   ];
 
+  # terraform は BUSL ライセンスで、nixpkgs では unfree 扱いになっている。
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "terraform" ];
+
   home.packages = [
-    pkgs.ccusage
     inputs.backlog-md.packages.${pkgs.system}.default
+    pkgs.ccusage
+    pkgs.cspell
+    pkgs.dotenvx
+    pkgs.fd
+    pkgs.fzf
+    pkgs.gh
+    pkgs.ghq
+    pkgs.git
+    pkgs.herdr
+    pkgs.hunk
+    pkgs.jq
+    pkgs.lazysql
+    # node などのランタイムは、プロジェクトごとにバージョンを合わせるため mise で入れる。
+    pkgs.mise
+    pkgs.neovim
+    pkgs.ni
+    pkgs.npm-check-updates
+    pkgs.pipx
+    pkgs.pnpm
+    pkgs.posting
+    # yazi の S（中身検索）と、シェル単体での grep 置き換えに使う
+    pkgs.ripgrep
+    pkgs.rumdl
+    pkgs.starship
+    pkgs.terraform
+    # nvim-treesitter の main ブランチがパーサのコンパイルに使う
+    pkgs.tree-sitter
+    pkgs.xh
+    pkgs.yazi
+    pkgs.zoxide
   ];
 
   home.file = localAgents // externalAgents // {
@@ -92,6 +124,8 @@ in
 
   # Karabiner-Elements は保存時にファイル単位のリンクを壊すため、ディレクトリごと置く。
   xdg.configFile."karabiner".source = outOfStore "config/karabiner";
+
+  xdg.configFile."mise/config.toml".source = outOfStore "config/mise/config.toml";
 
   xdg.configFile."nix/nix.conf".text = ''
     experimental-features = nix-command flakes

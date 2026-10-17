@@ -1,9 +1,10 @@
 [tasks.init]
-dependencies = ["install", "switch"]
+# setup.sh は、switch が入れる mise・pipx・cspell と、switch が置く mise の設定を使う。
+dependencies = ["switch", "setup"]
 
-[tasks.install]
+[tasks.setup]
 script = '''
-sh install/install.sh
+sh setup/setup.sh
 '''
 
 [tasks.switch]

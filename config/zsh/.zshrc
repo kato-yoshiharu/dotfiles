@@ -8,13 +8,8 @@ bindkey -v
 eval "$(mise activate zsh)"
 
 # scripts
-alias hello-world="sh ~/.scripts/hello-world.sh"
-alias tmux-start="sh ~/.scripts/tmux-start.sh"
 alias cleanup-worktree="bash ~/.scripts/cleanup-worktree.sh"
 alias squash-commits="bash ~/.scripts/squash-commits.sh"
-
-# direnv
-eval "$(direnv hook zsh)"
 
 # local settings (not committed)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

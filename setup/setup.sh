@@ -3,56 +3,23 @@
 # install homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# browser
-brew install --cask google-chrome
-brew install --cask microsoft-edge
-brew install --cask firefox
-brew install --cask thebrowsercompany-dia
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-brew install --cask docker
-brew install --cask karabiner-elements
-brew install --cask nikitabobko/tap/aerospace
-brew install --cask raycast
-brew install --cask tableplus
-brew install --cask vicinae
-brew install --cask visual-studio-code
-brew install --cask wezterm
-brew install --cask zoom
+# GUI アプリ
+brew bundle --file "$DOTFILES_DIR/setup/Brewfile"
 
-brew install aws-cdk
-brew install gh
-brew install zoxide
-brew install fzf
-brew install fd
-# yazi の S（中身検索）と、シェル単体での grep 置き換えに使う
-brew install ripgrep
-brew install yazi
-brew install neovim
-# nvim-treesitter の main ブランチがパーサのコンパイルに使う
-brew install tree-sitter-cli
-brew install tmux
-brew install xh
-brew install lazysql
-brew install posting
-brew install rumdl
-brew install pipx
 pipx install sqlit-tui
 pipx inject sqlit-tui psycopg2-binary
 
 # mise
-brew install mise
-mise use -g node@lts
-mise use -g npm:pnpm
-mise use -g npm:npm-check-updates
-mise use -g npm:@antfu/ni
-mise use -g npm:cspell
+# 入れるランタイムは config/mise/config.toml に書いてある。
+mise install
 
 # cspell: link the shared personal dictionary as global config
 # グローバル辞書は cspell-global worktree の cspell.json だけを編集する運用にしている。
 # そのため、リンク先は常にこの worktree に固定する。
 CSPELL_GLOBAL_DIR="$HOME/development/suimenkathemove/dotfiles-worktrees/cspell-global"
 CSPELL_GLOBAL_JSON="$CSPELL_GLOBAL_DIR/cspell.json"
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # worktree がなければ作成する。
 # ブランチが既にあれば -b なしで、なければ origin/main から作る。

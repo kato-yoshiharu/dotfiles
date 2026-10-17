@@ -7,7 +7,8 @@ cargo install --force cargo-make
 makers init
 ```
 
-`makers init` は、`install/install.sh` でツールを入れた後に `makers switch` を実行する。
+`makers init` は、`makers switch` で CLI ツールと設定を置いた後に、`makers setup`（`setup/setup.sh`）を実行する。
+`setup/setup.sh` は、Homebrew と `setup/Brewfile` の GUI アプリを入れ、nix では扱えない初期設定を行う。
 
 ## 設定の配置
 
