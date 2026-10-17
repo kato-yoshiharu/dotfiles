@@ -13,9 +13,6 @@ alias tmux-start="sh ~/.scripts/tmux-start.sh"
 alias cleanup-worktree="bash ~/.scripts/cleanup-worktree.sh"
 alias squash-commits="bash ~/.scripts/squash-commits.sh"
 
-# herdr
-sh ~/.scripts/herdr-start.sh
-
 # direnv
 eval "$(direnv hook zsh)"
 
