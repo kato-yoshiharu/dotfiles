@@ -13,9 +13,12 @@ ln_files_in_dir "$DOTFILES_PATH/config/zsh" "$HOME"
 
 # git
 # hooks は core.hooksPath から直接参照するため、ホームには張らない。
-for FILE in .gitconfig .gitignore_global .mailmap; do
+for FILE in .gitconfig .mailmap; do
   ln -sfnv "$DOTFILES_PATH/config/git/$FILE" "$HOME/$FILE"
 done
+# core.excludesFile を指定していないため、git は既定の ~/.config/git/ignore を読む。
+mkdir -p "$HOME/.config/git"
+ln -sfnv "$DOTFILES_PATH/config/git/.gitignore_global" "$HOME/.config/git/ignore"
 
 # scripts
 ln -sfnv "$DOTFILES_PATH/config/scripts" "$HOME/.scripts"
