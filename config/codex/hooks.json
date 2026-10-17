@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/katouyoshiharu/development/suimenkathemove/dotfiles/claude/hooks/block-git-write.sh'"
+            "command": "bash \"$HOME/.agents/hooks/block-git-write.sh\""
           }
         ]
       }

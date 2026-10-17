@@ -1,5 +1,2 @@
-vscode/settings.json
-zsh/.zshrc.local
-
-# Override global gitignore
-!.cursor
+archived/vscode/settings.json
+config/zsh/.zshrc.local

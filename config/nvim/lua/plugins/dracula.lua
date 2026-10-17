@@ -109,7 +109,7 @@ return {
       set(0, "SnacksWinBar", { bg = "none" })
       set(0, "SnacksWinBarNC", { bg = "none" })
 
-      -- neogit のコミットメッセージ入力欄で、入力済み文字列の下に引く下線の色（nvim/lua/plugins/neogit.lua から参照）
+      -- neogit のコミットメッセージ入力欄で、入力済み文字列の下に引く下線の色（config/nvim/lua/plugins/neogit.lua から参照）
       set(0, "NeogitCommitInputUnderline", { underline = true, sp = "#bd93f9" })
 
       -- インデントガイドの縦線・不可視文字（space/tab）を明るくする

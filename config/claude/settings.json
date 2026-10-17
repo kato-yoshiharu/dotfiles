@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/block-git-write.sh\""
+            "command": "bash \"$HOME/.agents/hooks/block-git-write.sh\""
           }
         ]
       }

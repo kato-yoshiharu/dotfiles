@@ -1,4 +1,4 @@
-# claude/settings.json の permissions.deny と対応させる。
+# config/claude/settings.json の permissions.deny と対応させる。
 
 prefix_rule(pattern = ["gh", "repo", "delete"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")
 prefix_rule(pattern = ["gh", "repo", "archive"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")

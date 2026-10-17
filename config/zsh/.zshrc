@@ -7,14 +7,14 @@ bindkey -v
 # mise
 eval "$(mise activate zsh)"
 
-# .commands
-alias hello-world="sh ~/.commands/hello-world.sh"
-alias tmux-start="sh ~/.commands/tmux-start.sh"
-alias cleanup-worktree="bash ~/.commands/cleanup-worktree.sh"
-alias squash-commits="bash ~/.commands/squash-commits.sh"
+# scripts
+alias hello-world="sh ~/.scripts/hello-world.sh"
+alias tmux-start="sh ~/.scripts/tmux-start.sh"
+alias cleanup-worktree="bash ~/.scripts/cleanup-worktree.sh"
+alias squash-commits="bash ~/.scripts/squash-commits.sh"
 
 # herdr
-sh ~/.commands/herdr-start.sh
+sh ~/.scripts/herdr-start.sh
 
 # direnv
 eval "$(direnv hook zsh)"
@@ -25,7 +25,7 @@ eval "$(direnv hook zsh)"
 export PATH="$HOME/.local/bin:$PATH"
 
 herdr() {
-  sh ~/.commands/herdr.sh "$@"
+  sh ~/.scripts/herdr.sh "$@"
 }
 
 # 外部ターミナルから claude を起動したとき、Cursor 等の他 IDE ロックファイルと

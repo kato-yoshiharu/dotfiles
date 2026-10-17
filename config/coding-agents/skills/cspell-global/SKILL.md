@@ -36,9 +36,9 @@ description: グローバルの cspell 個人辞書（dotfiles の cspell-global
 
 作業の最後に、今回 `words` に追加した単語を必ず次の形式の表で報告する。
 
-| 語       | 使用箇所                    | 語が正しい根拠                                                                                     |
-| -------- | --------------------------- | -------------------------------------------------------------------------------------------------- |
-| deepcopy | nvim/lua/plugins/snacks.lua | [Neovim Lua ドキュメント](https://neovim.io/doc/user/lua.html) — `vim.deepcopy({expr})` の項に記載 |
+| 語       | 使用箇所                           | 語が正しい根拠                                                                                     |
+| -------- | ---------------------------------- | -------------------------------------------------------------------------------------------------- |
+| deepcopy | config/nvim/lua/plugins/snacks.lua | [Neovim Lua ドキュメント](https://neovim.io/doc/user/lua.html) — `vim.deepcopy({expr})` の項に記載 |
 
 表のルール:
 

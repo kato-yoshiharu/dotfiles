@@ -1,18 +1,18 @@
 { lib, pkgs, inputs, ... }:
 let
-  # 自作 skill は .agents/skills 直下のディレクトリを全て有効にする。
+  # 自作 skill は config/coding-agents/skills 直下のディレクトリを全て有効にする。
   localSkills = lib.attrNames (
-    lib.filterAttrs (_: type: type == "directory") (builtins.readDir ../.agents/skills)
+    lib.filterAttrs (_: type: type == "directory") (builtins.readDir ../config/coding-agents/skills)
   );
 
-  # 自作 sub agent は claude/agents 直下の *.md をファイル単位で配置する。
+  # 自作 sub agent は config/claude/agents 直下の *.md をファイル単位で配置する。
   localAgents = lib.mapAttrs' (name: _: {
     name = ".claude/agents/${name}";
-    value.source = ../claude/agents/${name};
+    value.source = ../config/claude/agents/${name};
   }) (
     lib.filterAttrs (
       name: type: type == "regular" && lib.hasSuffix ".md" name
-    ) (builtins.readDir ../claude/agents)
+    ) (builtins.readDir ../config/claude/agents)
   );
 
   # 外部 sub agent は flake input（flake = false）から1ファイルずつ指定する。
@@ -45,7 +45,7 @@ in
     enable = true;
 
     sources = {
-      local.path = ../.agents/skills;
+      local.path = ../config/coding-agents/skills;
       mattpocock-skills = {
         input = "skills-mattpocock-skills";
         subdir = "skills/productivity";

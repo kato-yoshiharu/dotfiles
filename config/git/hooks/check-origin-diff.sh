@@ -23,7 +23,7 @@ fi
 
 # Check if origin/<branch> exists
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
-if ! "$SCRIPT_DIR/../../.commands/git-require-remote-branch.sh" "$BRANCH"; then
+if ! "$SCRIPT_DIR/../../scripts/git-require-remote-branch.sh" "$BRANCH"; then
   exit 1
 fi
 

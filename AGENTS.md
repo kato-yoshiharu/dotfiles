@@ -2,7 +2,7 @@
 
 ## Codex CLI の設定は手動同期する
 
-`.codex/config.toml`（dotfiles のテンプレート）と `~/.codex/config.toml`（実ファイル）は symlink しない方針にしている。
+`config/codex/config.toml`（dotfiles のテンプレート）と `~/.codex/config.toml`（実ファイル）は symlink しない方針にしている。
 設定を変更したときは、もう一方にも同じ変更を反映する。
 
 ## Backlog.mdのルール
