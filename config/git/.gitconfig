@@ -12,7 +12,7 @@
 [push]
 	autoSetupRemote = true
 [core]
-	hooksPath = ~/development/suimenkathemove/dotfiles/config/git/hooks
+	hooksPath = ~/.config/git/hooks
 	quotepath = false
 [credential]
 	helper = store

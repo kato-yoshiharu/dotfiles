@@ -10,7 +10,7 @@ description: >-
 対象ディレクトリ: `~/development/suimenkathemove/dotfiles/config/coding-agents/skills/<name>/SKILL.md`
 
 nix（home-manager の agent-skills-nix）が `~/.claude/skills` と `~/.agents/skills` に同期することで、Claude Code・Codex CLI 双方の全プロジェクトで有効になる。
-新規作成したスキルは `home-manager switch` を再実行すると反映される。
+新規作成したスキルは dotfiles で `makers switch` を再実行すると反映される。
 外部から入れるスキルは `flake.nix` の input と `nix/home.nix` で宣言するので、ここには置かない。
 
 ## 手順

@@ -22,7 +22,9 @@ fi
 # fi
 
 # Check if origin/<branch> exists
-SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+# hooks は ~/.config/git/hooks のリンク経由で呼ばれる。
+# リンクを解決した実体のパスから、隣の scripts をたどる。
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd -P)
 if ! "$SCRIPT_DIR/../../scripts/git-require-remote-branch.sh" "$BRANCH"; then
   exit 1
 fi

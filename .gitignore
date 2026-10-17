@@ -1,2 +1,5 @@
 archived/vscode/settings.json
 config/zsh/.zshrc.local
+
+# Karabiner-Elements が自動で作るバックアップ
+config/karabiner/automatic_backups/
