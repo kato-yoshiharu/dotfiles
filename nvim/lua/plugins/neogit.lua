@@ -383,6 +383,9 @@ return {
     -- rename の差分への色付け
     require("neogit_rename_diff").setup()
 
+    -- Untracked files のファイルのモード表示
+    require("neogit_untracked_mode").setup()
+
     -- stage/unstageするとファイルがセクションをまたいで移動し、neogitはカーソル位置を
     -- 復元できず先頭行に戻してしまう。
     -- 単純に行番号を覚えておくと、Staged changesセクションが上に現れたとき(や差分が展開されたとき)に
