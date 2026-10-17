@@ -74,6 +74,13 @@ local cases = {
     new_painted = { "o", "txt" },
   },
   {
+    name = "セグメント内の変更範囲が3個以上のとき、セグメント全体が塗られる",
+    old = "config/claude/hooks/a.sh",
+    new = "config/coding-agents/hooks/a.sh",
+    old_painted = { "claude" },
+    new_painted = { "coding-agents" },
+  },
+  {
     name = "マルチバイト文字でも、範囲がバイト位置でずれない",
     old = "foo/あい.md",
     new = "foo/あう.md",

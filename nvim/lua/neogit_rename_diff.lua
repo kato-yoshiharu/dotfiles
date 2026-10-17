@@ -2,9 +2,13 @@
 -- 差分は2段階で求める。
 -- 1. パスを / で区切ったセグメント(ディレクトリ名・ファイル名)を1行ずつ並べて、セグメント単位で diff する。
 -- 2. セグメントが変更されたものについては、そのセグメントの中を文字単位でさらに diff する。
+--    ただし、変更範囲が MAX_CHAR_HUNKS 個を超えて細切れに塗られて読みにくいときは、セグメント全体を塗る。
 -- diff は Neovim 組み込みの vim.diff(xdiff)を使うため、セグメントが途中で増減しても、増減したセグメントだけに色が付く。
 -- 旧名側は NeogitRenameOld(削除色)、新名側は NeogitRenameNew(追加色)
 local M = {}
+
+-- セグメントの中を文字単位で塗る変更範囲の数の上限
+local MAX_CHAR_HUNKS = 2
 
 -- text を分けた要素ごとの { 開始, 終了, 文字列 }(開始・終了は line 内の 0 始まりのバイト位置)を返す。
 -- base は text の先頭のバイト位置
@@ -59,9 +63,15 @@ local function rename_ranges(old_name, new_name)
         local o, n = old_segments[old_start + k], new_segments[new_start + k]
         local old_chars = split_items(o[3], o[1])
         local new_chars = split_items(n[3], n[1])
-        for _, c in ipairs(diff_items(old_chars, new_chars)) do
-          add_range(old_ranges, old_chars, c[1], c[2])
-          add_range(new_ranges, new_chars, c[3], c[4])
+        local hunks = diff_items(old_chars, new_chars)
+        if #hunks > MAX_CHAR_HUNKS then
+          add_range(old_ranges, { o }, 1, 1)
+          add_range(new_ranges, { n }, 1, 1)
+        else
+          for _, c in ipairs(hunks) do
+            add_range(old_ranges, old_chars, c[1], c[2])
+            add_range(new_ranges, new_chars, c[3], c[4])
+          end
         end
       end
     else
