@@ -3,11 +3,10 @@
 ## Setup
 
 ```sh
-cargo install --force cargo-make
-makers init
+make init
 ```
 
-`makers init` は、`makers switch` で CLI ツールと設定を置いた後に、`makers setup`（`setup/setup.sh`）を実行する。
+`make init` は、`make switch` で CLI ツールと設定を置いた後に、`make setup`（`setup/setup.sh`）を実行する。
 `setup/setup.sh` は、Homebrew と `setup/Brewfile` の GUI アプリを入れ、nix では扱えない初期設定を行う。
 
 ## 設定の配置
@@ -16,17 +15,17 @@ makers init
 配置するものは `nix/home.nix` に列挙してあり、次のコマンドで `~/` に反映する。
 
 ```sh
-makers switch
+make switch
 ```
 
-`makers switch` は、実行した worktree を設定の参照先にする。
+`make switch` は、実行した worktree を設定の参照先にする。
 設定ファイルは worktree の実ファイルを指す symlink になるので、編集は `switch` なしで反映される。
 `nix/home.nix` を変えたときだけ、`switch` し直す。
 
 `~/` は1つしかないので、別の worktree で `switch` すると、参照先がその worktree に切り替わる。
 その worktree に無い項目は、`~/` から消える。
 
-既存のファイルと衝突して `switch` が拒否されたときは、`makers switch -b bak` のように退避用の拡張子を付けて再実行する。
+既存のファイルと衝突して `switch` が拒否されたときは、`make switch ARGS="-b bak"` のように退避用の拡張子を付けて再実行する。
 `-b` が退避するのは実ファイルだけで、既存の symlink は退避しない。
 symlink と衝突したときは、その symlink を削除してから再実行する。
 

@@ -37,17 +37,25 @@ in
   assertions = [
     {
       assertion = dotfilesDir != "";
-      message = "DOTFILES_DIR が未設定。makers switch で実行する。";
+      message = "DOTFILES_DIR が未設定。make switch で実行する。";
     }
   ];
 
   # terraform は BUSL ライセンスで、nixpkgs では unfree 扱いになっている。
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "terraform" ];
+  # claude-code と cursor-cli は独自ライセンスのバイナリ配布で、unfree 扱いになっている。
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "claude-code"
+    "cursor-cli"
+    "terraform"
+  ];
 
   home.packages = [
     inputs.backlog-md.packages.${pkgs.system}.default
     pkgs.ccusage
+    pkgs.claude-code
+    pkgs.codex
     pkgs.cspell
+    pkgs.cursor-cli
     pkgs.dotenvx
     pkgs.fd
     pkgs.fzf
@@ -69,10 +77,12 @@ in
     # yazi の S（中身検索）と、シェル単体での grep 置き換えに使う
     pkgs.ripgrep
     pkgs.rumdl
+    pkgs.sqlit-tui
     pkgs.starship
     pkgs.terraform
     # nvim-treesitter の main ブランチがパーサのコンパイルに使う
     pkgs.tree-sitter
+    pkgs.uv
     pkgs.xh
     pkgs.yazi
     pkgs.zoxide

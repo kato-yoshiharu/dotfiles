@@ -8,9 +8,6 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # GUI アプリ
 brew bundle --file "$DOTFILES_DIR/setup/Brewfile"
 
-pipx install sqlit-tui
-pipx inject sqlit-tui psycopg2-binary
-
 # mise
 # 入れるランタイムは config/mise/config.toml に書いてある。
 mise install
