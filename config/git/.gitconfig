@@ -1,0 +1,24 @@
+[user]
+  email = yoshiharu2580@gmail.com
+  name = kato-yoshiharu
+  useConfigOnly = true
+[alias]
+	cbn = !sh ~/.scripts/check-branch-name.sh
+	ptb = !sh ~/.scripts/push-trial-branch.sh
+	cfa = !sh ~/.scripts/git-confirm-filename-add.sh
+	cfr = !sh ~/.scripts/git-confirm-filename-rename.sh
+	cc = !sh ~/.scripts/git-confirmed-commit.sh
+	ctd = !sh ~/.scripts/git-check-trial-diff.sh
+[push]
+	autoSetupRemote = true
+[core]
+	hooksPath = ~/.config/git/hooks
+	quotepath = false
+[credential]
+	helper = store
+[mailmap]
+	file = ~/.mailmap
+[status]
+	showUntrackedFiles = all
+[branch]
+	autoSetupMerge = simple

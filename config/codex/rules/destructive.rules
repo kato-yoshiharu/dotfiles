@@ -1,0 +1,9 @@
+# config/claude/settings.json の permissions.deny と対応させる。
+
+prefix_rule(pattern = ["gh", "repo", "delete"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")
+prefix_rule(pattern = ["gh", "repo", "archive"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")
+prefix_rule(pattern = ["gh", "release", "delete"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")
+prefix_rule(pattern = ["gh", "secret", "delete"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")
+prefix_rule(pattern = ["gh", "api", ["-X", "--method"], "DELETE"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")
+prefix_rule(pattern = ["terraform", "destroy"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")
+prefix_rule(pattern = ["terraform", "apply", "-auto-approve"], decision = "forbidden", justification = "破壊的なコマンドのため禁止")

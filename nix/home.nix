@@ -1,18 +1,22 @@
-{ lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, dotfilesDir, ... }:
 let
-  # 自作 skill は .agents/skills 直下のディレクトリを全て有効にする。
+  # worktree の実ファイルを指すリンクにする（ストア外配置）。
+  # 編集が switch なしで反映される。
+  outOfStore = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/${path}";
+
+  # 自作 skill は config/coding-agents/skills 直下のディレクトリを全て有効にする。
   localSkills = lib.attrNames (
-    lib.filterAttrs (_: type: type == "directory") (builtins.readDir ../.agents/skills)
+    lib.filterAttrs (_: type: type == "directory") (builtins.readDir ../config/coding-agents/skills)
   );
 
-  # 自作 sub agent は claude/agents 直下の *.md をファイル単位で配置する。
+  # 自作 sub agent は config/claude/agents 直下の *.md をファイル単位で配置する。
   localAgents = lib.mapAttrs' (name: _: {
     name = ".claude/agents/${name}";
-    value.source = ../claude/agents/${name};
+    value.source = outOfStore "config/claude/agents/${name}";
   }) (
     lib.filterAttrs (
       name: type: type == "regular" && lib.hasSuffix ".md" name
-    ) (builtins.readDir ../claude/agents)
+    ) (builtins.readDir ../config/claude/agents)
   );
 
   # 外部 sub agent は flake input（flake = false）から1ファイルずつ指定する。
@@ -30,22 +34,123 @@ in
 
   programs.home-manager.enable = true;
 
-  home.packages = [
-    pkgs.ccusage
-    inputs.backlog-md.packages.${pkgs.system}.default
+  assertions = [
+    {
+      assertion = dotfilesDir != "";
+      message = "DOTFILES_DIR が未設定。makers switch で実行する。";
+    }
   ];
 
-  home.file = localAgents // externalAgents;
+  # terraform は BUSL ライセンスで、nixpkgs では unfree 扱いになっている。
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "terraform" ];
+
+  home.packages = [
+    inputs.backlog-md.packages.${pkgs.system}.default
+    pkgs.ccusage
+    pkgs.cspell
+    pkgs.dotenvx
+    pkgs.fd
+    pkgs.fzf
+    pkgs.gh
+    pkgs.ghq
+    pkgs.git
+    pkgs.herdr
+    pkgs.hunk
+    pkgs.jq
+    pkgs.lazysql
+    # node などのランタイムは、プロジェクトごとにバージョンを合わせるため mise で入れる。
+    pkgs.mise
+    pkgs.neovim
+    pkgs.ni
+    pkgs.npm-check-updates
+    pkgs.pipx
+    pkgs.pnpm
+    pkgs.posting
+    # yazi の S（中身検索）と、シェル単体での grep 置き換えに使う
+    pkgs.ripgrep
+    pkgs.rumdl
+    pkgs.starship
+    pkgs.terraform
+    # nvim-treesitter の main ブランチがパーサのコンパイルに使う
+    pkgs.tree-sitter
+    pkgs.xh
+    pkgs.yazi
+    pkgs.zoxide
+  ];
+
+  home.file = localAgents // externalAgents // {
+    # Claude Code と Codex で共有する hooks
+    ".agents/hooks".source = outOfStore "config/coding-agents/hooks";
+
+    # Claude Code
+    ".claude/AGENTS.md".source = outOfStore "config/coding-agents/AGENTS.md";
+    ".claude/keybindings.json".source = outOfStore "config/claude/keybindings.json";
+    ".claude/output-styles/diagrams-first.md".source =
+      outOfStore "config/claude/output-styles/diagrams-first.md";
+    ".claude/settings.json".source = outOfStore "config/claude/settings.json";
+    ".claude/statusline-command.sh".source = outOfStore "config/claude/statusline-command.sh";
+
+    # Codex
+    # config.toml は Codex が実行時の状態も書き込むため置かず、手動で同期する。
+    ".codex/AGENTS.md".source = outOfStore "config/coding-agents/AGENTS.md";
+    ".codex/hooks.json".source = outOfStore "config/codex/hooks.json";
+    # ~/.codex/rules には Codex が承認したコマンドの default.rules を書くため、ファイル単位で置く。
+    ".codex/rules/destructive.rules".source = outOfStore "config/codex/rules/destructive.rules";
+
+    # Cursor
+    ".cursor/rules".source = outOfStore "config/cursor/rules";
+
+    # git
+    ".gitconfig".source = outOfStore "config/git/.gitconfig";
+    ".mailmap".source = outOfStore "config/git/.mailmap";
+
+    # scripts
+    ".scripts".source = outOfStore "config/scripts";
+
+    # zsh
+    ".zprofile".source = outOfStore "config/zsh/.zprofile";
+    ".zshrc".source = outOfStore "config/zsh/.zshrc";
+  };
+
+  xdg.configFile."aerospace/aerospace.toml".source = outOfStore "config/aerospace/aerospace.toml";
+
+  # core.excludesFile を指定していないため、git は既定の ~/.config/git/ignore を読む。
+  xdg.configFile."git/ignore".source = outOfStore "config/git/.gitignore_global";
+  # core.hooksPath から参照する。
+  xdg.configFile."git/hooks".source = outOfStore "config/git/hooks";
+
+  # ~/.config/herdr にはログやソケットも置かれるため、config.toml だけを置く。
+  xdg.configFile."herdr/config.toml".source = outOfStore "config/herdr/config.toml";
+
+  # Karabiner-Elements は保存時にファイル単位のリンクを壊すため、ディレクトリごと置く。
+  xdg.configFile."karabiner".source = outOfStore "config/karabiner";
+
+  xdg.configFile."mise/config.toml".source = outOfStore "config/mise/config.toml";
 
   xdg.configFile."nix/nix.conf".text = ''
     experimental-features = nix-command flakes
   '';
 
+  # Neovim
+  # rumdl が作る .rumdl_cache やテストを置かないよう、置くものを列挙する。
+  xdg.configFile."nvim/CLAUDE.md".source = outOfStore "config/nvim/CLAUDE.md";
+  xdg.configFile."nvim/init.lua".source = outOfStore "config/nvim/init.lua";
+  xdg.configFile."nvim/lazy-lock.json".source = outOfStore "config/nvim/lazy-lock.json";
+  xdg.configFile."nvim/lua".source = outOfStore "config/nvim/lua";
+
+  xdg.configFile."rumdl/rumdl.toml".source = outOfStore "config/rumdl/rumdl.toml";
+
+  xdg.configFile."vicinae/settings.json".source = outOfStore "config/vicinae/settings.json";
+
+  xdg.configFile."wezterm/wezterm.lua".source = outOfStore "config/wezterm/wezterm.lua";
+
+  xdg.configFile."yazi/init.lua".source = outOfStore "config/yazi/init.lua";
+
   programs.agent-skills = {
     enable = true;
 
     sources = {
-      local.path = ../.agents/skills;
+      local.path = ../config/coding-agents/skills;
       mattpocock-skills = {
         input = "skills-mattpocock-skills";
         subdir = "skills/productivity";

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+"$SCRIPT_DIR/check-origin-diff.sh" || exit 1
+"$SCRIPT_DIR/check-rename-with-edit.sh" || exit 1

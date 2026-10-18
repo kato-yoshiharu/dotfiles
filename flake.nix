@@ -95,7 +95,12 @@
           agent-skills.homeManagerModules.default
           ./nix/home.nix
         ];
-        extraSpecialArgs = { inherit inputs; };
+        extraSpecialArgs = {
+          inherit inputs;
+          # ストア外配置の参照先。
+          # 環境変数を読むため、--impure が要る。
+          dotfilesDir = builtins.getEnv "DOTFILES_DIR";
+        };
       };
     };
 }
