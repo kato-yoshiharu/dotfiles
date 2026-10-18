@@ -33,7 +33,7 @@ if [ -n "$(git -C "$worktree_path" status --porcelain)" ]; then
 fi
 
 # worktree に紐づく herdr workspace の ID を、worktree を消す前に調べる
-herdr_bin="${HERDR_BIN_PATH:-$(command -v herdr || true)}"
+herdr_bin=$(command -v herdr || true)
 herdr_workspace_id=""
 if [ -n "$herdr_bin" ] && command -v jq >/dev/null 2>&1; then
   herdr_workspace_id=$(
