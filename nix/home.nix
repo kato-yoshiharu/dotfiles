@@ -52,7 +52,6 @@ in
   home.packages = [
     inputs.backlog-md.packages.${pkgs.system}.default
     pkgs.ccusage
-    pkgs.claude-code
     pkgs.codex
     pkgs.cspell
     pkgs.cursor-cli
@@ -155,6 +154,13 @@ in
   xdg.configFile."wezterm/wezterm.lua".source = outOfStore "config/wezterm/wezterm.lua";
 
   xdg.configFile."yazi/init.lua".source = outOfStore "config/yazi/init.lua";
+
+  # programs.claude-code では settings と marketplaces を使わない。
+  # 使うと ~/.claude/settings.json を home-manager が書き、既存の設定と衝突する。
+  programs.claude-code = {
+    enable = true;
+    plugins.pstack = "${inputs.plugins-cursor}/harness/pstack/claude-code";
+  };
 
   programs.agent-skills = {
     enable = true;

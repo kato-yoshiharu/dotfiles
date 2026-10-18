@@ -175,6 +175,22 @@
         "type": "github"
       }
     },
+    "plugins-cursor": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792304427,
+        "narHash": "sha256-tBvpuFLy81sENiv6cEiQE2QsSyUTno0LSmAojvkAQd8=",
+        "owner": "cursor",
+        "repo": "plugins",
+        "rev": "4382e687a50b8d2c5ce4d141d001186589cff8d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cursor",
+        "repo": "plugins",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agent-skills": "agent-skills",
@@ -183,6 +199,7 @@
         "backlog-md": "backlog-md",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "plugins-cursor": "plugins-cursor",
         "skills-addyosmani-agent-skills": "skills-addyosmani-agent-skills",
         "skills-affaan-m-ecc": "skills-affaan-m-ecc",
         "skills-archify": "skills-archify",

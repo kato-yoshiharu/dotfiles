@@ -71,6 +71,12 @@
       flake = false;
     };
 
+    # Claude Code プラグインの取得元
+    plugins-cursor = {
+      url = "github:cursor/plugins";
+      flake = false;
+    };
+
     # 外部 sub agent の取得元
     agents-voltagent = {
       url = "github:VoltAgent/awesome-claude-code-subagents";
