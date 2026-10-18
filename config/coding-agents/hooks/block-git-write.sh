@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 # PreToolUse(Bash) フック。git add / git commit / git push / git merge / git rebase / git pull を拒否する。
 # ブロックするときだけ stderr に理由を書いて exit 2 で終わる。exit 0 ならコマンドは通る。
+#
+# ALLOW_GIT_WRITE=1 のときは何もブロックしない。
+# 有効にするリポジトリの .claude/settings.local.json の env に書く。
 
 set -u
+
+if [ "${ALLOW_GIT_WRITE:-}" = 1 ]; then
+  exit 0
+fi
 
 # 行頭の git だけを見る。コマンド全体への部分一致にすると、
 # echo や grep が git を文字列として言及しただけで巻き込むため。

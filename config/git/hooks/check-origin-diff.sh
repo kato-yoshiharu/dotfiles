@@ -1,6 +1,11 @@
 #!/bin/sh
 # Check if current branch has unpushed commits compared to origin
 
+# ALLOW_GIT_WRITE=1 のときは検査しない。
+if [ "${ALLOW_GIT_WRITE:-}" = 1 ]; then
+  exit 0
+fi
+
 BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
 if [ -z "$BRANCH" ]; then
   exit 0
