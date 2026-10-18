@@ -29,10 +29,11 @@ argument-hint: "[切り出す実装内容(省略時は直前の会話内容と�
    `<dir-name>` は `<branch-name>` の `/` を `-` に置換したもの(例: `chore/harness-engineering-setup` → `chore-harness-engineering-setup`)。
    `--cwd` はメイン worktree(`git worktree list` の1行目)のパスにする(リンク worktree だと `linked_worktree_source` エラーになる)。
    レスポンスの `.result.workspace` / `.result.tab` / `.result.root_pane` に、後で委譲に使う workspace・pane の情報が含まれる。
-2. 次の3つを新規 worktree に用意する。
+2. 次の4つを新規 worktree に用意する。
    - `ln -sfnv ~/development/suimenkathemove/dotfiles/_global <worktree>/_global`
    - `ln -sfnv <メイン worktree>/_repo <worktree>/_repo`
    - `mkdir -p <worktree>/_local`
+   - メイン worktree に `.claude/settings.local.json` があれば、`mkdir -p <worktree>/.claude && ln -sfnv <メイン worktree>/.claude/settings.local.json <worktree>/.claude/settings.local.json`
 3. 切り出す対象が未コミット変更なら、適切な方法で新規 worktree に移す。
 4. 手順1で作成済みの workspace の `root_pane.pane_id` を左ペインとして使い、そこで Neovim を起動する。
    その右に新規ペインを分割し、そちらで Claude Code セッションを起動して実装作業を委譲する
