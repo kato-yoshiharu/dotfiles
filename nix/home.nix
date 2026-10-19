@@ -42,8 +42,9 @@ in
   ];
 
   # terraform は BUSL ライセンスで、nixpkgs では unfree 扱いになっている。
-  # claude-code と cursor-cli は独自ライセンスのバイナリ配布で、unfree 扱いになっている。
+  # antigravity-cli・claude-code・cursor-cli は独自ライセンスのバイナリ配布で、unfree 扱いになっている。
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "antigravity-cli"
     "claude-code"
     "cursor-cli"
     "terraform"
@@ -51,6 +52,7 @@ in
 
   home.packages = [
     inputs.backlog-md.packages.${pkgs.system}.default
+    pkgs.antigravity-cli
     pkgs.ccusage
     pkgs.codex
     pkgs.cspell
