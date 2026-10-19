@@ -162,6 +162,7 @@ in
   programs.claude-code = {
     enable = true;
     plugins.pstack = "${inputs.plugins-cursor}/harness/pstack/claude-code";
+    plugins.openai-codex ="${inputs.plugins-openai-codex}/plugins/codex";
   };
 
   programs.agent-skills = {

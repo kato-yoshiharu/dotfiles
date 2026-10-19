@@ -76,6 +76,10 @@
       url = "github:cursor/plugins";
       flake = false;
     };
+    plugins-openai-codex = {
+      url = "github:openai/codex-plugin-cc";
+      flake = false;
+    };
 
     # 外部 sub agent の取得元
     agents-voltagent = {
