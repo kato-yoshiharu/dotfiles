@@ -24,9 +24,11 @@ herdr() {
 # 競合して自動接続が曖昧になるのを避け、カレントディレクトリ配下を開いている
 # Neovim (claudecode.nvim) に確実に接続する
 claude() {
+  # (N) 修飾子は実行環境によって効かないため、null_glob オプションで代用する
+  setopt local_options null_glob
   local lock
   lock=$(
-    for f in ~/.claude/ide/*.lock(N); do
+    for f in ~/.claude/ide/*.lock; do
       jq -e --arg cwd "$PWD" \
         'select(.ideName == "Neovim") | select(.workspaceFolders | any(. as $w | $cwd | startswith($w)))' \
         "$f" >/dev/null 2>&1 && echo "$f"
