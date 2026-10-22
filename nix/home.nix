@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, dotfilesDir, ... }:
+{ config, lib, pkgs, inputs, dotfilesDir, username, homeDirectory, ... }:
 let
   # worktree の実ファイルを指すリンクにする（ストア外配置）。
   # 編集が switch なしで反映される。
@@ -28,8 +28,8 @@ let
   };
 in
 {
-  home.username = "katouyoshiharu";
-  home.homeDirectory = "/Users/katouyoshiharu";
+  home.username = username;
+  home.homeDirectory = homeDirectory;
   home.stateVersion = "25.05";
 
   programs.home-manager.enable = true;

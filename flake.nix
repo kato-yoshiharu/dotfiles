@@ -97,16 +97,19 @@
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
+      # ユーザー名とホームは実行環境から読む。
+      username = builtins.getEnv "USER";
+      homeDirectory = builtins.getEnv "HOME";
     in
     {
-      homeConfigurations.katouyoshiharu = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           agent-skills.homeManagerModules.default
           ./nix/home.nix
         ];
         extraSpecialArgs = {
-          inherit inputs;
+          inherit inputs username homeDirectory;
           # ストア外配置の参照先。
           # 環境変数を読むため、--impure が要る。
           dotfilesDir = builtins.getEnv "DOTFILES_DIR";

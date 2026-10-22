@@ -15,7 +15,9 @@ mise install
 # cspell: link the shared personal dictionary as global config
 # グローバル辞書は cspell-global worktree の cspell.json だけを編集する運用にしている。
 # そのため、リンク先は常にこの worktree に固定する。
-CSPELL_GLOBAL_DIR="$HOME/development/suimenkathemove/dotfiles-worktrees/cspell-global"
+# worktree の置き場は、メインのクローンの隣の <クローン名>-worktrees にする。
+MAIN_CLONE_DIR="$(cd "$(git -C "$DOTFILES_DIR" rev-parse --git-common-dir)/.." && pwd)"
+CSPELL_GLOBAL_DIR="$MAIN_CLONE_DIR-worktrees/cspell-global"
 CSPELL_GLOBAL_JSON="$CSPELL_GLOBAL_DIR/cspell.json"
 
 # worktree がなければ作成する。

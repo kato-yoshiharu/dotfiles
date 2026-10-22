@@ -1,13 +1,11 @@
 ---
 name: add-memo
 description: >-
-  個人メモリポジトリ（~/development/suimenkathemove/memos）に、メモしたい内容を追加・更新する。
+  個人メモリポジトリ（memos リポジトリ）に、メモしたい内容を追加・更新する。
   「メモに追加して」「メモって」「memos に書いて」などと言われたときに使う。
 ---
 
 # memos リポジトリにメモを追加する
-
-対象リポジトリ: `~/development/suimenkathemove/memos`
 
 - `memos/` : 技術トピック別のメモ本体（このスキルの主な追加先）。
 - `_global/` / `_repo/` / `_local/` : コミットされない作業用ディレクトリ。

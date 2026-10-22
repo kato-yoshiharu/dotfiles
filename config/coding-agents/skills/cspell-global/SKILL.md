@@ -5,7 +5,7 @@ description: グローバルの cspell 個人辞書（dotfiles の cspell-global
 
 # グローバル cspell 辞書に単語を追加する
 
-対象ファイル: `~/development/suimenkathemove/dotfiles-worktrees/cspell-global/cspell.json`
+対象ファイル: `<dotfiles のメインクローン>-worktrees/cspell-global/cspell.json`
 
 これは dotfiles リポジトリの `cspell-global` という名前の git worktree（ブランチ `cspell-global`）で、このグローバル辞書の編集専用に運用している。
 このスキルは常にこの専用 worktree の `cspell.json` を編集対象にする。
@@ -16,7 +16,7 @@ description: グローバルの cspell 個人辞書（dotfiles の cspell-global
 ## 手順
 
 1. 対象ファイルが存在するか確認する。存在しない場合は、dotfiles リポジトリで
-   `git worktree add ~/development/suimenkathemove/dotfiles-worktrees/cspell-global -b cspell-global origin/main`
+   `git worktree add <dotfiles のメインクローン>-worktrees/cspell-global -b cspell-global origin/main`
    などにより `cspell-global` worktree を作成してよいかユーザーに確認する。
 2. 追加する単語を決める。
    ユーザーが明示していない場合は、cspell の出力や対象ファイルから未知語を集める。

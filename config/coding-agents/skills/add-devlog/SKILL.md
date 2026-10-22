@@ -1,14 +1,14 @@
 ---
 name: add-devlog
 description: >-
-  memos（~/development/suimenkathemove/memos）の devlog に、今日やったことを書き込む。
+  memos リポジトリの devlog に、今日やったことを書き込む。
   trigger phrase: "devlogを書いて", "今日やったことを記録して"
 argument-hint: "[日付・期間。省略時は今日]"
 ---
 
 # devlog に今日やったことを書き込む
 
-対象repo: `~/development/suimenkathemove/memos/devlog`
+対象repo: memos リポジトリの `devlog/`
 
 - ファイルパスは `2026/01/2026-01-01.md` のように `<年>/<月>/<YYYY-MM-DD>.md` とする。
 - テンプレートは `devlog/TEMPLATE.md`。

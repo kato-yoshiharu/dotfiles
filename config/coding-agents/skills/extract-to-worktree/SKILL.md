@@ -30,7 +30,7 @@ argument-hint: "[切り出す実装内容(省略時は直前の会話内容と�
    `--cwd` はメイン worktree(`git worktree list` の1行目)のパスにする(リンク worktree だと `linked_worktree_source` エラーになる)。
    レスポンスの `.result.workspace` / `.result.tab` / `.result.root_pane` に、後で委譲に使う workspace・pane の情報が含まれる。
 2. 次の4つを新規 worktree に用意する。
-   - `ln -sfnv ~/development/suimenkathemove/dotfiles/_global <worktree>/_global`
+   - `ln -sfnv <dotfiles のメインクローン>/_global <worktree>/_global`
    - `ln -sfnv <メイン worktree>/_repo <worktree>/_repo`
    - `mkdir -p <worktree>/_local`
    - メイン worktree に `.claude/settings.local.json` があれば、`mkdir -p <worktree>/.claude && ln -sfnv <メイン worktree>/.claude/settings.local.json <worktree>/.claude/settings.local.json`

@@ -11,4 +11,4 @@ setup:
 switch:
 	NIX_CONFIG='experimental-features = nix-command flakes' \
 	DOTFILES_DIR="$$(git rev-parse --show-toplevel)" \
-	nix run home-manager -- switch --flake ".#$$(whoami)" --impure $(ARGS)
+	nix run home-manager -- switch --flake ".#$$USER" --impure $(ARGS)
