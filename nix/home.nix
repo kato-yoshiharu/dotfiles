@@ -72,6 +72,7 @@ in
     pkgs.neovim
     pkgs.ni
     pkgs.npm-check-updates
+    pkgs.opencode
     pkgs.pipx
     pkgs.pnpm
     pkgs.posting
