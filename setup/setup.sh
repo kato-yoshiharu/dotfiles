@@ -58,3 +58,11 @@ register_login_item "Google Chrome"
 register_login_item WezTerm
 # Homerow はキーバインドで使うので、起動時にウィンドウを開かない。
 register_login_item Homerow true
+
+# スクリーンショットの保存先をホーム直下の ~/Screenshots にする
+# 新しい macOS は location-screenshot と location-screenrecording を優先するため、3つとも揃える。
+mkdir -p "$HOME/Screenshots"
+defaults write com.apple.screencapture location "$HOME/Screenshots"
+defaults write com.apple.screencapture location-screenshot "$HOME/Screenshots"
+defaults write com.apple.screencapture location-screenrecording "$HOME/Screenshots"
+killall SystemUIServer
