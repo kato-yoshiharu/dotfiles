@@ -112,6 +112,14 @@ in
 
     # Cursor
     ".cursor/rules".source = outOfStore "config/cursor/rules";
+    ".cursor/plugins/local/cursor-team-kit" = {
+      source = "${inputs.plugins-cursor}/cursor-team-kit";
+      recursive = true;
+    };
+    ".cursor/plugins/local/thermos" = {
+      source = "${inputs.plugins-cursor}/thermos";
+      recursive = true;
+    };
 
     # git
     ".gitconfig".source = outOfStore "config/git/.gitconfig";
