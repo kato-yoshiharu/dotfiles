@@ -6,9 +6,6 @@
 make init
 ```
 
-`make init` は、`make switch` で CLI ツールと設定を置いた後に、`make setup`（`setup/setup.sh`）を実行する。
-`setup/setup.sh` は、Homebrew と `setup/Brewfile` の GUI アプリを入れ、nix では扱えない初期設定を行う。
-
 ## 設定の配置
 
 ツールの設定と Agent Skills は、nix（home-manager と agent-skills-nix）で宣言管理する。
