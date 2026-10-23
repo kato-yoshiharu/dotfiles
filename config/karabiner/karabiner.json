@@ -184,6 +184,19 @@
                 "to": [{ "key_code": "page_up" }]
               }
             ]
+          },
+          {
+            "description": "cmd+option+fn+f to sleep",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f",
+                  "modifiers": { "mandatory": ["command", "option", "fn"] }
+                },
+                "to": [{ "shell_command": "/usr/bin/pmset sleepnow" }]
+              }
+            ]
           }
         ]
       },
