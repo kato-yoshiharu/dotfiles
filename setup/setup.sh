@@ -40,5 +40,21 @@ done
 cspell link add "$CSPELL_GLOBAL_JSON"
 
 # login items: macOS起動時に自動起動させるアプリ
-osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Vicinae.app", hidden:false}'
-osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/AeroSpace.app", hidden:false}'
+# 冪等にするため、登録済みのアプリは飛ばす。
+register_login_item() {
+  local name="$1"
+  local hidden="${2:-false}"
+  local registered
+  registered=$(osascript -e 'tell application "System Events" to get the name of every login item')
+
+  if [[ ", $registered, " != *", $name, "* ]]; then
+    osascript -e "tell application \"System Events\" to make login item at end with properties {path:\"/Applications/$name.app\", hidden:$hidden}"
+  fi
+}
+
+register_login_item Vicinae
+register_login_item AeroSpace
+register_login_item "Google Chrome"
+register_login_item WezTerm
+# Homerow はキーバインドで使うので、起動時にウィンドウを開かない。
+register_login_item Homerow true
