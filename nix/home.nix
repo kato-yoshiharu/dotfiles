@@ -100,13 +100,13 @@ in
     ".claude/keybindings.json".source = outOfStore "config/claude/keybindings.json";
     ".claude/output-styles/diagrams-first.md".source =
       outOfStore "config/claude/output-styles/diagrams-first.md";
-    ".claude/settings.json".source = outOfStore "config/claude/settings.json";
+    # settings.json は Orca が hooks を書き込むため置かず、make agent-configs が config/claude/settings.json をベースに merge する。
     ".claude/statusline-command.sh".source = outOfStore "config/claude/statusline-command.sh";
 
     # Codex
     # config.toml は Codex が実行時の状態も書き込むため置かず、手動で同期する。
     ".codex/AGENTS.md".source = outOfStore "config/coding-agents/AGENTS.md";
-    ".codex/hooks.json".source = outOfStore "config/codex/hooks.json";
+    # hooks.json も settings.json と同じ理由で置かず、make agent-configs が実ファイルに merge する。
     # ~/.codex/rules には Codex が承認したコマンドの default.rules を書くため、ファイル単位で置く。
     ".codex/rules/destructive.rules".source = outOfStore "config/codex/rules/destructive.rules";
 

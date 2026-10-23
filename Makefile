@@ -1,4 +1,4 @@
-.PHONY: init install-nix setup switch
+.PHONY: init install-nix setup agent-configs switch
 
 # 導入直後のシェルは PATH に nix が無いため、switch でも補う。
 NIX_BIN := /nix/var/nix/profiles/default/bin
@@ -20,10 +20,14 @@ install-nix:
 setup:
 	sh setup/setup.sh
 
+# ベースに Orca など他のツールの hooks を引き継いで merge し、~/.claude/settings.json と ~/.codex/hooks.json の実ファイルを更新する。
+agent-configs:
+	config/scripts/build-agent-configs.sh
+
 # 初回は flakes が無効なので、NIX_CONFIG で有効にする。
 # --extra-experimental-features は home-manager 内部の nix に引き継がれない。
 # home-manager への引数は ARGS で渡す。例: make switch ARGS="-b bak"
-switch:
+switch: agent-configs
 	PATH="$(NIX_BIN):$$PATH" \
 	NIX_CONFIG='experimental-features = nix-command flakes' \
 	DOTFILES_DIR="$$(git rev-parse --show-toplevel)" \

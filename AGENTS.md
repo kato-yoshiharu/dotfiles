@@ -5,6 +5,15 @@
 `config/codex/config.toml`（dotfiles のテンプレート）と `~/.codex/config.toml`（実ファイル）は symlink しない方針にしている。
 設定を変更したときは、もう一方にも同じ変更を反映する。
 
+## Claude Code と Codex の hooks は、ベースを直して反映する
+
+Orca が `~/.claude/settings.json` と `~/.codex/hooks.json` に hooks を書き込むため、この2つは直接直さない。
+
+運用のルール:
+
+- hooks や設定の変更は、ベース（`config/claude/settings.json` と `config/codex/hooks.json`）に書く
+- ベースを直した後は `make agent-configs` を実行する。
+
 ## Backlog.mdのルール
 
 - Backlog.md のタスク名に空白を含めない
