@@ -7,6 +7,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     agent-skills = {
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -93,25 +97,25 @@
   };
 
   outputs =
-    inputs@{ nixpkgs, home-manager, agent-skills, ... }:
+    inputs@{ nixpkgs, home-manager, nix-darwin, agent-skills, ... }:
     let
       system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
-      # ユーザー名とホームは実行環境から読む。
-      username = builtins.getEnv "USER";
-      homeDirectory = builtins.getEnv "HOME";
+      # darwin-rebuild は sudo で動き、USER と HOME が root のものになる。
+      # そのため、実ユーザーは PRIMARY_USER で受け取り、ホームはそこから組み立てる。
+      # 環境変数を読むため、--impure が必要。
+      username = builtins.getEnv "PRIMARY_USER";
+      homeDirectory = "/Users/${username}";
     in
     {
-      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+      darwinConfigurations.default = nix-darwin.lib.darwinSystem {
+        inherit system;
         modules = [
-          agent-skills.homeManagerModules.default
-          ./nix/home.nix
+          home-manager.darwinModules.home-manager
+          ./nix/darwin.nix
         ];
-        extraSpecialArgs = {
+        specialArgs = {
           inherit inputs username homeDirectory;
           # ストア外配置の参照先。
-          # 環境変数を読むため、--impure が要る。
           dotfilesDir = builtins.getEnv "DOTFILES_DIR";
         };
       };

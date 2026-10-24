@@ -1,25 +1,6 @@
 #!/bin/bash
 
-# install homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-
-# GUI アプリ
-# docker と zoom の cask は sudo を使う。
-# brew bundle の最中はパスワードを入力できないため、先に認証を通しておく。
-# ダウンロードが長引いても認証が切れないよう、終了まで更新し続ける。
-sudo -v
-while true; do
-  sudo -n true
-  sleep 60
-  kill -0 "$$" || exit
-done 2>/dev/null &
-SUDO_KEEPALIVE_PID=$!
-
-brew bundle --file "$DOTFILES_DIR/setup/Brewfile"
-kill "$SUDO_KEEPALIVE_PID"
-wait "$SUDO_KEEPALIVE_PID" 2>/dev/null
 
 # mise
 # 入れるランタイムは config/mise/config.toml に書いてある。

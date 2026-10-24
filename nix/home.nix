@@ -32,8 +32,6 @@ in
   home.homeDirectory = homeDirectory;
   home.stateVersion = "25.05";
 
-  programs.home-manager.enable = true;
-
   assertions = [
     {
       assertion = dotfilesDir != "";
@@ -51,7 +49,7 @@ in
   ];
 
   home.packages = [
-    inputs.backlog-md.packages.${pkgs.system}.default
+    inputs.backlog-md.packages.${pkgs.stdenv.hostPlatform.system}.default
     pkgs.antigravity-cli
     pkgs.ccusage
     pkgs.codex
