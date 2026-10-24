@@ -8,6 +8,8 @@ return {
     {
       "<leader>rs",
       function()
+      desc = "レビューとクイックコメントを agent pane へ送信",
+    },
     { "<leader>rc", "<cmd>Review qc<CR>", desc = "現在行にクイックコメント" },
     -- <cmd> だと範囲が渡らないため、: で '<,'> を自動入力させる
     { "<leader>rc", ":Review qc<CR>", mode = "x", desc = "選択範囲にクイックコメント" },
