@@ -40,7 +40,9 @@
     "command": "sh \"$HOME/.claude/statusline-command.sh\""
   },
   "effortLevel": "medium",
-  "autoUpdatesChannel": "latest",
+  "env": {
+    "DISABLE_UPDATES": "1"
+  },
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "skipWorkflowUsageWarning": true,
