@@ -364,9 +364,9 @@ return {
         -- symlink 先もたどるために follow も要る
         grep = { hidden = true, ignored = true, follow = true, exclude = { ".git", "node_modules" } },
         projects = {
-          dev = { "~/development" },
-          -- worktree配下（development/xxx/xxx-worktrees/yyy/.git）まで届くように
-          max_depth = 4,
+          dev = { "~/repos" },
+          -- worktree配下（repos/github.com/owner/xxx-worktrees/yyy/.git）まで届くように
+          max_depth = 5,
         },
         -- ファイラはデフォルトで左に出るので右に寄せる
         explorer = {

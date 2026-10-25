@@ -33,13 +33,12 @@ argument-hint: "[日付・期間。省略時は今日]"
 
 取得の方針:
 
-- `~/development/` 配下のすべてのリポジトリで `git log` を実行する。
+- `ghq list -p` のすべてのリポジトリで `git log` を実行する。
 - worktree は本体と ref を共有するので、本体を `--all` で見れば足りる。
 
 ```sh
-find ~/development -maxdepth 4 -type d -name .git |
-  while read -r g; do
-    r=$(dirname "$g")
+ghq list -p |
+  while read -r r; do
     git -C "$r" log --all --author="$(git config user.name)" \
       --since="<開始日> 00:00" --until="<終了日の翌日> 00:00" \
       --format="$(basename "$r") %H %ad %s" --date=iso
