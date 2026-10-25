@@ -51,6 +51,7 @@ in
   home.packages = [
     inputs.backlog-md.packages.${pkgs.stdenv.hostPlatform.system}.default
     pkgs.antigravity-cli
+    pkgs.awscli2
     pkgs.ccusage
     pkgs.codex
     pkgs.cspell
