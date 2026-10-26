@@ -6,7 +6,16 @@
       "Shell(ls)",
       "Shell(backlog)"
     ],
-    "deny": []
+    "deny": [
+      "Shell(gh:repo delete*)",
+      "Shell(gh:repo archive*)",
+      "Shell(gh:release delete*)",
+      "Shell(gh:secret delete*)",
+      "Shell(gh:api*DELETE*)",
+      "Shell(gh:api*delete*)",
+      "Shell(terraform:destroy*)",
+      "Shell(terraform:apply*-auto-approve*)"
+    ]
   },
   "attribution": {
     "attributeCommitsToAgent": false,
@@ -14,5 +23,7 @@
   },
   "editor": {
     "vimMode": true
-  }
+  },
+  "approvalMode": "auto-review",
+  "notifications": true
 }

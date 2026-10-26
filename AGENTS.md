@@ -21,6 +21,10 @@
 - Cursor のベースには、管理したいトップレベルのキーだけを書く。反映時はそのキーだけが置き換わり、認証情報やキャッシュなど他のキーは実ファイルの値が残る
 - ベースを直した後は `make agent-configs` を実行する
 
+## 新しい coding agent を導入するときは、チェックリストを読む
+
+新しい coding agent の設定を揃えるときは、`docs/new-agent-checklist.md` を読んで、その項目に沿って進める。
+
 ## Backlog.mdのルール
 
 - Backlog.md のタスク名に空白を含めない

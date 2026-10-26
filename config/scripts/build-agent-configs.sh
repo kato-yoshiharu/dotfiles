@@ -5,6 +5,7 @@ set -euo pipefail
 # Orca は、自分の hooks を ~/.claude/settings.json と ~/.codex/hooks.json に直接書き込む。この書き込み先は変更できない。
 # そのため、この2つは実ファイルのままにして、実行のたびに他のツールの hooks を、ベースに足して更新する。
 # 他のツールの hooks は、実ファイルの hooks から、前回入れたベースの hooks と今のベースの hooks を除いた残りとする。
+# Cursor の ~/.cursor/hooks.json も Orca が書くため、Claude と Codex と同じ方式で扱う。
 # Cursor CLI の ~/.cursor/cli-config.json は、認証情報や選択中のモデルも含み、CLI が自動で書き換える。
 # そのため、このファイルも実ファイルのままにして、ベースに書いたトップレベルのキーだけを置き換える。
 
@@ -12,6 +13,7 @@ repo_root=$(git rev-parse --show-toplevel)
 claude_out=${CLAUDE_SETTINGS_OUT:-$HOME/.claude/settings.json}
 codex_out=${CODEX_HOOKS_OUT:-$HOME/.codex/hooks.json}
 cursor_out=${CURSOR_CLI_CONFIG_OUT:-$HOME/.cursor/cli-config.json}
+cursor_hooks_out=${CURSOR_HOOKS_OUT:-$HOME/.cursor/hooks.json}
 state_dir=${AGENT_CONFIGS_STATE_DIR:-${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/agent-configs}
 
 build() {
@@ -80,4 +82,5 @@ build_cursor() {
 
 build "$repo_root/config/claude/settings.json" "$claude_out" "$state_dir/claude-base-hooks.json"
 build "$repo_root/config/codex/hooks.json" "$codex_out" "$state_dir/codex-base-hooks.json"
+build "$repo_root/config/cursor/hooks.json" "$cursor_hooks_out" "$state_dir/cursor-base-hooks.json"
 build_cursor "$repo_root/config/cursor/cli-config.json" "$cursor_out"

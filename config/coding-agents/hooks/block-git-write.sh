@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# PreToolUse(Bash) フック。git add / git commit / git push / git merge / git rebase / git pull を拒否する。
+# PreToolUse(Bash) フック。Cursor の beforeShellExecution でも使う（コマンドは .command に入る）。git add / git commit / git push / git merge / git rebase / git pull を拒否する。
 # ブロックするときだけ stderr に理由を書いて exit 2 で終わる。exit 0 ならコマンドは通る。
 #
 # ALLOW_GIT_WRITE=1 のときは何もブロックしない。
@@ -48,7 +48,7 @@ SUB="${SP}+(add|commit|push|merge|rebase|pull)(${SP}|\$)"
 # ; & | ( ) 改行 を改行に潰し、各コマンドの先頭を行頭に揃えてから照合する。
 # git "push" や git c'ommit' のようにサブコマンド自体をクォートで細工すると
 # すり抜けるが、これも対応範囲外。
-jq -r '.tool_input.command // empty' |
+jq -r '.tool_input.command // .command // empty' |
   perl -0777 -pe 's/\x27[^\x27]*\x27|"(\\.|[^"\\])*"//g' |
   tr ';&|()\n' '\n' |
   grep -qE "^${SP}*$ENV$WRAP$GIT$OPTS$SUB" || exit 0
