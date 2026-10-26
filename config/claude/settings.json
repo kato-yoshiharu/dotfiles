@@ -33,6 +33,16 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat \"$HOME/.agents/skills/i-have-adhd/SKILL.md\""
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
