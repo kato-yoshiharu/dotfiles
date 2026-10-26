@@ -5,14 +5,21 @@
 `config/codex/config.toml`（dotfiles のテンプレート）と `~/.codex/config.toml`（実ファイル）は symlink しない方針にしている。
 設定を変更したときは、もう一方にも同じ変更を反映する。
 
-## Claude Code と Codex の hooks は、ベースを直して反映する
+## エージェントの設定ファイルは、ベースを直して `make agent-configs` で反映する
 
-Orca が `~/.claude/settings.json` と `~/.codex/hooks.json` に hooks を書き込むため、この2つは直接直さない。
+次の実ファイルは Orca や CLI 自身が書き換えるため、直接直さない。
+
+| 実ファイル                  | ベース                          |
+| --------------------------- | ------------------------------- |
+| `~/.claude/settings.json`   | `config/claude/settings.json`   |
+| `~/.codex/hooks.json`       | `config/codex/hooks.json`       |
+| `~/.cursor/cli-config.json` | `config/cursor/cli-config.json` |
 
 運用のルール:
 
-- hooks や設定の変更は、ベース（`config/claude/settings.json` と `config/codex/hooks.json`）に書く
-- ベースを直した後は `make agent-configs` を実行する。
+- 設定の変更は、実ファイルではなくベースに書く
+- Cursor のベースには、管理したいトップレベルのキーだけを書く。反映時はそのキーだけが置き換わり、認証情報やキャッシュなど他のキーは実ファイルの値が残る
+- ベースを直した後は `make agent-configs` を実行する
 
 ## Backlog.mdのルール
 

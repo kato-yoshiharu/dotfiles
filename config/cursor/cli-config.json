@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Write(**)",
+      "Shell(ls)",
+      "Shell(backlog)"
+    ],
+    "deny": []
+  },
+  "attribution": {
+    "attributeCommitsToAgent": false,
+    "attributePRsToAgent": false
+  },
+  "editor": {
+    "vimMode": true
+  }
+}
