@@ -9,6 +9,7 @@
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "dracula.nvim": { "branch": "main", "commit": "ae752c13e95fb7c5f58da4b5123cb804ea7568ee" },
   "floaterm.nvim": { "branch": "master", "commit": "38d0c7fa0b22674e9c130cf8ce88321def461034" },
+  "follow-md-links.nvim": { "branch": "main", "commit": "99c4e7c78c0211e02c9ff282044b45f7b9dc2d0f" },
   "gitgraph.nvim": { "branch": "main", "commit": "c16daa7d7dd597caf9085644c009cfa80b75db8e" },
   "gitsigns.nvim": { "branch": "main", "commit": "f2421c550618d257048afa650413d9e542ddbe67" },
   "grug-far.nvim": { "branch": "main", "commit": "11595bf747edc270bce2069d1020502ad4ae56cf" },
