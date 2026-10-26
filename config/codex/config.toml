@@ -21,12 +21,6 @@ notifications = true
 status_line = ["model-with-reasoning", "git-branch", "context-used", "five-hour-limit", "weekly-limit"]
 status_line_use_colors = true
 
-[tui.keymap.composer]
-submit = ["alt-enter"]
-
-[tui.keymap.editor]
-insert_newline = ["enter", "ctrl-m", "shift-enter", "ctrl-j"]
-
 [notice]
 hide_full_access_warning = true
 

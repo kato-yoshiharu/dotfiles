@@ -17,6 +17,51 @@
       "complex_modifications": {
         "rules": [
           {
+            "description": "coding agent: Enter を shift+Enter にする (改行)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "return_or_enter" },
+                "to": [{ "key_code": "return_or_enter", "modifiers": ["left_shift"] }],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.github\\.wez\\.wezterm$",
+                      "^com\\.openai\\.codex$",
+                      "^com\\.stablyai\\.orca$",
+                      "^com\\.anysphere\\.sand$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "coding agent: 右 cmd+Enter を素の Enter にする (送信)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "return_or_enter",
+                  "modifiers": { "mandatory": ["right_command"] }
+                },
+                "to": [{ "key_code": "return_or_enter" }],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.github\\.wez\\.wezterm$",
+                      "^com\\.openai\\.codex$",
+                      "^com\\.stablyai\\.orca$",
+                      "^com\\.anysphere\\.sand$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "fn+hjkl to arrow keys (vim-like)",
             "manipulators": [
               {
