@@ -194,7 +194,7 @@
                   "key_code": "f",
                   "modifiers": { "mandatory": ["command", "option", "fn"] }
                 },
-                "to": [{ "shell_command": "/usr/bin/pmset sleepnow" }]
+                "to": [{ "shell_command": "/bin/sleep 1 && /usr/bin/pmset sleepnow" }]
               }
             ]
           }
