@@ -44,6 +44,12 @@ config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
 
 config.keys = {
+  -- CMD+Enter を ALT+Enter として送る。受け手（Claude Code）は meta+enter として解釈する。
+  {
+    key = "Enter",
+    mods = "CMD",
+    action = wezterm.action.SendKey({ key = "Enter", mods = "ALT" }),
+  },
   -- CMD+Z を ALT+Z として送る。受け手（Claude Code）は meta+z として解釈する。
   {
     key = "z",

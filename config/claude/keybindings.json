@@ -5,8 +5,18 @@
     {
       "context": "Chat",
       "bindings": {
+        "enter": "chat:newline",
+        "meta+enter": "chat:submit",
+        "ctrl+enter": null,
         "cmd+z": "chat:undo",
         "meta+z": "chat:undo"
+      }
+    },
+    {
+      "context": "Select",
+      "bindings": {
+        "enter": null,
+        "meta+enter": "select:accept"
       }
     }
   ]

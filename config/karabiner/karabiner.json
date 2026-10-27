@@ -27,7 +27,6 @@
                   {
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "^com\\.github\\.wez\\.wezterm$",
                       "^com\\.openai\\.codex$",
                       "^com\\.stablyai\\.orca$",
                       "^com\\.anysphere\\.sand$"
@@ -51,7 +50,6 @@
                   {
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "^com\\.github\\.wez\\.wezterm$",
                       "^com\\.openai\\.codex$",
                       "^com\\.stablyai\\.orca$",
                       "^com\\.anysphere\\.sand$"
