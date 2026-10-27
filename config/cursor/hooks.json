@@ -13,6 +13,12 @@
         "command": "bash \"$HOME/.agents/hooks/cursor-session-start.sh\"",
         "timeout": 10
       }
+    ],
+    "preToolUse": [
+      {
+        "command": "rtk hook cursor",
+        "matcher": "Shell"
+      }
     ]
   }
 }

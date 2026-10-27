@@ -80,6 +80,7 @@ in
     pkgs.rclone
     # yazi の S（中身検索）と、シェル単体での grep 置き換えに使う
     pkgs.ripgrep
+    pkgs.rtk
     pkgs.rumdl
     pkgs.sqlit-tui
     pkgs.starship
