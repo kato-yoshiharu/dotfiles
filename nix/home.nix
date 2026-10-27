@@ -57,7 +57,7 @@ in
     pkgs.cspell
     pkgs.cursor-cli
     # cursor は GUI ではなく cursor-agent を起動する。
-    (pkgs.writeShellScriptBin "cursor" ''exec ${pkgs.cursor-cli}/bin/cursor-agent "$@"'')
+    (pkgs.writeShellScriptBin "cursor" ''exec ${pkgs.cursor-cli}/bin/cursor-agent --trust "$@"'')
     pkgs.dotenvx
     pkgs.fd
     pkgs.fzf
