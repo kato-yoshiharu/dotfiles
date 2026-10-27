@@ -45,12 +45,23 @@ switch: agent-configs
 	NIX_CONFIG='experimental-features = nix-command flakes' \
 	nix run nix-darwin/master#darwin-rebuild -- switch --flake ".#default" --impure $(ARGS)
 
-# 設定ファイル（home-manager）だけを、実行した worktree に切り替える。
+# 設定ファイル（home-manager）だけを切り替える。
 # sudo と brew bundle を省くため、worktree で設定を試すときはこちらを使う。
+# 実際のホームディレクトリ（$HOME）に適用できるのは main worktree だけ。
+# それ以外は worktree 専用のホームディレクトリ <worktree>/_local/home に適用し、
+# 実際のホームディレクトリには触れない。
+# 試すときは HOME=<worktree>/_local/home zsh で入る。
 switch-home: agent-configs
-	@export PATH="$(NIX_BIN):$$PATH" \
+	@top="$$(git rev-parse --show-toplevel)"; \
+	main="$$(git worktree list --porcelain | sed -n '1s/^worktree //p')"; \
+	if [ "$$top" != "$$main" ]; then \
+		export HOME_DIR="$$top/_local/home"; \
+		mkdir -p "$$HOME_DIR"; \
+		echo "main 以外の worktree のため $$HOME_DIR に適用する"; \
+	fi; \
+	export PATH="$(NIX_BIN):$$PATH" \
 		PRIMARY_USER="$$USER" \
-		DOTFILES_DIR="$$(git rev-parse --show-toplevel)" \
+		DOTFILES_DIR="$$top" \
 		NIX_CONFIG='experimental-features = nix-command flakes'; \
 	out="$$(nix build ".#darwinConfigurations.default.config.home-manager.users.$$USER.home.activationPackage" --impure --no-link --print-out-paths)" \
-		&& "$$out/activate"
+		&& HOME="$${HOME_DIR:-$$HOME}" "$$out/activate"

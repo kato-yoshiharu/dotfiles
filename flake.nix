@@ -101,10 +101,15 @@
     let
       system = "aarch64-darwin";
       # darwin-rebuild は sudo で動き、USER と HOME が root のものになる。
-      # そのため、実ユーザーは PRIMARY_USER で受け取り、ホームはそこから組み立てる。
+      # そのため、実ユーザーは PRIMARY_USER で受け取り、
+      # ホームディレクトリはそこから組み立てる。
       # 環境変数を読むため、--impure が必要。
       username = builtins.getEnv "PRIMARY_USER";
-      homeDirectory = "/Users/${username}";
+      # worktree 専用のホームディレクトリを試すときだけ、
+      # HOME_DIR でホームディレクトリを差し替える。
+      homeDirectory =
+        let homeDir = builtins.getEnv "HOME_DIR";
+        in if homeDir != "" then homeDir else "/Users/${username}";
     in
     {
       darwinConfigurations.default = nix-darwin.lib.darwinSystem {
