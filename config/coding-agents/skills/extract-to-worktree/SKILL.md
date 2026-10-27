@@ -24,7 +24,7 @@ argument-hint: "[切り出す実装内容(省略時は直前の会話内容と�
 ## 手順
 
 1. 対象リポジトリで `git fetch origin main` した上で、
-   `herdr worktree create --cwd <メイン worktree> --branch <branch-name> --base origin/main --path ../<repo>-worktrees/<dir-name> --label <branch-name>`
+   `herdr worktree create --cwd <メイン worktree> --branch <branch-name> --base origin/main --path ../<repo>-worktrees/<dir-name> --label <branch-name> --no-focus`
    で worktree の作成と herdr workspace の起動を一度に行う。
    `<dir-name>` は `<branch-name>` の `/` を `-` に置換したもの(例: `chore/harness-engineering-setup` → `chore-harness-engineering-setup`)。
    `--cwd` はメイン worktree(`git worktree list` の1行目)のパスにする(リンク worktree だと `linked_worktree_source` エラーになる)。
