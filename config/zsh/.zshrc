@@ -20,6 +20,15 @@ herdr() {
   sh ~/.scripts/herdr.sh "$@"
 }
 
+# Cursor Agent の起動前に画面を消し、打ったコマンドの行を残さない。
+# 対象は引数なしの `cursor` と `cursor agent` で、出力が端末のときだけ消す。
+cursor() {
+  if [[ -t 1 && ( $# -eq 0 || $1 == agent ) ]]; then
+    clear
+  fi
+  command cursor "$@"
+}
+
 # 外部ターミナルから claude を起動したとき、Cursor 等の他 IDE ロックファイルと
 # 競合して自動接続が曖昧になるのを避け、カレントディレクトリ配下を開いている
 # Neovim (claudecode.nvim) に確実に接続する
