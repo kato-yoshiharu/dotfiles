@@ -55,6 +55,8 @@ Grok Bot は、skill を `~/.grok/skills` のようなパスではなく、ア�
 運用のルール:
 
 - skill の原本は `config/grok-bot/skills/<name>/SKILL.md` に置く。nix や Makefile では配備しない
+- Auto-review のカスタムルールの正本は `config/grok-bot/auto-review-rules.md` に置く
+- ルールの同期手順は `config/grok-bot/skills/sync-auto-review-rules-from-dotfiles/SKILL.md` に書く
 - Grok Bot へは、チャットで SKILL.md の本文を渡し、「この内容を skill として保存して」と依頼して取り込む。
   公式 docs に、ファイルの import や upload の手段はない
 - 原本を直したら、アプリ内の skill も手動で更新する
