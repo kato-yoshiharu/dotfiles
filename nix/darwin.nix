@@ -55,6 +55,7 @@
 
       # その他
       "nikitabobko/tap/aerospace"
+      "capsomnia"
       "homerow"
       "karabiner-elements"
       "keycastr"
