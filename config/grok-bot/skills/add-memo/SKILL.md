@@ -20,7 +20,7 @@ description: >-
 
    ```sh
    cd ~/repos/github.com/kato-yoshiharu/memos
-   claude -p --allowedTools "Bash Read Edit Write Glob Grep Skill" <<'EOF'
+   HERDR_ENV=1 claude -p --allowedTools "Bash Read Edit Write Glob Grep Skill" <<'EOF'
    add-memo スキルを使って、次をメモに追加する。
    - 書く内容: <書く内容>
    - 追加先: <ファイルパス。ユーザーが示していなければ省く>
