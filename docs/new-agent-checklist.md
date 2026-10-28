@@ -48,6 +48,17 @@ Claude の `permissions.deny` と Codex の `rules/destructive.rules` に合わ�
 - 読み込み先のディレクトリ。`~/.agents/skills` と `~/.claude/skills` を読む agent は、追加の設定がいらない
 - 読まないなら、`nix/home.nix` の `skills.targets` に足す
 
+### skill がファイルではなくアプリ内に保存される agent
+
+Grok Bot は、skill を `~/.grok/skills` のようなパスではなく、アプリ内（クラウド側）の Private skills ライブラリに保存する。
+
+運用のルール:
+
+- skill の原本は `config/grok-bot/skills/<name>/SKILL.md` に置く。nix や Makefile では配備しない
+- Grok Bot へは、チャットで SKILL.md の本文を渡し、「この内容を skill として保存して」と依頼して取り込む。
+  公式 docs に、ファイルの import や upload の手段はない
+- 原本を直したら、アプリ内の skill も手動で更新する
+
 ## 見た目と操作の設定を入れる
 
 任意の項目。対応する設定があるときだけ入れる。
