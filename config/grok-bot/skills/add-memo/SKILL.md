@@ -22,16 +22,17 @@ description: >-
    cd ~/repos/github.com/kato-yoshiharu/memos
    claude -p --allowedTools "Bash Read Edit Write Glob Grep Skill" <<'EOF'
    add-memo スキルを使って、次をメモに追加する。
-   - 内容: <書く内容>
+   - 書く内容: <書く内容>
    - 追加先: <ファイルパス。ユーザーが示していなければ省く>
    EOF
    ```
 
-4. memos リポジトリで `git status` と `git diff` を確認し、追加先のパスと差分をユーザーに報告する。
+4. `herdr agent list` と新しい worktree の `git status`、`git diff` で完了を確認し、新しい worktree の追加先のパスと差分をユーザーに報告する。
 
 ## ルール
 
 - Grok Bot はメモを書かない
+- メイン worktree には書かない
 - add-memo スキルの内容の修正は dotfiles 側で行う。Grok Bot 側で直したくなったら、直さずに修正案をユーザーに伝える。
 - `claude` が使えないときは、原因を報告してユーザーに判断を仰ぐ。
   別の方法でメモを書かない
