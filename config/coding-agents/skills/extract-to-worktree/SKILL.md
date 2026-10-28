@@ -23,24 +23,29 @@ argument-hint: "[切り出す実装内容(省略時は直前の会話内容と�
 
 ## 手順
 
-1. 対象リポジトリで `git fetch origin main` した上で、
+1. 似た内容の worktree が既にないかを確認する。
+   対象リポジトリで `git worktree list` と `herdr workspace list` を実行し、
+   切り出す内容に近いブランチ名・ディレクトリ名・ラベルがないかを探す。
+   見つかったら、新規作成せずにユーザーへ報告し、既存を使うか新規に作るかを `AskUserQuestion` で聞く。
+   見つからなければ、そのまま手順2に進む。
+2. 対象リポジトリで `git fetch origin main` した上で、
    `herdr worktree create --cwd <メイン worktree> --branch <branch-name> --base origin/main --path ../<repo>-worktrees/<dir-name> --label <branch-name> --no-focus`
    で worktree の作成と herdr workspace の起動を一度に行う。
    `<dir-name>` は `<branch-name>` の `/` を `-` に置換したもの(例: `chore/harness-engineering-setup` → `chore-harness-engineering-setup`)。
    `--cwd` はメイン worktree(`git worktree list` の1行目)のパスにする(リンク worktree だと `linked_worktree_source` エラーになる)。
    レスポンスの `.result.workspace` / `.result.tab` / `.result.root_pane` に、後で委譲に使う workspace・pane の情報が含まれる。
-2. 切り出す対象が未コミット変更なら、適切な方法で新規 worktree に移す。
-3. 手順1で作成済みの workspace の `root_pane.pane_id` を左ペインとして使い、そこで Neovim を起動する。
+3. 切り出す対象が未コミット変更なら、適切な方法で新規 worktree に移す。
+4. 手順2で作成済みの workspace の `root_pane.pane_id` を左ペインとして使い、そこで Neovim を起動する。
    その右に新規ペインを分割し、そちらで Claude Code セッションを起動して実装作業を委譲する
    (「herdr でペインを分割してセッションを委譲する」を参照)。
-4. 手順2で変更を移していれば、その変更を現在の worktree から削除する。
+5. 手順3で変更を移していれば、その変更を現在の worktree から削除する。
 
 ### herdr でペインを分割してセッションを委譲する
 
 引き継ぎメッセージの組み立て方は `delegate-to-sub-session` スキルに従うが、完了報告を委譲元に返す部分は使わない。
 
 ```bash
-# <left_pane_id> は手順1の `herdr worktree create` レスポンスの .result.root_pane.pane_id
+# <left_pane_id> は手順2の `herdr worktree create` レスポンスの .result.root_pane.pane_id
 # 先に右へ新規ペインを分割し、左ペインのサイズを確定させる
 herdr pane split --pane <left_pane_id> --direction right --cwd <worktree>
 # 上記レスポンスの .result.pane.pane_id が <right_pane_id>
