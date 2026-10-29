@@ -18,3 +18,8 @@ _Avoid_: out-of-store symlink
 **メイン worktree**:
 dotfiles リポジトリのクローン本体。
 通常はここで `make switch` し、ストア外配置の参照先にする。
+
+**vibe-coding-repository**:
+vibe coding で開発するリポジトリ。
+infra repo の `github/vibe_coding_repositories.tf` に `github_repository` として定義されたものがそれにあたる。
+git フックは、リポジトリの origin がこの定義に含まれるかで判定し、含まれるリポジトリでは Grok Bot からの commit と push を許可する。
