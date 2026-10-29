@@ -1,0 +1,11 @@
+#!/bin/sh
+# Grok Bot の Shell（SAND_AGENT=1）からのコミットを拒否する。
+# pre-commit ではなく prepare-commit-msg にしているのは、--no-verify で飛ばされず、
+# amend・cherry-pick・merge のコミットにも走るため。
+
+if [ "$SAND_AGENT" = "1" ]; then
+  echo "エラー: Grok Bot からのコミットは禁止されている。コミットはユーザーが自分で行う。" >&2
+  exit 1
+fi
+
+exit 0

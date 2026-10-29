@@ -1,0 +1,10 @@
+#!/bin/sh
+# Grok Bot の Shell（SAND_AGENT=1）からの push を拒否する。
+# pre-push は --no-verify で飛ばせるため、強制力のある防御ではなく誤操作を防ぐ歯止めである。
+
+if [ "$SAND_AGENT" = "1" ]; then
+  echo "エラー: Grok Bot からの push は禁止されている。push はユーザーが自分で行う。" >&2
+  exit 1
+fi
+
+exit 0
