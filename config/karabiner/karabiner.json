@@ -17,6 +17,49 @@
       "complex_modifications": {
         "rules": [
           {
+            "description": "coding agent: Enter を shift+Enter にする (改行)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "return_or_enter" },
+                "to": [{ "key_code": "return_or_enter", "modifiers": ["left_shift"] }],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.openai\\.codex$",
+                      "^com\\.stablyai\\.orca$",
+                      "^com\\.anysphere\\.sand$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "coding agent: 右 cmd+Enter を素の Enter にする (送信)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "return_or_enter",
+                  "modifiers": { "mandatory": ["right_command"] }
+                },
+                "to": [{ "key_code": "return_or_enter" }],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.openai\\.codex$",
+                      "^com\\.stablyai\\.orca$",
+                      "^com\\.anysphere\\.sand$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "fn+hjkl to arrow keys (vim-like)",
             "manipulators": [
               {
@@ -182,6 +225,19 @@
                   "modifiers": { "mandatory": ["control", "fn"], "optional": ["any"] }
                 },
                 "to": [{ "key_code": "page_up" }]
+              }
+            ]
+          },
+          {
+            "description": "cmd+option+fn+f to sleep",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f",
+                  "modifiers": { "mandatory": ["command", "option", "fn"] }
+                },
+                "to": [{ "shell_command": "/bin/sleep 1 && /usr/bin/pmset sleepnow" }]
               }
             ]
           }

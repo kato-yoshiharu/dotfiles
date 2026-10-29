@@ -7,6 +7,7 @@ local servers = {
   "dockerls", -- dockerfile
   "gopls", -- go
   "html", -- html
+  "jdtls", -- java
   "jsonls", -- json
   "lua_ls", -- lua
   "marksman", -- markdown（脚注の gd / grr に対応）

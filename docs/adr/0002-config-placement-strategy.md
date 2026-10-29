@@ -8,7 +8,7 @@
 
 配置はディレクトリ直下のエントリ単位で行い、配置先のディレクトリ自体は symlink にしない。
 `~/.config/nvim` には、リポジトリにないファイル（`_backup/` や worktree 向けの `after`）がある。
-ディレクトリ単位で配置すると、`switch -b` でこれらがディレクトリごと退避されるためである。
+ディレクトリ単位で配置すると、衝突の解消で退避や削除をするときに、これらがディレクトリごと対象になるためである。
 ただし Karabiner は、`karabiner.json` 自体が symlink だと設定の変更を検知しないため、公式の指示どおりディレクトリ単位にする。
 `config/scripts` もディレクトリ単位にする。
 配置先にリポジトリ外のファイルが置かれないため退避の問題がなく、エントリ単位だとファイルを足すたびに `switch` が必要になるためである。
@@ -21,6 +21,6 @@ flake input 由来でストアにしかないためである。
 ## Consequences 配置方式の決定に伴う影響
 
 - 参照先は絶対パスになるため、どの worktree を指すかを決める必要がある。
-  `makers switch` を実行した worktree を参照先にし、worktree で `makers switch` するだけで、すべての設定をその worktree の内容に切り替えて試せるようにする。
+  `make switch` を実行した worktree を参照先にし、worktree で `make switch` するだけで、すべての設定をその worktree の内容に切り替えて試せるようにする。
   worktree のルートは環境変数 `DOTFILES_DIR` で渡し、`home.nix` の `dotfilesDir` で受け取る。
 - 環境変数を読むため、`switch` に `--impure` が必要になる。

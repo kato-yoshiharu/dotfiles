@@ -359,11 +359,14 @@ return {
       matcher = { sort_empty = true },
       sources = {
         -- ファイル一覧を走査順ではなく、ディレクトリ優先のパス順で並べる
-        files = { sort = sort_dirs_first, hidden = true, ignored = true, exclude = { "node_modules" } },
+        files = { sort = sort_dirs_first, hidden = true, ignored = true, follow = true, exclude = { "node_modules" } },
+        -- gitignore 済みのファイルもヒットさせる
+        -- symlink 先もたどるために follow も要る
+        grep = { hidden = true, ignored = true, follow = true, exclude = { ".git", "node_modules" } },
         projects = {
-          dev = { "~/development" },
-          -- worktree配下（development/xxx/xxx-worktrees/yyy/.git）まで届くように
-          max_depth = 4,
+          dev = { "~/repos" },
+          -- worktree配下（repos/github.com/owner/xxx-worktrees/yyy/.git）まで届くように
+          max_depth = 5,
         },
         -- ファイラはデフォルトで左に出るので右に寄せる
         explorer = {

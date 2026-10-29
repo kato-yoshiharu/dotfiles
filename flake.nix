@@ -7,6 +7,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     agent-skills = {
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -71,6 +75,16 @@
       flake = false;
     };
 
+    # Claude Code プラグインの取得元
+    plugins-cursor = {
+      url = "github:cursor/plugins";
+      flake = false;
+    };
+    plugins-openai-codex = {
+      url = "github:openai/codex-plugin-cc";
+      flake = false;
+    };
+
     # 外部 sub agent の取得元
     agents-voltagent = {
       url = "github:VoltAgent/awesome-claude-code-subagents";
@@ -83,22 +97,30 @@
   };
 
   outputs =
-    inputs@{ nixpkgs, home-manager, agent-skills, ... }:
+    inputs@{ nixpkgs, home-manager, nix-darwin, agent-skills, ... }:
     let
       system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
+      # darwin-rebuild は sudo で動き、USER と HOME が root のものになる。
+      # そのため、実ユーザーは PRIMARY_USER で受け取り、
+      # ホームディレクトリはそこから組み立てる。
+      # 環境変数を読むため、--impure が必要。
+      username = builtins.getEnv "PRIMARY_USER";
+      # worktree 専用のホームディレクトリを試すときだけ、
+      # HOME_DIR でホームディレクトリを差し替える。
+      homeDirectory =
+        let homeDir = builtins.getEnv "HOME_DIR";
+        in if homeDir != "" then homeDir else "/Users/${username}";
     in
     {
-      homeConfigurations.katouyoshiharu = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+      darwinConfigurations.default = nix-darwin.lib.darwinSystem {
+        inherit system;
         modules = [
-          agent-skills.homeManagerModules.default
-          ./nix/home.nix
+          home-manager.darwinModules.home-manager
+          ./nix/darwin.nix
         ];
-        extraSpecialArgs = {
-          inherit inputs;
+        specialArgs = {
+          inherit inputs username homeDirectory;
           # ストア外配置の参照先。
-          # 環境変数を読むため、--impure が要る。
           dotfilesDir = builtins.getEnv "DOTFILES_DIR";
         };
       };

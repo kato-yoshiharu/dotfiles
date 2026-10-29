@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, dotfilesDir, ... }:
+{ config, lib, pkgs, inputs, dotfilesDir, username, homeDirectory, ... }:
 let
   # worktree の実ファイルを指すリンクにする（ストア外配置）。
   # 編集が switch なしで反映される。
@@ -28,26 +28,36 @@ let
   };
 in
 {
-  home.username = "katouyoshiharu";
-  home.homeDirectory = "/Users/katouyoshiharu";
+  home.username = username;
+  home.homeDirectory = homeDirectory;
   home.stateVersion = "25.05";
-
-  programs.home-manager.enable = true;
 
   assertions = [
     {
       assertion = dotfilesDir != "";
-      message = "DOTFILES_DIR が未設定。makers switch で実行する。";
+      message = "DOTFILES_DIR が未設定。make switch で実行する。";
     }
   ];
 
   # terraform は BUSL ライセンスで、nixpkgs では unfree 扱いになっている。
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "terraform" ];
+  # antigravity-cli・claude-code・cursor-cli は独自ライセンスのバイナリ配布で、unfree 扱いになっている。
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "antigravity-cli"
+    "claude-code"
+    "cursor-cli"
+    "terraform"
+  ];
 
   home.packages = [
-    inputs.backlog-md.packages.${pkgs.system}.default
+    inputs.backlog-md.packages.${pkgs.stdenv.hostPlatform.system}.default
+    pkgs.antigravity-cli
+    pkgs.awscli2
     pkgs.ccusage
+    pkgs.codex
     pkgs.cspell
+    pkgs.cursor-cli
+    # cursor は GUI ではなく cursor-agent を起動する。
+    (pkgs.writeShellScriptBin "cursor" ''exec ${pkgs.cursor-cli}/bin/cursor-agent --trust "$@"'')
     pkgs.dotenvx
     pkgs.fd
     pkgs.fzf
@@ -63,16 +73,21 @@ in
     pkgs.neovim
     pkgs.ni
     pkgs.npm-check-updates
+    pkgs.opencode
     pkgs.pipx
     pkgs.pnpm
     pkgs.posting
+    pkgs.rclone
     # yazi の S（中身検索）と、シェル単体での grep 置き換えに使う
     pkgs.ripgrep
+    pkgs.rtk
     pkgs.rumdl
+    pkgs.sqlit-tui
     pkgs.starship
     pkgs.terraform
     # nvim-treesitter の main ブランチがパーサのコンパイルに使う
     pkgs.tree-sitter
+    pkgs.uv
     pkgs.xh
     pkgs.yazi
     pkgs.zoxide
@@ -87,18 +102,26 @@ in
     ".claude/keybindings.json".source = outOfStore "config/claude/keybindings.json";
     ".claude/output-styles/diagrams-first.md".source =
       outOfStore "config/claude/output-styles/diagrams-first.md";
-    ".claude/settings.json".source = outOfStore "config/claude/settings.json";
+    # settings.json は Orca が hooks を書き込むため置かず、make agent-configs が config/claude/settings.json をベースに merge する。
     ".claude/statusline-command.sh".source = outOfStore "config/claude/statusline-command.sh";
 
     # Codex
     # config.toml は Codex が実行時の状態も書き込むため置かず、手動で同期する。
     ".codex/AGENTS.md".source = outOfStore "config/coding-agents/AGENTS.md";
-    ".codex/hooks.json".source = outOfStore "config/codex/hooks.json";
+    # hooks.json も settings.json と同じ理由で置かず、make agent-configs が実ファイルに merge する。
     # ~/.codex/rules には Codex が承認したコマンドの default.rules を書くため、ファイル単位で置く。
     ".codex/rules/destructive.rules".source = outOfStore "config/codex/rules/destructive.rules";
 
     # Cursor
     ".cursor/rules".source = outOfStore "config/cursor/rules";
+    ".cursor/plugins/local/cursor-team-kit" = {
+      source = "${inputs.plugins-cursor}/cursor-team-kit";
+      recursive = true;
+    };
+    ".cursor/plugins/local/thermos" = {
+      source = "${inputs.plugins-cursor}/thermos";
+      recursive = true;
+    };
 
     # git
     ".gitconfig".source = outOfStore "config/git/.gitconfig";
@@ -145,6 +168,14 @@ in
   xdg.configFile."wezterm/wezterm.lua".source = outOfStore "config/wezterm/wezterm.lua";
 
   xdg.configFile."yazi/init.lua".source = outOfStore "config/yazi/init.lua";
+
+  # programs.claude-code では settings と marketplaces を使わない。
+  # 使うと ~/.claude/settings.json を home-manager が書き、既存の設定と衝突する。
+  programs.claude-code = {
+    enable = true;
+    plugins.pstack = "${inputs.plugins-cursor}/harness/pstack/claude-code";
+    plugins.openai-codex ="${inputs.plugins-openai-codex}/plugins/codex";
+  };
 
   programs.agent-skills = {
     enable = true;

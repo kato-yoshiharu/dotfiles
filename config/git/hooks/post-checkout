@@ -1,0 +1,26 @@
+#!/bin/sh
+# clone 直後と worktree 作成直後に、setup-repo.sh で作業ディレクトリを用意する。
+
+# clone・worktree 作成以外の checkout なら終了する。
+# 旧 HEAD が null（全桁 0）になるのは、clone と worktree add のときだけ。
+case "$1" in
+  *[!0]*) exit 0 ;;
+esac
+
+# ~/repos 配下でなければ終了する。
+# lazy.nvim や mise などがツール内部で行う clone では動かさないよう、ghq の配置先に限る。
+case "$(pwd -P)/" in
+  "${GHQ_ROOT:-$HOME/repos}"/*) ;;
+  *) exit 0 ;;
+esac
+
+# clone 中に渡される git の環境変数を消す。
+# clone 中は GIT_DIR が渡され、setup-repo.sh が dotfiles をたどる git -C より優先されてしまう。
+unset GIT_DIR GIT_WORK_TREE
+
+# dotfiles の hooks ディレクトリの実際の場所を求める。
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd -P)
+
+# checkout は済んでいるので、setup-repo.sh が失敗しても成功で終える。
+"$SCRIPT_DIR/../../scripts/setup-repo.sh" || echo "setup-repo.sh が失敗した。手動で bash ~/.scripts/setup-repo.sh を実行すること。" >&2
+exit 0

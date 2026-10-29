@@ -20,13 +20,24 @@ herdr() {
   sh ~/.scripts/herdr.sh "$@"
 }
 
+# Cursor Agent の起動前に画面を消し、打ったコマンドの行を残さない。
+# 対象は引数なしの `cursor` と `cursor agent` で、出力が端末のときだけ消す。
+cursor() {
+  if [[ -t 1 && ( $# -eq 0 || $1 == agent ) ]]; then
+    clear
+  fi
+  command cursor "$@"
+}
+
 # 外部ターミナルから claude を起動したとき、Cursor 等の他 IDE ロックファイルと
 # 競合して自動接続が曖昧になるのを避け、カレントディレクトリ配下を開いている
 # Neovim (claudecode.nvim) に確実に接続する
 claude() {
+  # (N) 修飾子は実行環境によって効かないため、null_glob オプションで代用する
+  setopt local_options null_glob
   local lock
   lock=$(
-    for f in ~/.claude/ide/*.lock(N); do
+    for f in ~/.claude/ide/*.lock; do
       jq -e --arg cwd "$PWD" \
         'select(.ideName == "Neovim") | select(.workspaceFolders | any(. as $w | $cwd | startswith($w)))' \
         "$f" >/dev/null 2>&1 && echo "$f"
@@ -60,7 +71,7 @@ export EDITOR=nvim
 # 明示的に --edit を付ければ開ける
 export GIT_MERGE_AUTOEDIT=no
 
-# ghq のリポジトリ配置先（既存の ~/development とは分離する）
+# ghq のリポジトリ配置先
 export GHQ_ROOT="$HOME/repos"
 
 # ghq で管理しているリポジトリを fzf で選んで cd する

@@ -1,8 +1,44 @@
 #!/usr/bin/env bash
-# PreToolUse(Bash) フック。git add / git commit / git push / git merge / git rebase / git pull を拒否する。
-# ブロックするときだけ stderr に理由を書いて exit 2 で終わる。exit 0 ならコマンドは通る。
+# PreToolUse(Bash) フック。Cursor の beforeShellExecution でも使う（コマンドは .command に入る）。
+# git add / git commit / git push / git merge / git rebase / git pull を拒否する。
+#
+# Cursor は stdout の JSON で判断する。
+# failClosed のため、許可時も {"permission":"allow"} を必ず出す。
+# 空出力だと Cursor は hook 失敗とみなして全コマンドを止める。
+# Claude / Codex は exit 2 と stderr で判断し、stdout の JSON は読まない。
+# Codex は PreToolUse の stdout を厳密に読み、
+# permission を含む JSON を不正な出力として毎回エラーにする。
+# そのため、stdin の hook_event_name が PreToolUse のときは stdout を空にし、
+# Cursor のときだけ JSON を出す。
+#
+# ALLOW_GIT_WRITE=1 のときは何もブロックしない。
+# 有効にするリポジトリの .claude/settings.local.json の env に書く。
 
 set -u
+
+deny_msg='git add / git commit / git push / git merge / git rebase / git pull はブロックされている。'
+
+input=$(cat)
+event=$(printf '%s' "$input" | jq -r '.hook_event_name // empty' 2>/dev/null)
+
+allow() {
+  if [ "$event" != PreToolUse ]; then
+    printf '%s\n' '{"permission":"allow"}'
+  fi
+  exit 0
+}
+
+deny() {
+  printf '%s\n' "$deny_msg" >&2
+  if [ "$event" != PreToolUse ]; then
+    printf '%s\n' "{\"permission\":\"deny\",\"user_message\":\"${deny_msg}\",\"agent_message\":\"${deny_msg}\"}"
+  fi
+  exit 2
+}
+
+if [ "${ALLOW_GIT_WRITE:-}" = 1 ]; then
+  allow
+fi
 
 # 行頭の git だけを見る。コマンド全体への部分一致にすると、
 # echo や grep が git を文字列として言及しただけで巻き込むため。
@@ -41,11 +77,12 @@ SUB="${SP}+(add|commit|push|merge|rebase|pull)(${SP}|\$)"
 # ; & | ( ) 改行 を改行に潰し、各コマンドの先頭を行頭に揃えてから照合する。
 # git "push" や git c'ommit' のようにサブコマンド自体をクォートで細工すると
 # すり抜けるが、これも対応範囲外。
-jq -r '.tool_input.command // empty' |
+if printf '%s' "$input" | jq -r '.tool_input.command // .command // empty' |
   perl -0777 -pe 's/\x27[^\x27]*\x27|"(\\.|[^"\\])*"//g' |
   tr ';&|()\n' '\n' |
-  grep -qE "^${SP}*$ENV$WRAP$GIT$OPTS$SUB" || exit 0
+  grep -qE "^${SP}*$ENV$WRAP$GIT$OPTS$SUB"
+then
+  deny
+fi
 
-# PreToolUse では exit 2 がブロックを意味し、stderr がそのまま理由として渡る
-echo 'git add / git commit / git push / git merge / git rebase / git pull はブロックされている。' >&2
-exit 2
+allow

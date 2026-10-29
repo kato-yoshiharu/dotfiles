@@ -11,10 +11,10 @@
 編集内容は `switch` するまで反映されない。
 
 **ストア外配置**:
-ホームから、`makers switch` を実行した worktree 内のファイルへ直接 symlink を張る配置。
+ホームから、`make switch` を実行した worktree 内のファイルへ直接 symlink を張る配置。
 編集は `switch` なしで反映される。
 _Avoid_: out-of-store symlink
 
 **メイン worktree**:
-dotfiles リポジトリのクローン本体（`~/development/suimenkathemove/dotfiles`）。
-通常はここで `makers switch` し、ストア外配置の参照先にする。
+dotfiles リポジトリのクローン本体。
+通常はここで `make switch` し、ストア外配置の参照先にする。

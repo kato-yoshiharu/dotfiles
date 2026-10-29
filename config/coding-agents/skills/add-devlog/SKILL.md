@@ -1,14 +1,14 @@
 ---
 name: add-devlog
 description: >-
-  memos（~/development/suimenkathemove/memos）の devlog に、今日やったことを書き込む。
+  memos リポジトリの devlog に、今日やったことを書き込む。
   trigger phrase: "devlogを書いて", "今日やったことを記録して"
 argument-hint: "[日付・期間。省略時は今日]"
 ---
 
 # devlog に今日やったことを書き込む
 
-対象repo: `~/development/suimenkathemove/memos/devlog`
+対象repo: memos リポジトリの `devlog/`
 
 - ファイルパスは `2026/01/2026-01-01.md` のように `<年>/<月>/<YYYY-MM-DD>.md` とする。
 - テンプレートは `devlog/TEMPLATE.md`。
@@ -33,13 +33,12 @@ argument-hint: "[日付・期間。省略時は今日]"
 
 取得の方針:
 
-- `~/development/` 配下のすべてのリポジトリで `git log` を実行する。
+- `ghq list -p` のすべてのリポジトリで `git log` を実行する。
 - worktree は本体と ref を共有するので、本体を `--all` で見れば足りる。
 
 ```sh
-find ~/development -maxdepth 4 -type d -name .git |
-  while read -r g; do
-    r=$(dirname "$g")
+ghq list -p |
+  while read -r r; do
     git -C "$r" log --all --author="$(git config user.name)" \
       --since="<開始日> 00:00" --until="<終了日の翌日> 00:00" \
       --format="$(basename "$r") %H %ad %s" --date=iso

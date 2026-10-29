@@ -1,15 +1,6 @@
 #!/bin/bash
 
-# install homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-
-# GUI アプリ
-brew bundle --file "$DOTFILES_DIR/setup/Brewfile"
-
-pipx install sqlit-tui
-pipx inject sqlit-tui psycopg2-binary
 
 # mise
 # 入れるランタイムは config/mise/config.toml に書いてある。
@@ -18,7 +9,9 @@ mise install
 # cspell: link the shared personal dictionary as global config
 # グローバル辞書は cspell-global worktree の cspell.json だけを編集する運用にしている。
 # そのため、リンク先は常にこの worktree に固定する。
-CSPELL_GLOBAL_DIR="$HOME/development/suimenkathemove/dotfiles-worktrees/cspell-global"
+# worktree の置き場は、メインのクローンの隣の <クローン名>-worktrees にする。
+MAIN_CLONE_DIR="$(cd "$(git -C "$DOTFILES_DIR" rev-parse --git-common-dir)/.." && pwd)"
+CSPELL_GLOBAL_DIR="$MAIN_CLONE_DIR-worktrees/cspell-global"
 CSPELL_GLOBAL_JSON="$CSPELL_GLOBAL_DIR/cspell.json"
 
 # worktree がなければ作成する。
@@ -41,5 +34,29 @@ done
 cspell link add "$CSPELL_GLOBAL_JSON"
 
 # login items: macOS起動時に自動起動させるアプリ
-osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Vicinae.app", hidden:false}'
-osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/AeroSpace.app", hidden:false}'
+# 冪等にするため、登録済みのアプリは飛ばす。
+register_login_item() {
+  local name="$1"
+  local hidden="${2:-false}"
+  local registered
+  registered=$(osascript -e 'tell application "System Events" to get the name of every login item')
+
+  if [[ ", $registered, " != *", $name, "* ]]; then
+    osascript -e "tell application \"System Events\" to make login item at end with properties {path:\"/Applications/$name.app\", hidden:$hidden}"
+  fi
+}
+
+register_login_item Vicinae
+register_login_item AeroSpace
+register_login_item "Google Chrome"
+register_login_item WezTerm
+# Homerow はキーバインドで使うので、起動時にウィンドウを開かない。
+register_login_item Homerow true
+
+# スクリーンショットの保存先をホーム直下の ~/Screenshots にする
+# 新しい macOS は location-screenshot と location-screenrecording を優先するため、3つとも揃える。
+mkdir -p "$HOME/Screenshots"
+defaults write com.apple.screencapture location "$HOME/Screenshots"
+defaults write com.apple.screencapture location-screenshot "$HOME/Screenshots"
+defaults write com.apple.screencapture location-screenrecording "$HOME/Screenshots"
+killall SystemUIServer

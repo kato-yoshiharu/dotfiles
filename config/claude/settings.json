@@ -7,7 +7,20 @@
     "allow": [
       "Read",
       "Edit",
-      "Write"
+      "Write",
+      "WebSearch",
+      "Skill(update-config)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git fetch *)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr diff *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr checks *)",
+      "Bash(gh run view *)",
+      "Bash(gh run list *)",
+      "Bash(gh issue view *)",
+      "Bash(gh issue list *)"
     ],
     "deny": [
       "Bash(gh repo delete *)",
@@ -30,6 +43,20 @@
           {
             "type": "command",
             "command": "bash \"$HOME/.agents/hooks/block-git-write.sh\""
+          },
+          {
+            "type": "command",
+            "command": "rtk hook claude"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat \"$HOME/.agents/skills/i-have-adhd/SKILL.md\""
           }
         ]
       }
@@ -40,7 +67,9 @@
     "command": "sh \"$HOME/.claude/statusline-command.sh\""
   },
   "effortLevel": "medium",
-  "autoUpdatesChannel": "latest",
+  "env": {
+    "DISABLE_UPDATES": "1"
+  },
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "skipWorkflowUsageWarning": true,
