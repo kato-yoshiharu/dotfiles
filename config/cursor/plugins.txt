@@ -1,0 +1,5 @@
+# Cursor に配る公式プラグイン。cursor/plugins 直下のディレクトリ名を、1行に1つ書く。
+# ローカルは nix/home.nix が、クラウドは env-sync.sh が、このファイルを読む。
+cursor-team-kit
+pstack
+thermos

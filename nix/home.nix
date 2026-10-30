@@ -26,6 +26,20 @@ let
     ".claude/agents/alirezarezvani/devils-advocate.md".source =
       "${inputs.agents-alirezarezvani}/c-level-advisor/executive-mentor/agents/devils-advocate.md";
   };
+
+  # Cursor に配る公式プラグイン。ローカルでは ~/.cursor/plugins/local に置く。
+  # クラウドには届かない。詳細は docs/cursor-plugins.md。
+  cursorPlugins = lib.filter (line: line != "" && !(lib.hasPrefix "#" line)) (
+    lib.splitString "\n" (builtins.readFile ../config/cursor/plugins.txt)
+  );
+
+  cursorPluginFiles = lib.listToAttrs (map (name: {
+    name = ".cursor/plugins/local/${name}";
+    value = {
+      source = "${inputs.plugins-cursor}/${name}";
+      recursive = true;
+    };
+  }) cursorPlugins);
 in
 {
   home.username = username;
@@ -93,7 +107,7 @@ in
     pkgs.zoxide
   ];
 
-  home.file = localAgents // externalAgents // {
+  home.file = localAgents // externalAgents // cursorPluginFiles // {
     # Claude Code と Codex で共有する hooks
     ".agents/hooks".source = outOfStore "config/coding-agents/hooks";
 
@@ -114,14 +128,6 @@ in
 
     # Cursor
     ".cursor/rules".source = outOfStore "config/cursor/rules";
-    ".cursor/plugins/local/cursor-team-kit" = {
-      source = "${inputs.plugins-cursor}/cursor-team-kit";
-      recursive = true;
-    };
-    ".cursor/plugins/local/thermos" = {
-      source = "${inputs.plugins-cursor}/thermos";
-      recursive = true;
-    };
 
     # git
     ".gitconfig".source = outOfStore "config/git/.gitconfig";
@@ -174,7 +180,7 @@ in
   programs.claude-code = {
     enable = true;
     plugins.pstack = "${inputs.plugins-cursor}/harness/pstack/claude-code";
-    plugins.openai-codex ="${inputs.plugins-openai-codex}/plugins/codex";
+    plugins.openai-codex = "${inputs.plugins-openai-codex}/plugins/codex";
   };
 
   programs.agent-skills = {
