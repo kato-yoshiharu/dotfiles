@@ -27,19 +27,10 @@ let
       "${inputs.agents-alirezarezvani}/c-level-advisor/executive-mentor/agents/devils-advocate.md";
   };
 
-  # Cursor に配る公式プラグイン。ローカルでは ~/.cursor/plugins/local に置く。
-  # クラウドには届かない。詳細は docs/cursor-plugins.md。
+  # Cursor に配る公式プラグイン。詳細は docs/cursor-plugins.md。
   cursorPlugins = lib.filter (line: line != "" && !(lib.hasPrefix "#" line)) (
     lib.splitString "\n" (builtins.readFile ../config/cursor/plugins.txt)
   );
-
-  cursorPluginFiles = lib.listToAttrs (map (name: {
-    name = ".cursor/plugins/local/${name}";
-    value = {
-      source = "${inputs.plugins-cursor}/${name}";
-      recursive = true;
-    };
-  }) cursorPlugins);
 in
 {
   home.username = username;
@@ -107,7 +98,17 @@ in
     pkgs.zoxide
   ];
 
-  home.file = localAgents // externalAgents // cursorPluginFiles // {
+  # Cursor は ~/.cursor/plugins/local の symlink を読み飛ばすため、実ファイルとしてコピーする。
+  home.activation.cursorPlugins = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "$HOME/.cursor/plugins/local"
+    ${lib.concatMapStringsSep "\n" (name: ''
+      rm -rf "$HOME/.cursor/plugins/local/${name}"
+      cp -RL "${inputs.plugins-cursor}/${name}" "$HOME/.cursor/plugins/local/${name}"
+      chmod -R u+w "$HOME/.cursor/plugins/local/${name}"
+    '') cursorPlugins}
+  '';
+
+  home.file = localAgents // externalAgents // {
     # Claude Code と Codex で共有する hooks
     ".agents/hooks".source = outOfStore "config/coding-agents/hooks";
 

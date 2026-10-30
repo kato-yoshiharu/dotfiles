@@ -7,6 +7,7 @@
 配るプラグインは、`config/cursor/plugins.txt` に書く。
 ローカルの Nix とクラウドのスクリプトが、同じファイルを読む。
 反映は `make switch`。
+Cursor は `~/.cursor/plugins/local` の symlink を読み飛ばすため、Nix の activation で実ファイルとしてコピーする。
 
 ## クラウドは install script でコピーする
 
