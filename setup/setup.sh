@@ -60,3 +60,62 @@ defaults write com.apple.screencapture location "$HOME/Screenshots"
 defaults write com.apple.screencapture location-screenshot "$HOME/Screenshots"
 defaults write com.apple.screencapture location-screenrecording "$HOME/Screenshots"
 killall SystemUIServer
+
+# macOS の設定を defaults write で適用する
+# 意図と、反映に必要な操作は docs/mac-settings.md に書く。
+# defaults write は誤ったキーでも成功するため、
+# 読み戻しで分かるのは、値が書けたことだけ。
+# 効いているかの確認は、docs/mac-settings.md の手順で行う。
+set_default() {
+  local domain="$1" key="$2" type="$3" value="$4"
+  local expected="$value"
+  case "$type:$value" in
+    bool:true) expected=1 ;;
+    bool:false) expected=0 ;;
+  esac
+
+  defaults write "$domain" "$key" "-$type" "$value"
+
+  local actual
+  actual=$(defaults read "$domain" "$key" 2>/dev/null)
+  if [ "$actual" != "$expected" ]; then
+    echo "WARN: $domain $key が $expected にならなかった（読み戻した値: ${actual:-なし}）" >&2
+  fi
+}
+
+# トラックパッドのカーソル速度を 3 にする
+set_default -g com.apple.trackpad.scaling float 3
+
+# キーリピートを速くする
+set_default -g KeyRepeat int 2
+set_default -g InitialKeyRepeat int 15
+
+# 長押しでアクセント文字の選択を出さず、キーリピートさせる
+set_default -g ApplePressAndHoldEnabled bool false
+
+# Dock を使わないときは隠す
+set_default com.apple.dock autohide bool true
+# アイコンの大きさを 64 にする
+set_default com.apple.dock tilesize int 64
+
+# Finder の下部にステータスバーを出す
+set_default com.apple.finder ShowStatusBar bool true
+# Finder の既定の表示をリストにする
+set_default com.apple.finder FXPreferredViewStyle string Nlsv
+
+# エラー音が鳴るとき、画面も点滅させる
+set_default -g com.apple.sound.beep.flash int 1
+
+# 日本語入力のライブ変換を使わない
+set_default com.apple.inputmethod.Kotoeri JIMPrefLiveConversionKey int 0
+# Windows 風のキー操作を使う
+set_default com.apple.inputmethod.Kotoeri JIMPrefWindowsModeKey int 1
+
+# トラックパッドで 3 本指を上にスワイプしたときの挙動を、Mission Control にする
+# 内蔵トラックパッドと Bluetooth トラックパッドで、ドメインが分かれている
+set_default com.apple.AppleMultitouchTrackpad TrackpadThreeFingerVertSwipeGesture int 2
+set_default com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture int 2
+
+# Dock と Finder を再起動して、設定を反映する
+killall Dock
+killall Finder
