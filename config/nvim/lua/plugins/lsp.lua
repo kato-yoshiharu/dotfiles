@@ -19,6 +19,26 @@ local servers = {
   "yamlls", -- yaml
 }
 
+local excluded_servers = {}
+local excluded_server_set = {}
+
+for server in (vim.env.NVIM_MASON_EXCLUDE or ""):gmatch("[^,%s]+") do
+  if not excluded_server_set[server] then
+    table.insert(excluded_servers, server)
+    excluded_server_set[server] = true
+  end
+end
+
+servers = vim.tbl_filter(function(server)
+  return not excluded_server_set[server]
+end, servers)
+
+local automatic_enable = true
+
+if #excluded_servers > 0 then
+  automatic_enable = { exclude = excluded_servers }
+end
+
 return {
   {
     "williamboman/mason.nvim",
@@ -34,7 +54,7 @@ return {
     dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
     opts = {
       ensure_installed = servers,
-      automatic_enable = true,
+      automatic_enable = automatic_enable,
     },
   },
 }
