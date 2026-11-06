@@ -67,6 +67,9 @@ osascript -e 'tell application "System Events" to tell appearance preferences to
 # 無操作でもディスプレイの電源を切らない
 sudo pmset -a displaysleep 0
 
+# 電源アダプタ接続中は Mac を自動スリープさせない
+sudo pmset -c sleep 0
+
 # macOS の設定を defaults write で適用する
 # 意図と、反映に必要な操作は docs/mac-settings.md に書く。
 # defaults write は誤ったキーでも成功するため、
