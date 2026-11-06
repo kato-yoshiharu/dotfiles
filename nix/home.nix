@@ -81,6 +81,7 @@ in
     pkgs.opencode
     pkgs.pipx
     pkgs.pnpm
+    pkgs.podman
     pkgs.posting
     pkgs.rclone
     # yazi の S（中身検索）と、シェル単体での grep 置き換えに使う
