@@ -33,3 +33,6 @@ hide_full_access_warning = true
 [desktop]
 followUpQueueMode = "steer"
 external-agent-import-sync-enabled = false
+
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
