@@ -61,6 +61,12 @@ defaults write com.apple.screencapture location-screenshot "$HOME/Screenshots"
 defaults write com.apple.screencapture location-screenrecording "$HOME/Screenshots"
 killall SystemUIServer
 
+# macOS の外観をダークモードにする
+osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to true'
+
+# 無操作でもディスプレイの電源を切らない
+sudo pmset -a displaysleep 0
+
 # macOS の設定を defaults write で適用する
 # 意図と、反映に必要な操作は docs/mac-settings.md に書く。
 # defaults write は誤ったキーでも成功するため、
