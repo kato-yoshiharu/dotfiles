@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, dotfilesDir, username, homeDirectory, ... }:
+{ config, lib, pkgs, inputs, dotfilesDir, username, homeDirectory, excludedSkills, ... }:
 let
   # worktree の実ファイルを指すリンクにする（ストア外配置）。
   # 編集が switch なしで反映される。
@@ -8,6 +8,99 @@ let
   localSkills = lib.attrNames (
     lib.filterAttrs (_: type: type == "directory") (builtins.readDir ../config/coding-agents/skills)
   );
+
+  # 自動検出する skill は source ごとに列挙し、source の除外判定にも使う。
+  enabledSkillSources = [
+    { name = "local"; value = localSkills; }
+    { name = "yomiyasu"; value = [ "yomiyasu" ]; }
+    { name = "explainer"; value = [ "explainer" "explainer-book" "first-reader" "d2-diagram" "d2-slides" ]; }
+    { name = "walkinglabs-learn-harness-engineering"; value = [ "harness-creator" ]; }
+  ];
+  enabledSkillsBySource = builtins.listToAttrs enabledSkillSources;
+  enabledSkills = lib.concatMap (source: source.value) enabledSkillSources;
+
+  # 自動検出に任せない skill は source と path を明示する。
+  explicitSkills = {
+    # 上流のフォルダ名は react-best-practices だが、
+    # SKILL.md の name に合わせて配置する。
+    vercel-react-best-practices = {
+      from = "vercel-agent-skills";
+      path = "react-best-practices";
+    };
+    find-skills = {
+      from = "vercel-skills";
+      path = "find-skills";
+    };
+    grilling = {
+      from = "mattpocock-skills";
+      path = "grilling";
+    };
+    grill-me = {
+      from = "mattpocock-skills";
+      path = "grill-me";
+    };
+    domain-modeling = {
+      from = "mattpocock-skills-engineering";
+      path = "domain-modeling";
+    };
+    grill-with-docs = {
+      from = "mattpocock-skills-engineering";
+      path = "grill-with-docs";
+    };
+    eli5 = {
+      from = "claude-plugins-community-eli5";
+      path = "eli5";
+    };
+    natural-japanese = {
+      from = "natural-japanese";
+      path = "natural-japanese";
+    };
+    i-have-adhd = {
+      from = "i-have-adhd";
+      path = "i-have-adhd";
+    };
+    archify = {
+      from = "archify";
+      path = "archify";
+    };
+    eval-harness = {
+      from = "affaan-m-ecc";
+      path = "eval-harness";
+    };
+    agent-eval = {
+      from = "affaan-m-ecc";
+      path = "agent-eval";
+    };
+    agentic-engineering = {
+      from = "affaan-m-ecc";
+      path = "agentic-engineering";
+    };
+    claude-automation-recommender = {
+      from = "claude-plugins-official-claude-code-setup";
+      path = "claude-automation-recommender";
+    };
+    context-engineering = {
+      from = "addyosmani-agent-skills";
+      path = "context-engineering";
+    };
+  };
+
+  # source と skill の対応は、自動検出と明示指定の定義から組み立てる。
+  sourceSkills = lib.foldlAttrs (
+    sources: name: skill:
+    sources // { ${skill.from} = (sources.${skill.from} or [ ]) ++ [ name ]; }
+  ) enabledSkillsBySource explicitSkills;
+  knownSkills = lib.unique (lib.concatLists (lib.attrValues sourceSkills));
+  unknownExcludedSkills = lib.filter (name: !(builtins.elem name knownSkills)) excludedSkills;
+  validatedExcludedSkills =
+    if unknownExcludedSkills == [ ] then excludedSkills
+    else throw "EXCLUDED_SKILLS に未知の skill ID がある: ${lib.concatStringsSep ", " unknownExcludedSkills}";
+
+  # EXCLUDED_SKILLS に指定した skill は有効にしない。
+  isSkillEnabled = name: !(builtins.elem name validatedExcludedSkills);
+
+  # 有効な skill がない source は取得しない。
+  isSourceEnabled = name: lib.any isSkillEnabled sourceSkills.${name};
 
   # 自作 sub agent は config/claude/agents 直下の *.md をファイル単位で配置する。
   localAgents = lib.mapAttrs' (name: _: {
@@ -188,7 +281,7 @@ in
   programs.agent-skills = {
     enable = true;
 
-    sources = {
+    sources = lib.filterAttrs (name: _: isSourceEnabled name) {
       local.path = ../config/coding-agents/skills;
       mattpocock-skills = {
         input = "skills-mattpocock-skills";
@@ -235,7 +328,6 @@ in
         input = "skills-vercel-skills";
         subdir = "skills";
       };
-      # ECC は巨大なモノレポなので、skills.explicit で選んだものだけを有効にする。
       affaan-m-ecc = {
         input = "skills-affaan-m-ecc";
         subdir = "skills";
@@ -250,81 +342,8 @@ in
       };
     };
 
-    # yomiyasu は subdir = "skills" 配下で発見された ID で有効にする。
-    skills.enable = localSkills ++ [
-      "yomiyasu"
-      "explainer"
-      "explainer-book"
-      "first-reader"
-      "d2-diagram"
-      "d2-slides"
-      "harness-creator"
-    ];
-    skills.explicit = {
-      # 上流のフォルダ名は react-best-practices だが、
-      # SKILL.md の name は vercel-react-best-practices である。
-      # 配置名を name に合わせるため、キーは name の方にする。
-      vercel-react-best-practices = {
-        from = "vercel-agent-skills";
-        path = "react-best-practices";
-      };
-      find-skills = {
-        from = "vercel-skills";
-        path = "find-skills";
-      };
-      grilling = {
-        from = "mattpocock-skills";
-        path = "grilling";
-      };
-      grill-me = {
-        from = "mattpocock-skills";
-        path = "grill-me";
-      };
-      domain-modeling = {
-        from = "mattpocock-skills-engineering";
-        path = "domain-modeling";
-      };
-      grill-with-docs = {
-        from = "mattpocock-skills-engineering";
-        path = "grill-with-docs";
-      };
-      eli5 = {
-        from = "claude-plugins-community-eli5";
-        path = "eli5";
-      };
-      natural-japanese = {
-        from = "natural-japanese";
-        path = "natural-japanese";
-      };
-      i-have-adhd = {
-        from = "i-have-adhd";
-        path = "i-have-adhd";
-      };
-      archify = {
-        from = "archify";
-        path = "archify";
-      };
-      eval-harness = {
-        from = "affaan-m-ecc";
-        path = "eval-harness";
-      };
-      agent-eval = {
-        from = "affaan-m-ecc";
-        path = "agent-eval";
-      };
-      agentic-engineering = {
-        from = "affaan-m-ecc";
-        path = "agentic-engineering";
-      };
-      claude-automation-recommender = {
-        from = "claude-plugins-official-claude-code-setup";
-        path = "claude-automation-recommender";
-      };
-      context-engineering = {
-        from = "addyosmani-agent-skills";
-        path = "context-engineering";
-      };
-    };
+    skills.enable = lib.filter isSkillEnabled enabledSkills;
+    skills.explicit = lib.filterAttrs (name: _: isSkillEnabled name) explicitSkills;
 
     # link は宛先ディレクトリ全体を置き換えて既存の ~/.claude/skills と衝突するため、symlink-tree にする。
     targets.claude = {

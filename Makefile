@@ -38,10 +38,12 @@ agent-configs:
 # 初回は flakes が無効なので、NIX_CONFIG で有効にする。
 # 初回は darwin-rebuild が PATH に無いので、nix run で起動する。
 # darwin-rebuild への引数は ARGS で渡す。
+# 除外する skill ID は EXCLUDED_SKILLS にカンマ区切りで渡す。
 switch: agent-configs
 	sudo env PATH="$(NIX_BIN):$$PATH" \
 	PRIMARY_USER="$$USER" \
 	DOTFILES_DIR="$$(git rev-parse --show-toplevel)" \
+	EXCLUDED_SKILLS="$${EXCLUDED_SKILLS:-}" \
 	NIX_CONFIG='experimental-features = nix-command flakes' \
 	nix run nix-darwin/master#darwin-rebuild -- switch --flake ".#default" --impure $(ARGS)
 
@@ -62,6 +64,7 @@ switch-home: agent-configs
 	export PATH="$(NIX_BIN):$$PATH" \
 		PRIMARY_USER="$$USER" \
 		DOTFILES_DIR="$$top" \
+		EXCLUDED_SKILLS="$${EXCLUDED_SKILLS:-}" \
 		NIX_CONFIG='experimental-features = nix-command flakes'; \
 	out="$$(nix build ".#darwinConfigurations.default.config.home-manager.users.$$USER.home.activationPackage" --impure --no-link --print-out-paths)" \
 		&& HOME="$${HOME_DIR:-$$HOME}" "$$out/activate"

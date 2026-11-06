@@ -105,6 +105,12 @@
       # ホームディレクトリはそこから組み立てる。
       # 環境変数を読むため、--impure が必要。
       username = builtins.getEnv "PRIMARY_USER";
+      excludedSkills =
+        let
+          value = builtins.getEnv "EXCLUDED_SKILLS";
+          names = map nixpkgs.lib.trim (nixpkgs.lib.splitString "," value);
+        in
+        nixpkgs.lib.unique (nixpkgs.lib.filter (name: name != "") names);
       # worktree 専用のホームディレクトリを試すときだけ、
       # HOME_DIR でホームディレクトリを差し替える。
       homeDirectory =
@@ -119,7 +125,7 @@
           ./nix/darwin.nix
         ];
         specialArgs = {
-          inherit inputs username homeDirectory;
+          inherit inputs username homeDirectory excludedSkills;
           # ストア外配置の参照先。
           dotfilesDir = builtins.getEnv "DOTFILES_DIR";
         };
