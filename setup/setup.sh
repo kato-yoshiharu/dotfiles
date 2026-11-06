@@ -99,6 +99,9 @@ set_default -g InitialKeyRepeat int 15
 # 長押しでアクセント文字の選択を出さず、キーリピートさせる
 set_default -g ApplePressAndHoldEnabled bool false
 
+# インターフェースの視差効果を減らす
+set_default com.apple.universalaccess reduceMotion bool true
+
 # Dock を使わないときは隠す
 set_default com.apple.dock autohide bool true
 # アイコンの大きさを 64 にする

@@ -59,6 +59,13 @@ Finder:
   - 値: 1
   - 反映に必要な操作: なし
 
+アクセシビリティ:
+
+- インターフェースの視差効果を減らす
+  - キー: `com.apple.universalaccess reduceMotion`
+  - 値: true
+  - 反映に必要な操作: なし
+
 日本語入力（macOS 標準の入力方法）:
 
 - ライブ変換を使わない
