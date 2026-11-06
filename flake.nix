@@ -21,60 +21,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 外部 skill の取得元
-    skills-vercel-agent-skills = {
-      url = "github:vercel-labs/agent-skills";
-      flake = false;
-    };
-    skills-vercel-skills = {
-      url = "github:vercel-labs/skills";
-      flake = false;
-    };
-    skills-natural-japanese = {
-      url = "github:coji/natural-japanese";
-      flake = false;
-    };
-    skills-yomiyasu = {
-      url = "github:nanaism/yomiyasu";
-      flake = false;
-    };
-    skills-mattpocock-skills = {
-      url = "github:mattpocock/skills";
-      flake = false;
-    };
-    skills-i-have-adhd = {
-      url = "github:ayghri/i-have-adhd";
-      flake = false;
-    };
-    skills-archify = {
-      url = "github:tt-a1i/archify";
-      flake = false;
-    };
-    skills-explainer = {
-      url = "github:mizchi/explainer";
-      flake = false;
-    };
-    skills-walkinglabs-learn-harness-engineering = {
-      url = "github:walkinglabs/learn-harness-engineering";
-      flake = false;
-    };
-    skills-claude-plugins-community = {
-      url = "github:anthropics/claude-plugins-community";
-      flake = false;
-    };
-    skills-affaan-m-ecc = {
-      url = "github:affaan-m/ECC";
-      flake = false;
-    };
-    skills-claude-plugins-official = {
-      url = "github:anthropics/claude-plugins-official";
-      flake = false;
-    };
-    skills-addyosmani-agent-skills = {
-      url = "github:addyosmani/agent-skills";
-      flake = false;
-    };
-
     # Claude Code プラグインの取得元
     plugins-cursor = {
       url = "github:cursor/plugins";
@@ -111,6 +57,14 @@
           names = map nixpkgs.lib.trim (nixpkgs.lib.splitString "," value);
         in
         nixpkgs.lib.unique (nixpkgs.lib.filter (name: name != "") names);
+      skillConfig = import ./nix/skills.nix { inherit (nixpkgs) lib; inherit excludedSkills; };
+      enabledSkillInputs = nixpkgs.lib.mapAttrs (
+        _: pin: builtins.fetchTree pin
+      ) (
+        nixpkgs.lib.filterAttrs (
+          name: _: builtins.elem name skillConfig.enabledExternalInputNames
+        ) skillConfig.externalInputPins
+      );
       # worktree 専用のホームディレクトリを試すときだけ、
       # HOME_DIR でホームディレクトリを差し替える。
       homeDirectory =
@@ -125,7 +79,8 @@
           ./nix/darwin.nix
         ];
         specialArgs = {
-          inherit inputs username homeDirectory excludedSkills;
+          inputs = inputs // enabledSkillInputs;
+          inherit username homeDirectory excludedSkills;
           # ストア外配置の参照先。
           dotfilesDir = builtins.getEnv "DOTFILES_DIR";
         };
