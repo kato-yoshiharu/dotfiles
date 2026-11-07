@@ -16,3 +16,9 @@ EXCLUDED_SKILLS=eval-harness,agent-eval,agentic-engineering,harness-creator \
 ## 外部 skill の source を更新する
 
 外部 skill の source は `npins/sources.json` で rev と hash を固定している。
+更新は次のコマンドで行う。
+
+```sh
+nix run nixpkgs#npins -- update
+```
+
