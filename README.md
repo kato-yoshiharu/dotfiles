@@ -22,3 +22,8 @@ EXCLUDED_SKILLS=eval-harness,agent-eval,agentic-engineering,harness-creator \
 nix run nixpkgs#npins -- update
 ```
 
+source を追加するときは、pin 名を `nix/skills.nix` の `input` に合わせる。
+
+```sh
+nix run nixpkgs#npins -- add github <owner> <repo> --name skills-<name> -b main
+```
