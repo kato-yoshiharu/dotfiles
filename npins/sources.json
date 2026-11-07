@@ -1,0 +1,174 @@
+{
+  "pins": {
+    "skills-addyosmani-agent-skills": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "addyosmani",
+        "repo": "agent-skills"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "url": "https://github.com/addyosmani/agent-skills/archive/aeac41d4d005999432bb7312f7ff06383a91d59d.tar.gz",
+      "hash": "sha256-HxaYbxuZwVo2wybYazM05YUJG/udQNQP6X0qA5wfYIs="
+    },
+    "skills-affaan-m-ecc": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "affaan-m",
+        "repo": "ECC"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "76aaa77df6adc5b889e689007bf99b9a4f74af34",
+      "url": "https://github.com/affaan-m/ECC/archive/76aaa77df6adc5b889e689007bf99b9a4f74af34.tar.gz",
+      "hash": "sha256-miKnVmpSSRg98RFu2sep/ZFZVBFvytJ9co+F2ggwuFE="
+    },
+    "skills-archify": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "tt-a1i",
+        "repo": "archify"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "b25142deac4b19b293e45b6bf6d69351d3c8f3b6",
+      "url": "https://github.com/tt-a1i/archify/archive/b25142deac4b19b293e45b6bf6d69351d3c8f3b6.tar.gz",
+      "hash": "sha256-B9ZeGFHHGXEk5eFK3T5D0G1IBlK3Kw8auEycRKUQDCE="
+    },
+    "skills-claude-plugins-community": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "anthropics",
+        "repo": "claude-plugins-community"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "06ec7b6a0a82bdc4bec44bd82d4368c42f20d7c1",
+      "url": "https://github.com/anthropics/claude-plugins-community/archive/06ec7b6a0a82bdc4bec44bd82d4368c42f20d7c1.tar.gz",
+      "hash": "sha256-tHCAXZmHANA0gTQ8KO+DPAzapX5I+Ok1q1+COD720+A="
+    },
+    "skills-claude-plugins-official": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "anthropics",
+        "repo": "claude-plugins-official"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "ea10b213686c90bb1984b2016937310e05336cf3",
+      "url": "https://github.com/anthropics/claude-plugins-official/archive/ea10b213686c90bb1984b2016937310e05336cf3.tar.gz",
+      "hash": "sha256-Tfs8Ig1rzLvaAuTZwqGUzKCK0TMWE2SddYss+H/04ug="
+    },
+    "skills-explainer": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "mizchi",
+        "repo": "explainer"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "ccdd7bacfb47451e38506d837af8a629504960b2",
+      "url": "https://github.com/mizchi/explainer/archive/ccdd7bacfb47451e38506d837af8a629504960b2.tar.gz",
+      "hash": "sha256-XY4wnEtw3regcnDZ4BDZEM/a3jQ6jraSfkf+CPAH1v4="
+    },
+    "skills-i-have-adhd": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "ayghri",
+        "repo": "i-have-adhd"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "1ecea1993b7fce257ffbd686c070948b5e07eda6",
+      "url": "https://github.com/ayghri/i-have-adhd/archive/1ecea1993b7fce257ffbd686c070948b5e07eda6.tar.gz",
+      "hash": "sha256-GTqrnZxQvzo/ogAuUrffkOaMK1BYm/4rAZsnfmDt7DU="
+    },
+    "skills-mattpocock-skills": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "mattpocock",
+        "repo": "skills"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "49dd158d1076134a641b33efb035946536778336",
+      "url": "https://github.com/mattpocock/skills/archive/49dd158d1076134a641b33efb035946536778336.tar.gz",
+      "hash": "sha256-NljCSZNI3sZ+vbCw7pRdrwR7try4BxOFp4gdjuWYtzs="
+    },
+    "skills-natural-japanese": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "coji",
+        "repo": "natural-japanese"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "03bc944a0c4a9f0b2a66eab065b30de5c529bf08",
+      "url": "https://github.com/coji/natural-japanese/archive/03bc944a0c4a9f0b2a66eab065b30de5c529bf08.tar.gz",
+      "hash": "sha256-Il7tG4edqjf/nBNOo0QXPztFmH4MwjHf0g5nVL+IWAY="
+    },
+    "skills-vercel-agent-skills": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "vercel-labs",
+        "repo": "agent-skills"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "url": "https://github.com/vercel-labs/agent-skills/archive/063bee94c3f4df8453406c830b0a7df0f2860278.tar.gz",
+      "hash": "sha256-tTSJf53OQltUfxTH4hdqcnw5ywCjCZP8/JqQ593cyB8="
+    },
+    "skills-vercel-skills": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "vercel-labs",
+        "repo": "skills"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "13e4063a1cf913f5606d57d42ab83a86f5001e04",
+      "url": "https://github.com/vercel-labs/skills/archive/13e4063a1cf913f5606d57d42ab83a86f5001e04.tar.gz",
+      "hash": "sha256-djzSciYX530uc1Xk4+Vdf2IHmNotC0bb6YU/peF0UK4="
+    },
+    "skills-walkinglabs-learn-harness-engineering": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "walkinglabs",
+        "repo": "learn-harness-engineering"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "38ddcd2bf8d65271f668b94e7c875ca1d629d622",
+      "url": "https://github.com/walkinglabs/learn-harness-engineering/archive/38ddcd2bf8d65271f668b94e7c875ca1d629d622.tar.gz",
+      "hash": "sha256-MzIGR9UMQcoqu0DE0SDHExJfaSy9917xr1QxjyBidMA="
+    },
+    "skills-yomiyasu": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nanaism",
+        "repo": "yomiyasu"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "84e1f5b15e497538fcfe19ab7e9c6f6d138f19ff",
+      "url": "https://github.com/nanaism/yomiyasu/archive/84e1f5b15e497538fcfe19ab7e9c6f6d138f19ff.tar.gz",
+      "hash": "sha256-cvZgUFMYWVJ2yuYmbDCR+jzO9n2qEOiDU++VfKPi1c8="
+    }
+  },
+  "version": 8
+}
