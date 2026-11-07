@@ -13,3 +13,6 @@ EXCLUDED_SKILLS=eval-harness,agent-eval,agentic-engineering,harness-creator \
   make switch
 ```
 
+## 外部 skill の source を更新する
+
+外部 skill の source は `npins/sources.json` で rev と hash を固定している。
