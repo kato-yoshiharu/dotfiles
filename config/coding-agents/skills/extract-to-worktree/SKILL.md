@@ -23,12 +23,16 @@ argument-hint: "[切り出す実装内容(省略時は直前の会話内容と�
 
 ## 手順
 
-1. 似た内容の worktree が既にないかを確認する。
+1. **worktree を作る前に委譲先を確定する。**
+   ユーザー指定、`EXTRACT_TO_WORKTREE_AGENT_KIND`、`claude` の順で `agent_kind` を決める。
+   環境変数は `echo "${EXTRACT_TO_WORKTREE_AGENT_KIND:-<unset>}"` で実際に確認する。
+   値が `claude` / `codex` 以外なら、実行せずユーザーに確認する。
+2. 似た内容の worktree が既にないかを確認する。
    対象リポジトリで `git worktree list` と `herdr workspace list` を実行し、
    切り出す内容に近いブランチ名・ディレクトリ名・ラベルがないかを探す。
    見つかったら、新規作成せずにユーザーへ報告し、既存を使うか新規に作るかを `AskUserQuestion` で聞く。
-   見つからなければ、そのまま手順2に進む。
-2. 対象リポジトリで `git fetch origin main` した上で、次のコマンドで
+   見つからなければ、そのまま手順3に進む。
+3. 対象リポジトリで `git fetch origin main` した上で、次のコマンドで
    worktree の作成と herdr workspace の起動を一度に行う。
 
    ```bash
@@ -43,35 +47,18 @@ argument-hint: "[切り出す実装内容(省略時は直前の会話内容と�
    リンク worktree だと `linked_worktree_source` エラーになる。
    レスポンスの `.result.workspace` / `.result.tab` /
    `.result.root_pane` に、後で委譲に使う workspace・pane の情報が含まれる。
-3. 切り出す対象が未コミット変更なら、適切な方法で新規 worktree に移す。
-4. 手順2で作成済みの workspace の `root_pane.pane_id` を左ペインとして使い、そこで Neovim を起動する。
+4. 切り出す対象が未コミット変更なら、適切な方法で新規 worktree に移す。
+5. 手順3で作成済みの workspace の `root_pane.pane_id` を左ペインとして使い、そこで Neovim を起動する。
    その右に新規ペインを分割し、そちらで選択した coding agent のセッションを起動して実装作業を委譲する
    (「herdr でペインを分割してセッションを委譲する」を参照)。
-5. 手順3で変更を移していれば、その変更を現在の worktree から削除する。
-
-## 委譲先の coding agent を選択する
-
-委譲先を選択する優先順位:
-
-1. ユーザーが `claude` または `codex` を指定していれば、その指定を使う。
-2. 環境変数 `EXTRACT_TO_WORKTREE_AGENT_KIND` に `claude` または
-   `codex` が設定されていれば、その値を使う。
-3. いずれにも該当しなければ、`claude` を使う。
-
-選択できる値:
-
-- `claude`
-- `codex`
-
-ユーザーの指定または `EXTRACT_TO_WORKTREE_AGENT_KIND` が上記以外なら、
-実行せずにユーザーに確認する。
+6. 手順4で変更を移していれば、その変更を現在の worktree から削除する。
 
 ### herdr でペインを分割してセッションを委譲する
 
 引き継ぎメッセージの組み立て方は `delegate-to-sub-session` スキルに従うが、完了報告を委譲元に返す部分は使わない。
 
 ```bash
-# <left_pane_id> は手順2の `herdr worktree create` レスポンスの .result.root_pane.pane_id
+# <left_pane_id> は手順3の `herdr worktree create` レスポンスの .result.root_pane.pane_id
 # 先に右へ新規ペインを分割し、左ペインのサイズを確定させる
 herdr pane split --pane <left_pane_id> --direction right --cwd <worktree>
 # 上記レスポンスの .result.pane.pane_id が <right_pane_id>
@@ -82,7 +69,7 @@ herdr pane run <left_pane_id> nvim
 cat > <scratchpad-dir>/handoff.txt <<'HANDOFF_EOF'
 <delegate-to-sub-session のテンプレートに沿った引き継ぎ内容>
 HANDOFF_EOF
-agent_kind="<選択した claude または codex>"
+agent_kind="<手順1で確定した claude または codex>"
 herdr agent start "<branch-name>" --kind "$agent_kind" --pane <right_pane_id>
 herdr agent wait "<branch-name>" --until idle --timeout 30000
 herdr agent prompt "<branch-name>" "$(cat <scratchpad-dir>/handoff.txt)"
