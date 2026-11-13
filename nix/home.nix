@@ -90,6 +90,7 @@ in
     # nvim-treesitter の main ブランチがパーサのコンパイルに使う
     pkgs.tree-sitter
     pkgs.uv
+    pkgs.wget
     pkgs.xh
     pkgs.yazi
     pkgs.zoxide

@@ -18,8 +18,13 @@ local servers = {
   "yamlls", -- yaml
 }
 
-local excluded_servers = {}
+-- 外部ツールが未導入のサーバは、導入するまで Mason の自動インストールから外す。
+local excluded_servers = { "gopls", "nil_ls", "rust_analyzer" }
 local excluded_server_set = {}
+
+for _, server in ipairs(excluded_servers) do
+  excluded_server_set[server] = true
+end
 
 for server in (vim.env.NVIM_MASON_EXCLUDE or ""):gmatch("[^,%s]+") do
   if not excluded_server_set[server] then
