@@ -36,10 +36,6 @@
       url = "github:VoltAgent/awesome-claude-code-subagents";
       flake = false;
     };
-    agents-alirezarezvani = {
-      url = "github:alirezarezvani/claude-skills";
-      flake = false;
-    };
   };
 
   outputs =
@@ -54,6 +50,18 @@
       excludedSkills =
         let
           value = builtins.getEnv "EXCLUDED_SKILLS";
+          names = map nixpkgs.lib.trim (nixpkgs.lib.splitString "," value);
+        in
+        nixpkgs.lib.unique (nixpkgs.lib.filter (name: name != "") names);
+      excludedPackages =
+        let
+          value = builtins.getEnv "EXCLUDED_PACKAGES";
+          names = map nixpkgs.lib.trim (nixpkgs.lib.splitString "," value);
+        in
+        nixpkgs.lib.unique (nixpkgs.lib.filter (name: name != "") names);
+      excludedCasks =
+        let
+          value = builtins.getEnv "EXCLUDED_CASKS";
           names = map nixpkgs.lib.trim (nixpkgs.lib.splitString "," value);
         in
         nixpkgs.lib.unique (nixpkgs.lib.filter (name: name != "") names);
@@ -78,7 +86,7 @@
         ];
         specialArgs = {
           inputs = inputs // skillConfig.enabledExternalInputs;
-          inherit username homeDirectory excludedSkills;
+          inherit username homeDirectory excludedSkills excludedPackages excludedCasks;
           # ストア外配置の参照先。
           dotfilesDir = builtins.getEnv "DOTFILES_DIR";
         };

@@ -1,4 +1,4 @@
-{ inputs, username, homeDirectory, dotfilesDir, excludedSkills, ... }:
+{ inputs, username, homeDirectory, dotfilesDir, excludedSkills, excludedPackages, excludedCasks, ... }:
 {
   system.primaryUser = username;
   system.stateVersion = 7;
@@ -11,7 +11,7 @@
   # home-manager は nix-darwin のモジュールとして組み込む。
   # nixpkgs.config は home.nix 側で設定するため、useGlobalPkgs は使わない。
   home-manager = {
-    extraSpecialArgs = { inherit inputs username homeDirectory dotfilesDir excludedSkills; };
+    extraSpecialArgs = { inherit inputs username homeDirectory dotfilesDir excludedSkills excludedPackages excludedCasks; };
     sharedModules = [ inputs.agent-skills.homeManagerModules.default ];
     users.${username} = import ./home.nix;
   };
@@ -35,7 +35,7 @@
       "stablyai/orca"
     ];
 
-    casks = [
+    casks = builtins.filter (cask: !(builtins.elem cask excludedCasks)) [
       # browser
       "firefox"
       "google-chrome"

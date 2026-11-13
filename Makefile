@@ -39,11 +39,16 @@ agent-configs:
 # 初回は darwin-rebuild が PATH に無いので、nix run で起動する。
 # darwin-rebuild への引数は ARGS で渡す。
 # 除外する skill ID は EXCLUDED_SKILLS にカンマ区切りで渡す。
+# 除外する Homebrew cask 名は EXCLUDED_CASKS にカンマ区切りで渡す。
 switch: agent-configs
+	@top="$$(git rev-parse --show-toplevel)"; \
+	if [ -f "$$top/_repo/make-switch.env" ]; then . "$$top/_repo/make-switch.env"; fi; \
 	sudo env PATH="$(NIX_BIN):$$PATH" \
 	PRIMARY_USER="$$USER" \
-	DOTFILES_DIR="$$(git rev-parse --show-toplevel)" \
+	DOTFILES_DIR="$$top" \
 	EXCLUDED_SKILLS="$${EXCLUDED_SKILLS:-}" \
+	EXCLUDED_PACKAGES="$${EXCLUDED_PACKAGES:-}" \
+	EXCLUDED_CASKS="$${EXCLUDED_CASKS:-}" \
 	NIX_CONFIG='experimental-features = nix-command flakes' \
 	nix run nix-darwin/master#darwin-rebuild -- switch --flake ".#default" --impure $(ARGS)
 
@@ -56,6 +61,7 @@ switch: agent-configs
 switch-home: agent-configs
 	@top="$$(git rev-parse --show-toplevel)"; \
 	main="$$(git worktree list --porcelain | sed -n '1s/^worktree //p')"; \
+	if [ -f "$$top/_repo/make-switch.env" ]; then . "$$top/_repo/make-switch.env"; fi; \
 	if [ "$$top" != "$$main" ]; then \
 		export HOME_DIR="$$top/_local/home"; \
 		mkdir -p "$$HOME_DIR"; \
@@ -65,6 +71,8 @@ switch-home: agent-configs
 		PRIMARY_USER="$$USER" \
 		DOTFILES_DIR="$$top" \
 		EXCLUDED_SKILLS="$${EXCLUDED_SKILLS:-}" \
+		EXCLUDED_PACKAGES="$${EXCLUDED_PACKAGES:-}" \
+		EXCLUDED_CASKS="$${EXCLUDED_CASKS:-}" \
 		NIX_CONFIG='experimental-features = nix-command flakes'; \
 	out="$$(nix build ".#darwinConfigurations.default.config.home-manager.users.$$USER.home.activationPackage" --impure --no-link --print-out-paths)" \
 		&& HOME="$${HOME_DIR:-$$HOME}" "$$out/activate"

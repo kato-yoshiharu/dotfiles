@@ -1,8 +1,9 @@
-{ config, lib, pkgs, inputs, dotfilesDir, username, homeDirectory, excludedSkills, ... }:
+{ config, lib, pkgs, inputs, dotfilesDir, username, homeDirectory, excludedSkills, excludedPackages, ... }:
 let
   # worktree の実ファイルを指すリンクにする（ストア外配置）。
   # 編集が switch なしで反映される。
   outOfStore = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/${path}";
+  isPackageEnabled = name: !(builtins.elem name excludedPackages);
 
   skillConfig = import ./skills.nix { inherit lib excludedSkills; pins = import ../npins; };
   inherit (skillConfig) enabledSkills enabledSources explicitSkills isSkillEnabled;
@@ -21,8 +22,6 @@ let
   externalAgents = {
     ".claude/agents/VoltAgent/awesome-claude-code-subagents/code-reviewer.md".source =
       "${inputs.agents-voltagent}/categories/04-quality-security/code-reviewer.md";
-    ".claude/agents/alirezarezvani/devils-advocate.md".source =
-      "${inputs.agents-alirezarezvani}/c-level-advisor/executive-mentor/agents/devils-advocate.md";
   };
 
   # Cursor に配る公式プラグイン。詳細は docs/cursor-plugins.md。
@@ -51,8 +50,7 @@ in
     "terraform"
   ];
 
-  home.packages = [
-    inputs.backlog-md.packages.${pkgs.stdenv.hostPlatform.system}.default
+  home.packages = lib.optional (isPackageEnabled "backlog-md") inputs.backlog-md.packages.${pkgs.stdenv.hostPlatform.system}.default ++ [
     pkgs.antigravity-cli
     pkgs.awscli2
     pkgs.ccusage
@@ -169,7 +167,7 @@ in
 
   xdg.configFile."rumdl/rumdl.toml".source = outOfStore "config/rumdl/rumdl.toml";
 
-  xdg.configFile."vicinae/settings.json".source = outOfStore "config/vicinae/settings.json";
+  # Vicinae は GUI から設定を変更すると、このファイルを直接更新するため管理しない。
 
   xdg.configFile."wezterm/wezterm.lua".source = outOfStore "config/wezterm/wezterm.lua";
 
