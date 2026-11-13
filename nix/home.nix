@@ -69,6 +69,7 @@ in
     pkgs.hunk
     pkgs.jq
     pkgs.lazysql
+    pkgs.marksman
     # node などのランタイムは、プロジェクトごとにバージョンを合わせるため mise で入れる。
     pkgs.mise
     pkgs.neovim

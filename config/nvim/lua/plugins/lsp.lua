@@ -1,4 +1,4 @@
--- LSP（サーバの導入は mason、設定の実体は nvim-lspconfig 同梱のデフォルト設定）
+-- LSP（サーバの導入は Mason または Nix、設定の実体は nvim-lspconfig 同梱のデフォルト設定）
 -- 対象言語は treesitter.lua の filetypes に合わせる
 
 local servers = {
@@ -18,8 +18,11 @@ local servers = {
   "yamlls", -- yaml
 }
 
+-- GitHub からのダウンロードが制限される環境でも使えるよう、Nix で導入する。
+local system_servers = { "marksman" }
+
 -- 外部ツールが未導入のサーバは、導入するまで Mason の自動インストールから外す。
-local excluded_servers = { "gopls", "nil_ls", "rust_analyzer" }
+local excluded_servers = { "gopls", "marksman", "nil_ls", "rust_analyzer" }
 local excluded_server_set = {}
 
 for _, server in ipairs(excluded_servers) do
@@ -60,5 +63,9 @@ return {
       ensure_installed = servers,
       automatic_enable = automatic_enable,
     },
+    config = function(_, opts)
+      require("mason-lspconfig").setup(opts)
+      vim.lsp.enable(system_servers)
+    end,
   },
 }
