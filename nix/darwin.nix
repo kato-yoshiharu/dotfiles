@@ -59,6 +59,7 @@
       "homerow"
       "karabiner-elements"
       "keycastr"
+      "typeless"
       "vicinae"
       "zoom"
 
