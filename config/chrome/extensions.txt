@@ -1,0 +1,18 @@
+# Chrome に入れる拡張機能。1行に拡張 ID と、# 以降に名前を書く。
+# ID は Chrome ウェブストアの URL 末尾の32文字。
+flnheeellpciglgpaodhkhmapeljopja # Altair GraphQL Client
+eignhdfgaldabilaaegmdfbajngjmoke # Black Menu for Google™
+mbnbehikldjhnfehhnaidhjhoofhpehk # CSS Peeper
+hehggadaopoacecdllhhajmbjkdcmajg # ChatGPT
+fcoeoabgfenejglbffodgkkbkcdhcgfn # Claude
+gfapcejdoghpoidkfodoiiffaaibpaem # Dracula Chrome Theme
+ponfpcnoihfmfllpaingbgckeeldkhle # Enhancer for YouTube™
+fdpohaocaechififmbbbbbknoalclacl # GoFullPage - Full Page Screen Capture
+dchaandmcifgjemlhiekookpgjmkcelg # Google検索キーボードショートカット
+ndlbedplllcgconngcnfmkadhokfaaln # GraphQL Network Inspector
+fmkadmapgofadopljbjfkapdkoienihi # React Developer Tools
+nffaoalbilbmmfgbnbgppjihopabppdk # Video Speed Controller
+dbepggeogbaibhgnhhndojpepiihcmeb # Vimium
+hpljjefgmnkloakbfckghmlapghabgfa # Workspaces
+nfmkaonpdmaglhjjlggfhlndofdldfag # swagger-viewer
+dgogifpkoilgiofhhhodbodcfgomelhe # wasavi

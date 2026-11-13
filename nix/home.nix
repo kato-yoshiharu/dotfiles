@@ -28,6 +28,19 @@ let
   cursorPlugins = lib.filter (line: line != "" && !(lib.hasPrefix "#" line)) (
     lib.splitString "\n" (builtins.readFile ../config/cursor/plugins.txt)
   );
+
+  # Chrome に入れる拡張の ID。詳細は docs/chrome-extensions.md。
+  chromeExtensionIds = map (line: builtins.head (lib.splitString " " line)) (
+    lib.filter (line: line != "" && !(lib.hasPrefix "#" line)) (
+      lib.splitString "\n" (builtins.readFile ../config/chrome/extensions.txt)
+    )
+  );
+
+  # Chrome は External Extensions の JSON を見て、ウェブストアから拡張を取得する。
+  chromeExternalExtensions = lib.listToAttrs (map (id: {
+    name = "Library/Application Support/Google/Chrome/External Extensions/${id}.json";
+    value.text = builtins.toJSON { external_update_url = "https://clients2.google.com/service/update2/crx"; };
+  }) chromeExtensionIds);
 in
 {
   home.username = username;
@@ -107,7 +120,7 @@ in
     '') cursorPlugins}
   '';
 
-  home.file = localAgents // externalAgents // {
+  home.file = localAgents // externalAgents // chromeExternalExtensions // {
     # Claude Code と Codex で共有する hooks
     ".agents/hooks".source = outOfStore "config/coding-agents/hooks";
 
