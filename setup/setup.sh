@@ -33,6 +33,11 @@ done
 
 cspell link add "$CSPELL_GLOBAL_JSON"
 
+# VS Code と Cursor の User 設定を、このリポジトリのファイルへの symlink として配置する。
+bash "$DOTFILES_DIR/config/cursor/editor/setup.sh"
+# VS Code と Cursor に、一覧にある拡張機能をインストールする。
+bash "$DOTFILES_DIR/config/cursor/editor/install.sh"
+
 # login items: macOS起動時に自動起動させるアプリ
 # 冪等にするため、登録済みのアプリは飛ばす。
 register_login_item() {
