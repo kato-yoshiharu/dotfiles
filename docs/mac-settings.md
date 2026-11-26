@@ -102,6 +102,13 @@ Finder:
   - 値: 0
   - 反映に必要な操作: なし
 
+Cursor:
+
+- チャットの送信を Cmd+Enter、改行を Enter にする
+  - 保存先: `state.vscdb` の `chatSubmitOnCmdEnter`（`settings.json` では設定できない）
+  - 値: true
+  - 反映に必要な操作: Cursor を終了して `config/cursor/editor/setup.sh` を実行し、Cursor を起動する
+
 ## 設定を足すときの手順
 
 キーを推測せず、GUI の変更を `defaults read` の差分で特定する。
