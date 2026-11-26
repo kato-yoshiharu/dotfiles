@@ -133,6 +133,16 @@ set_default com.apple.inputmethod.Kotoeri JIMPrefWindowsModeKey int 1
 set_default com.apple.AppleMultitouchTrackpad TrackpadThreeFingerVertSwipeGesture int 2
 set_default com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture int 2
 
+# T3 Code のチャット送信を Cmd+Enter、改行を Enter にする
+t3_settings="$HOME/.t3/userdata/client-settings.json"
+if [ -f "$t3_settings" ]; then
+  if pgrep -f "T3 Code" >/dev/null; then
+    echo "T3 Code が起動中のため、Cmd+Enter 送信設定をスキップした。終了して再実行する。" >&2
+  else
+    jq '.sendShortcut = "mod-enter"' "$t3_settings" > "$t3_settings.tmp" && mv "$t3_settings.tmp" "$t3_settings"
+  fi
+fi
+
 # Dock と Finder を再起動して、設定を反映する
 killall Dock
 killall Finder
