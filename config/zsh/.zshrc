@@ -74,6 +74,10 @@ export GIT_MERGE_AUTOEDIT=no
 # ghq のリポジトリ配置先
 export GHQ_ROOT="$HOME/repos"
 
+# T3 Code のテレメトリ送信を止める。
+export T3CODE_TELEMETRY_ENABLED=false
+export T3CODE_OTEL_SDK_DISABLED=true
+
 # ghq で管理しているリポジトリを fzf で選んで cd する
 ghq-fzf-cd() {
   local repo
